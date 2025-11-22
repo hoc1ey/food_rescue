@@ -25,6 +25,9 @@ yarn-error.log*
 /backend/build
 /backend/tmp
 
+# Directorio de datos persistentes de la base de datos de desarrollo
+/backend/postgres/
+
 # Archivos de lock
 /backend/package-lock.json
 /backend/yarn.lock
