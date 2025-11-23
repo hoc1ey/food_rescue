@@ -1,0 +1,32 @@
+.tab-container {
+  display: flex;
+  border-bottom: 1px solid #e5e7eb;
+  margin-bottom: var(--spacing-lg);
+}
+
+.tab-item {
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  font-size: 1rem;
+  color: #6b7280;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px; /* Alinea el borde con el contenedor */
+}
+
+/* Estilos del tab activo */
+.tab-item.active {
+  font-weight: 600;
+}
+
+/* Colores del tema para el borde activo */
+.tab-item.active.theme-donor {
+  color: var(--color-donor-primary);
+  border-bottom-color: var(--color-donor-primary);
+}
+
+.tab-item.active.theme-beneficiary {
+  color: var(--color-beneficiary-primary);
+  border-bottom-color: var(--color-beneficiary-primary);
+}

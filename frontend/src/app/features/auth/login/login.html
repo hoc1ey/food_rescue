@@ -1,0 +1,38 @@
+<div class="login-page">
+  <div class="login-card">
+    
+    <app-tab-group
+      [tabs]="userRoles"
+      [theme]="activeRole"
+      (tabChange)="handleRoleChange($event)">
+    </app-tab-group>
+
+    <h2>Bienvenido</h2>
+    
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      
+      <!-- Molécula: Email -->
+      <app-form-field label="Correo Electrónico" [error]="getErrorMessage('email')">
+        <input 
+          type="email" 
+          formControlName="email" 
+          class="input-base" 
+          placeholder="ejemplo@correo.com">
+      </app-form-field>
+
+      <!-- Molécula: Password -->
+      <app-form-field label="Contraseña" [error]="getErrorMessage('password')">
+        <input 
+          type="password" 
+          formControlName="password" 
+          class="input-base">
+      </app-form-field>
+
+      <!-- Átomo: Botón -->
+      <app-button type="submit" [disabled]="loginForm.invalid" [theme]="activeRole">
+        Iniciar Sesión
+      </app-button>
+
+    </form>
+  </div>
+</div>
