@@ -1,0 +1,26 @@
+<app-header 
+  title="Beneficiario" 
+  theme="beneficiary"
+  (logoutClick)="handleLogout()">
+</app-header>
+
+<main class="dashboard-content">
+  <!-- Banner de Notificaciones -->
+  <app-notification-banner 
+    [notificationCount]="notificationCount"
+    theme="beneficiary">
+  </app-notification-banner>
+
+  <!-- Tarjeta de Donaciones Disponibles -->
+  <div class="card">
+    <app-card-header 
+      title="Donaciones Disponibles" 
+      icon="package" 
+      theme="beneficiary">
+    </app-card-header>
+    
+    <div class="card-body">
+      <p>Aquí se mostrará la lista de donaciones disponibles cerca de ti.</p>
+    </div>
+  </div>
+</main>

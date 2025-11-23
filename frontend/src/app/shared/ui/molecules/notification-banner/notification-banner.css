@@ -1,0 +1,61 @@
+.banner-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-md);
+  border-radius: var(--radius-lg);
+}
+
+.content-left {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.icon-frame {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%; /* Círculo */
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+  stroke-width: 2;
+}
+
+.title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.description {
+  margin: 0;
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.count {
+  font-weight: 600;
+  font-size: 0.875rem;
+  white-space: nowrap;
+}
+
+/* --- Temas --- */
+.banner-wrapper.theme-beneficiary {
+  background-color: var(--color-beneficiary-pastel);
+}
+.banner-wrapper.theme-beneficiary .icon-frame {
+  background-color: rgba(37, 99, 235, 0.2); /* Un poco más oscuro que el fondo */
+}
+.banner-wrapper.theme-beneficiary .icon {
+  color: var(--color-beneficiary-primary);
+}
+.banner-wrapper.theme-beneficiary .title,
+.banner-wrapper.theme-beneficiary .count {
+  color: var(--color-beneficiary-tertiary);
+}

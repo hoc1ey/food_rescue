@@ -1,0 +1,10 @@
+<div class="tab-container">
+  <button
+    *ngFor="let tab of tabs"
+    class="tab-item"
+    [class.active]="tab === activeTab"
+    [ngClass]="'theme-' + theme"
+    (click)="selectTab(tab)">
+    {{ tab }}
+  </button>
+</div>

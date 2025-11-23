@@ -1,0 +1,59 @@
+.login-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* Ocupa toda la altura de la pantalla */
+  padding: var(--spacing-md);
+  box-sizing: border-box;
+}
+
+.login-card {
+  background-color: var(--color-white);
+  padding: var(--spacing-lg);
+  border-radius: var(--radius-md);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px; /* Ancho máximo del frame */
+}
+
+.password-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-wrapper .input-base {
+  padding-right: 2.5rem; 
+}
+
+.eye-icon {
+  position: absolute;
+  right: 0.75rem;
+  cursor: pointer;
+  user-select: none; 
+}
+
+.login-card h2 {
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: var(--spacing-lg);
+}
+
+.register-link {
+  text-align: center;
+  margin-top: var(--spacing-lg);
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.register-link a {
+  color: var(--color-donor-primary); 
+  font-weight: 600;
+  text-decoration: none;
+  margin-left: var(--spacing-xs);
+  cursor: pointer; 
+}
+
+.register-link a:hover {
+  text-decoration: underline;
+}
