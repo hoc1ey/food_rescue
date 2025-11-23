@@ -22,17 +22,28 @@
 
       <!-- Molécula: Password -->
       <app-form-field label="Contraseña" [error]="getErrorMessage('password')">
-        <input 
-          type="password" 
-          formControlName="password" 
-          class="input-base">
+        <div class="password-wrapper">
+          <input 
+            [type]="passwordVisible ? 'text' : 'password'" 
+            formControlName="password" 
+            class="input-base">
+          <!-- El ícono del ojo -->
+          <span class="eye-icon" (click)="togglePasswordVisibility()">
+            {{ passwordVisible ? '🙈' : '👁️' }}
+          </span>
+        </div>
       </app-form-field>
 
       <!-- Átomo: Botón -->
       <app-button type="submit" [disabled]="loginForm.invalid" [theme]="activeRole">
         Iniciar Sesión
       </app-button>
-
     </form>
+
+    <div class="register-link">
+      <span>¿No tienes una cuenta?</span>
+      <a routerLink="/register">Regístrate aquí</a>
+    </div>
+  
   </div>
 </div>

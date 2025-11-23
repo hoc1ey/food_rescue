@@ -1,0 +1,22 @@
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-md) var(--spacing-lg);
+  color: var(--color-white);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.header-title {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+/* Colores de tema para el fondo del header */
+.app-header.theme-donor {
+  background-color: var(--color-donor-primary);
+}
+
+.app-header.theme-beneficiary {
+  background-color: var(--color-beneficiary-primary);
+}

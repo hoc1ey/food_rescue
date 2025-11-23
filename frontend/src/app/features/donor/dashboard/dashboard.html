@@ -1,0 +1,40 @@
+<app-header 
+  title="Donante" 
+  theme="donor"
+  (logoutClick)="handleLogout()">
+</app-header>
+
+<main class="dashboard-content">
+  <!-- Tarjeta de Horario -->
+  <div class="card">
+    <app-card-header 
+      title="Mi Horario y Picos de Donación" 
+      icon="clock" 
+      theme="donor">
+    </app-card-header>
+    
+    <div class="card-body">
+      <p>Contenido de Horario...</p>
+    </div>
+  </div>
+
+  <!-- Botón de Nueva Donación -->
+  <div class="new-donation-action">
+    <app-button (click)="onNewDonation()" theme="donor">
+      Publicar Nueva Donación
+    </app-button>
+  </div>
+
+  <!-- Tarjeta de Donaciones Publicadas -->
+  <div class="card">
+    <app-card-header 
+      title="Mis Donaciones Publicadas" 
+      icon="package" 
+      theme="donor">
+    </app-card-header>
+    
+    <div class="card-body">
+      <p>Aquí se mostrará la lista de tus donaciones...</p>
+    </div>
+  </div>
+</main>

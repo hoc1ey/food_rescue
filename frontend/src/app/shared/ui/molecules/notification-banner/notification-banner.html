@@ -1,0 +1,14 @@
+<div class="banner-wrapper" [ngClass]="'theme-' + theme">
+  <div class="content-left">
+    <div class="icon-frame">
+      <lucide-icon name="bell" class="icon"></lucide-icon>
+    </div>
+    <div class="text-content">
+      <h3 class="title">Notificaciones en Tiempo Real</h3>
+      <p class="description">Las notificaciones aparecerán automáticamente en tiempo real.</p>
+    </div>
+  </div>
+  <div class="content-right" *ngIf="notificationCount > 0">
+    <span class="count">{{ notificationCount }} nueva<span *ngIf="notificationCount > 1">s</span></span>
+  </div>
+</div>

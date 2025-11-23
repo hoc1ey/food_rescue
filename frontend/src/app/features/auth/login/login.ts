@@ -5,18 +5,30 @@ import { ButtonComponent } from '../../../shared/ui/atoms/button/button';
 import { FormFieldComponent } from '../../../shared/ui/molecules/form-field/form-field';
 import { AuthService } from '../../../core/services/auth';
 import { TabGroupComponent } from '../../../shared/ui/molecules/tab-group/tab-group';
+import { Router, RouterModule } from '@angular/router'; // <-- 1. Importa RouterModule
 
 @Component({
   selector: 'app-login',
   standalone: true,
   // Importamos nuestros átomos y moléculas
-  imports: [CommonModule, ReactiveFormsModule, ButtonComponent, FormFieldComponent, TabGroupComponent],
+  imports: [
+    CommonModule, 
+    ReactiveFormsModule, 
+    ButtonComponent, 
+    FormFieldComponent, 
+    TabGroupComponent,
+    RouterModule // <-- 2. Añádelo aquí
+  ],
   templateUrl: './login.html',
   styleUrls: ['./login.css'] // Usa CSS normal para layout específico
 })
 export class LoginComponent {
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
+  private router = inject(Router);
+
+  // --- 1. Añade esta propiedad ---
+  passwordVisible = false;
 
   loginForm = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
@@ -34,13 +46,40 @@ export class LoginComponent {
     return null;
   }
 
+  // --- 2. Añade este método ---
+  togglePasswordVisibility(): void {
+    this.passwordVisible = !this.passwordVisible;
+  }
+
   onSubmit() {
-    if (this.loginForm.valid) {
-      // Lógica de envío...
-      console.log(this.loginForm.value);
-    } else {
-        this.loginForm.markAllAsTouched();
+    if (!this.loginForm.valid) {
+      this.loginForm.markAllAsTouched();
+      return;
     }
+
+    // --- 3. Lógica de redirección ---
+    // Solución: Aseguramos que los valores no son nulos con el operador '!'
+    const credentials = {
+      email: this.loginForm.value.email!,
+      password: this.loginForm.value.password!
+    };
+
+    this.authService.login(credentials).subscribe({
+      next: (response) => {
+        console.log('Login exitoso:', response);
+        
+        // Redirige según el rol activo
+        if (this.activeRole === 'donor') {
+          this.router.navigate(['/donor/dashboard']);
+        } else {
+          this.router.navigate(['/beneficiary/dashboard']);
+        }
+      },
+      error: (err) => {
+        console.error('Error en el login:', err);
+        // Aquí podrías mostrar un mensaje de error al usuario
+      }
+    });
   }
 
   userRoles = ['Donante', 'Beneficiario'];

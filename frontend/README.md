@@ -1,59 +1,105 @@
 # Frontend
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.7.
+Este proyecto fue generado con [Angular CLI](https://github.com/angular/angular-cli) versión 20.3.7.
 
-## Development server
+## Estructura y Convenciones del Proyecto
 
-To start a local development server, run:
+Este proyecto sigue una estructura inspirada en **Atomic Design** para asegurar la escalabilidad y reutilización de los componentes.
+
+### Estructura de Carpetas
+
+-   `src/app/core`: Contiene servicios singleton (`AuthService`), route guards e interceptores HTTP.
+-   `src/app/features`: Contiene componentes de "página", que son las características principales de la aplicación (por ejemplo, `login`, `dashboard`).
+-   `src/app/shared/ui`: Contiene componentes de UI reutilizables, organizados por complejidad:
+    -   `atoms`: Los componentes indivisibles más pequeños (por ejemplo, `button`).
+    -   `molecules`: Composiciones simples de átomos que funcionan juntos (por ejemplo, `tab-group`, `form-field`).
+
+### Convención de Nomenclatura de Archivos
+
+Los archivos de componentes se generan sin el sufijo `.component`. Cada componente consta de tres archivos separados:
+
+-   `component-name.ts`: Lógica (clase de TypeScript).
+-   `component-name.html`: Plantilla (HTML).
+-   `component-name.css`: Estilos (CSS).
+
+### Generando Componentes
+
+Para mantener la consistencia, utiliza siempre Angular CLI para generar nuevos componentes dentro de la estructura establecida.
+
+```bash
+# Ejemplo: Generar una nueva página de feature
+ng generate component features/feature-name/page-name
+
+# Ejemplo: Generar un nuevo atom
+ng generate component shared/ui/atoms/component-name
+```
+
+### Design Tokens
+
+Los tokens de diseño globales (variables para colores, espaciado y tipografía) están definidos en `src/styles.css`. Estos tokens deben usarse en todos los estilos para mantener una apariencia y sensación coherentes.
+
+### Bibliotecas de UI e iconos
+
+- **Iconos**: El proyecto usa **Lucide-Angular** como conjunto de iconos.
+    - Para añadir un nuevo icono, debe importarse y registrarse en `src/app/shared/lucide-icons.module.ts`.
+    - Puedes encontrar todos los iconos disponibles en [lucide.dev/icons](https://lucide.dev/icons/).
+- **Estructura de componentes**: Sigue los principios de Atomic Design para los componentes reutilizables ubicados en `src/app/shared/ui`.
+
+---
+
+## Servidor de desarrollo
+
+Para iniciar un servidor de desarrollo local, ejecuta:
 
 ```bash
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Una vez que el servidor esté en ejecución, abre tu navegador y navega a `http://localhost:4200/`. La aplicación se recargará automáticamente cada vez que modifiques los archivos fuente.
 
-## Code scaffolding
+## Generación de código
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+Angular CLI incluye potentes herramientas de scaffolding. Para generar un nuevo componente, ejecuta:
 
 ```bash
 ng generate component component-name
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Para una lista completa de los esquemas disponibles (como `components`, `directives` o `pipes`), ejecuta:
 
 ```bash
 ng generate --help
 ```
 
-## Building
+## Compilación
 
-To build the project run:
+Para compilar el proyecto, ejecuta:
 
 ```bash
 ng build
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Esto compilará tu proyecto y almacenará los artefactos de compilación en el directorio `dist/`. Por defecto, la compilación para producción optimiza la aplicación para rendimiento y velocidad.
 
-## Running unit tests
+## Ejecutar pruebas unitarias
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+Para ejecutar las pruebas unitarias con el corredor de pruebas [Karma](https://karma-runner.github.io), usa el siguiente comando:
 
 ```bash
 ng test
 ```
 
-## Running end-to-end tests
+## Ejecutar pruebas end-to-end
 
-For end-to-end (e2e) testing, run:
+Para pruebas end-to-end (e2e), ejecuta:
 
 ```bash
 ng e2e
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+Angular CLI no incluye por defecto un framework para pruebas end-to-end; puedes elegir el que mejor se adapte a tus necesidades.
 
-## Additional Resources
+## Recursos adicionales
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Para más información sobre el uso de Angular CLI, incluyendo referencias detalladas de comandos, visita la página [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli).
+```

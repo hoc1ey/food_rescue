@@ -16,6 +16,10 @@
   --color-beneficiary-primary: #2563EB;
   --color-beneficiary-secondary: #1D4ED8;
   --color-beneficiary-tertiary: #1E3A8A;
+
+  /* --- NUEVOS TOKENS PASTEL --- */
+  --color-donor-pastel: #DCFCE7;      /* Verde pastel */
+  --color-beneficiary-pastel: #DBEAFE; /* Azul pastel */
   /* --- FIN DE NUEVOS TOKENS --- */
 
   /* Espaciado */
@@ -53,6 +57,16 @@ body {
 }
 .btn-beneficiary:hover:not(:disabled) {
   background-color: var(--color-beneficiary-secondary);
+}
+
+/* --- NUEVO TEMA NEUTRAL --- */
+.btn-neutral {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: var(--color-white);
+  border: 1px solid var(--color-white);
+}
+.btn-neutral:hover:not(:disabled) {
+  background-color: rgba(255, 255, 255, 0.3);
 }
 /* --- FIN DE TEMAS --- */
 

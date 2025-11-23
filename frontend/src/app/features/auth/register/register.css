@@ -1,0 +1,61 @@
+/* Estructura principal (similar al login) */
+.register-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: var(--spacing-md);
+  box-sizing: border-box;
+}
+
+.register-card {
+  background-color: var(--color-white);
+  padding: var(--spacing-lg);
+  border-radius: var(--radius-md);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 450px; /* Un poco más ancho para el formulario */
+}
+
+.register-card h2 {
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: var(--spacing-xs);
+}
+
+.register-card p {
+  text-align: center;
+  color: #6b7280;
+  margin-top: 0;
+  margin-bottom: var(--spacing-lg);
+}
+
+/* Contenedor para nombre y apellido */
+.name-fields {
+  display: flex;
+  gap: var(--spacing-md);
+}
+
+.name-fields > app-form-field {
+  flex: 1; /* Ocupa el espacio disponible */
+}
+
+/* Enlace para ir al login */
+.login-link {
+  text-align: center;
+  margin-top: var(--spacing-lg);
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.login-link a {
+  color: var(--color-donor-primary);
+  font-weight: 600;
+  text-decoration: none;
+  margin-left: var(--spacing-xs);
+  cursor: pointer;
+}
+
+.login-link a:hover {
+  text-decoration: underline;
+}

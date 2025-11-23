@@ -1,0 +1,49 @@
+.card-header-wrapper {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.icon-frame {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-md);
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+  stroke-width: 2.5; 
+}
+
+.title {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+/* --- Temas --- */
+/* Tema Donante */
+.card-header-wrapper.theme-donor .icon-frame {
+  background-color: var(--color-donor-pastel);
+}
+.card-header-wrapper.theme-donor .icon {
+  color: var(--color-donor-primary);
+}
+.card-header-wrapper.theme-donor .title {
+  color: var(--color-donor-tertiary); /* <-- Color del título para donante */
+}
+
+/* Tema Beneficiario */
+.card-header-wrapper.theme-beneficiary .icon-frame {
+  background-color: var(--color-beneficiary-pastel);
+}
+.card-header-wrapper.theme-beneficiary .icon {
+  color: var(--color-beneficiary-primary);
+}
+.card-header-wrapper.theme-beneficiary .title {
+  color: var(--color-beneficiary-tertiary); /* <-- Color del título para beneficiario */
+}

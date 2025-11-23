@@ -20,8 +20,7 @@ export class ButtonComponent {
   @Input() type: 'button' | 'submit' = 'button';
   @Input() disabled = false;
   
-  // Nuevo Input para el tema
-  @Input() theme: 'donor' | 'beneficiary' = 'donor';
+  @Input() theme: 'donor' | 'beneficiary' | 'neutral' = 'donor';
 
   // Getter para construir la clase CSS dinámicamente
   get themeClass(): string {

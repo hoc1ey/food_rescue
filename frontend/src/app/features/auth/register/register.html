@@ -1,0 +1,44 @@
+<div class="register-page">
+  <div class="register-card">
+    <app-tab-group
+      [tabs]="userRoles"
+      [theme]="activeRole"
+      (tabChange)="handleRoleChange($event)">
+    </app-tab-group>
+
+    <h2>Crear una cuenta</h2>
+    <p>Paso 1 de 2: Datos personales</p>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <div class="name-fields">
+        <app-form-field label="Nombre" [error]="getErrorMessage('firstName')">
+          <input type="text" formControlName="firstName" class="input-base">
+        </app-form-field>
+        <app-form-field label="Apellido" [error]="getErrorMessage('lastName')">
+          <input type="text" formControlName="lastName" class="input-base">
+        </app-form-field>
+      </div>
+
+      <app-form-field label="Correo Electrónico" [error]="getErrorMessage('email')">
+        <input type="email" formControlName="email" class="input-base">
+      </app-form-field>
+
+      <app-form-field label="Contraseña" [error]="getErrorMessage('password')">
+        <input type="password" formControlName="password" class="input-base">
+      </app-form-field>
+
+      <app-form-field label="Confirmar Contraseña" [error]="getErrorMessage('confirmPassword')">
+        <input type="password" formControlName="confirmPassword" class="input-base">
+      </app-form-field>
+
+      <app-button type="submit" [disabled]="registerForm.invalid" [theme]="activeRole">
+        Siguiente
+      </app-button>
+    </form>
+
+    <div class="login-link">
+      <span>¿Ya tienes una cuenta?</span>
+      <a routerLink="/login">Inicia sesión</a>
+    </div>
+  </div>
+</div>
