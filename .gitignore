@@ -35,6 +35,28 @@ yarn-error.log*
 # Ignorar si usas WebStorm/IDE
 /backend/.idea
 
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Build output
+backend/dist/
+backend/build/
+
+# Logs
+backend/logs/
+backend/*.log
+backend/npm-debug.log*
+backend/yarn-debug.log*
+backend/yarn-error.log*
+backend/lerna-debug.log*
+backend/pnpm-debug.log*
+
+# Prisma
+# Mantener el schema pero ignorar lo generado
+backend/src/generated/
+
 # ------------------------------------------------------------------
 # FRONTEND (Angular)
 # ------------------------------------------------------------------

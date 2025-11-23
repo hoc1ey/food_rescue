@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WebSocket Test - Food Rescue</title>
+  <script src="https://cdn.socket.io/4.7.4/socket.io.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    .container {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .status {
+      padding: 10px;
+      border-radius: 4px;
+      margin-bottom: 20px;
+      font-weight: bold;
+    }
+    .connected {
+      background: #d4edda;
+      color: #155724;
+    }
+    .disconnected {
+      background: #f8d7da;
+      color: #721c24;
+    }
+    .event {
+      background: #e7f3ff;
+      border-left: 4px solid #2196F3;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 4px;
+    }
+    .event-title {
+      font-weight: bold;
+      margin-bottom: 5px;
+      color: #1976D2;
+    }
+    pre {
+      background: #f4f4f4;
+      padding: 10px;
+      border-radius: 4px;
+      overflow-x: auto;
+      font-size: 12px;
+    }
+    .clear-btn {
+      background: #f44336;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-bottom: 10px;
+    }
+    .clear-btn:hover {
+      background: #da190b;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🔌 WebSocket Test - Food Rescue</h1>
+    <div id="status" class="status disconnected">
+      ❌ Desconectado
+    </div>
+    <button class="clear-btn" onclick="clearEvents()">🗑️ Limpiar eventos</button>
+    <div id="events">
+      <p>Esperando eventos...</p>
+    </div>
+  </div>
+
+  <script>
+    const statusEl = document.getElementById('status');
+    const eventsEl = document.getElementById('events');
+
+    function addEvent(title, data) {
+      const eventDiv = document.createElement('div');
+      eventDiv.className = 'event';
+      const timestamp = new Date().toLocaleTimeString();
+      eventDiv.innerHTML = `
+        <div class="event-title">${timestamp} - ${title}</div>
+        <pre>${JSON.stringify(data, null, 2)}</pre>
+      `;
+      
+      // Si es el primer evento, limpiar el mensaje de "Esperando eventos..."
+      if (eventsEl.querySelector('p')) {
+        eventsEl.innerHTML = '';
+      }
+      
+      eventsEl.insertBefore(eventDiv, eventsEl.firstChild);
+    }
+
+    function clearEvents() {
+      eventsEl.innerHTML = '<p>Esperando eventos...</p>';
+    }
+
+    // Conectar al WebSocket
+    console.log('🔄 Intentando conectar al WebSocket...');
+    const socket = io('http://localhost:3000', {
+      transports: ['websocket', 'polling']
+    });
+
+    socket.on('connect', () => {
+      console.log('✅ Conectado:', socket.id);
+      statusEl.className = 'status connected';
+      statusEl.innerHTML = `✅ Conectado - Socket ID: ${socket.id}`;
+      addEvent('🔌 Conexión establecida', { socketId: socket.id });
+    });
+
+    socket.on('disconnect', () => {
+      console.log('❌ Desconectado');
+      statusEl.className = 'status disconnected';
+      statusEl.innerHTML = '❌ Desconectado del servidor';
+      addEvent('🔌 Conexión perdida', { time: new Date().toISOString() });
+    });
+
+    socket.on('connect_error', (error) => {
+      console.error('❌ Error de conexión:', error);
+      addEvent('❌ Error de conexión', { error: error.message });
+    });
+
+    // Eventos de donaciones
+    socket.on('donation:created', (data) => {
+      console.log('🎁 Nueva donación creada:', data);
+      addEvent('🎁 Nueva Donación Creada', data);
+      
+      // Notificación del navegador (opcional)
+      if ('Notification' in window && Notification.permission === 'granted') {
+        new Notification('Nueva Donación', {
+          body: `${data.productName} - ${data.quantity} ${data.unit}`,
+          icon: '🎁'
+        });
+      }
+    });
+
+    socket.on('donation:claimed', (data) => {
+      console.log('👋 Donación reclamada:', data);
+      addEvent('👋 Donación Reclamada', data);
+    });
+
+    socket.on('donation:delivered', (data) => {
+      console.log('✅ Donación entregada:', data);
+      addEvent('✅ Donación Entregada', data);
+    });
+
+    socket.on('status', (data) => {
+      console.log('📡 Status del servidor:', data);
+      addEvent('📡 Status del Servidor', data);
+    });
+
+    // Solicitar permisos de notificación (opcional)
+    if ('Notification' in window && Notification.permission === 'default') {
+      Notification.requestPermission();
+    }
+  </script>
+</body>
+</html>
