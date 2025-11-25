@@ -1,5 +1,8 @@
 <header class="app-header" [ngClass]="'theme-' + theme">
-  <h1 class="header-title">{{ title }}</h1>
+  <div class="header-left">
+    <h1 class="header-title">{{ title }}</h1>
+    <p *ngIf="subtitle" class="header-subtitle">{{ subtitle }}</p>
+  </div>
   <div class="header-actions">
     <!-- Usamos un tema 'neutral' o 'secondary' que crearemos para el botón -->
     <app-button (click)="onLogout()" [theme]="'neutral'">

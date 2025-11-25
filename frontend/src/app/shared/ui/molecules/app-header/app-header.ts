@@ -11,6 +11,7 @@ import { ButtonComponent } from '../../atoms/button/button';
 })
 export class AppHeaderComponent {
   @Input() title: string = '';
+  @Input() subtitle: string = '';
   @Input() theme: 'donor' | 'beneficiary' = 'donor';
   @Output() logoutClick = new EventEmitter<void>();
 

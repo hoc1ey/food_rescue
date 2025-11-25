@@ -18,19 +18,26 @@
   --color-beneficiary-tertiary: #1E3A8A;
 
   /* --- NUEVOS TOKENS PASTEL --- */
-  --color-donor-pastel: #DCFCE7;      /* Verde pastel */
-  --color-beneficiary-pastel: #DBEAFE; /* Azul pastel */
+  --color-donor-pastel: #DCFCE7;
+  /* Verde pastel */
+  --color-beneficiary-pastel: #DBEAFE;
+  /* Azul pastel */
   /* --- FIN DE NUEVOS TOKENS --- */
 
   /* Espaciado */
-  --spacing-xs: 0.25rem; /* 4px */
-  --spacing-sm: 0.5rem;  /* 8px */
-  --spacing-md: 1rem;    /* 16px */
-  --spacing-lg: 1.5rem;  /* 24px */
+  --spacing-xs: 0.25rem;
+  /* 4px */
+  --spacing-sm: 0.5rem;
+  /* 8px */
+  --spacing-md: 1rem;
+  /* 16px */
+  --spacing-lg: 1.5rem;
+  /* 24px */
 
   /* Tipografía */
   --font-family: 'Inter', sans-serif;
   --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
 }
 
 body {
@@ -46,6 +53,7 @@ body {
   background-color: var(--color-donor-primary);
   color: var(--color-white);
 }
+
 .btn-donor:hover:not(:disabled) {
   background-color: var(--color-donor-secondary);
 }
@@ -55,6 +63,7 @@ body {
   background-color: var(--color-beneficiary-primary);
   color: var(--color-white);
 }
+
 .btn-beneficiary:hover:not(:disabled) {
   background-color: var(--color-beneficiary-secondary);
 }
@@ -65,16 +74,55 @@ body {
   color: var(--color-white);
   border: 1px solid var(--color-white);
 }
+
 .btn-neutral:hover:not(:disabled) {
   background-color: rgba(255, 255, 255, 0.3);
 }
+
 /* --- FIN DE TEMAS --- */
 
-/* En styles.css para que todos los inputs se vean igual */
+/* Estilos globales para iconos Lucide */
+lucide-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+}
+
+lucide-icon svg {
+  display: block;
+}
+
+/* Input base para formularios */
 .input-base {
-  padding: var(--spacing-sm);
-  border: 1px solid #ccc;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: 1px solid #d1d5db;
   border-radius: var(--radius-md);
   width: 100%;
-  box-sizing: border/* En styles.css para que todos los inputs se vean igual */
+  box-sizing: border-box;
+  font-size: 0.875rem;
+  font-family: var(--font-family);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.input-base:focus {
+  outline: none;
+  border-color: var(--color-donor-primary);
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.1);
+}
+
+.input-base::placeholder {
+  color: #9ca3af;
+}
+
+/* Select específico */
+select.input-base {
+  cursor: pointer;
+  background-color: var(--color-white);
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236b7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.5rem center;
+  background-size: 1.25rem;
+  padding-right: 2.5rem;
 }

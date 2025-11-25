@@ -1,23 +1,72 @@
 .dashboard-content {
   padding: var(--spacing-lg);
+  max-width: 1200px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-lg); /* Espacio entre todos los elementos del dashboard */
+  gap: var(--spacing-lg);
 }
 
 /* Estilo general para las tarjetas */
 .card {
   background-color: var(--color-white);
-  border-radius: var(--radius-lg);
-  padding: var(--spacing-md);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-lg);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+}
+
+/* Header con contador */
+.card-header-with-count {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-sm);
+}
+
+.donation-count {
+  font-size: 0.875rem;
+  color: #6b7280;
 }
 
 .card-body {
   padding-top: var(--spacing-md);
 }
 
-/* Contenedor para el botón de acción principal */
+/* Botón de nueva donación */
 .new-donation-action {
   width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.new-donation-action app-button {
+  width: auto;
+  min-width: 250px;
+}
+
+.button-icon {
+  width: 18px;
+  height: 18px;
+  margin-right: var(--spacing-xs);
+}
+
+/* Grid de donaciones */
+.donations-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: var(--spacing-md);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .donations-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .card-header-with-count {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-xs);
+  }
 }

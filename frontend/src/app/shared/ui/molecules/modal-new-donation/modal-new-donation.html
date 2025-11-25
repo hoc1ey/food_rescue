@@ -1,0 +1,82 @@
+<div class="modal-backdrop" (click)="onClose()">
+  <div class="modal-container" (click)="$event.stopPropagation()">
+    <!-- Header del Modal -->
+    <div class="modal-header">
+      <div class="modal-title-wrapper">
+        <lucide-icon name="package" class="modal-icon"></lucide-icon>
+        <h2 class="modal-title">Nueva Donación</h2>
+      </div>
+      <button class="close-button" (click)="onClose()" type="button">
+        <span class="close-icon">&times;</span>
+      </button>
+    </div>
+
+    <!-- Body del Modal -->
+    <div class="modal-body">
+      <form [formGroup]="donationForm" (ngSubmit)="onSubmit()">
+        <!-- Nombre del Producto -->
+        <app-form-field 
+          label="Nombre del Producto" 
+          [error]="getErrorMessage('productName')">
+          <input 
+            type="text" 
+            class="input-base"
+            formControlName="productName"
+            placeholder="Ej. Sándwiches de pollo">
+        </app-form-field>
+
+        <!-- Grid para Cantidad y Unidad -->
+        <div class="form-grid">
+          <!-- Cantidad -->
+          <app-form-field 
+            label="Cantidad" 
+            [error]="getErrorMessage('quantity')">
+            <input 
+              type="number" 
+              class="input-base"
+              formControlName="quantity"
+              placeholder="15"
+              step="0.1"
+              min="0.1">
+          </app-form-field>
+
+          <!-- Unidad -->
+          <app-form-field 
+            label="Unidad" 
+            [error]="getErrorMessage('unit')">
+            <select class="input-base" formControlName="unit">
+              <option *ngFor="let option of unitOptions" [value]="option.value">
+                {{ option.label }}
+              </option>
+            </select>
+          </app-form-field>
+        </div>
+
+        <!-- Información adicional -->
+        <div class="info-box">
+          <lucide-icon name="info" class="info-icon"></lucide-icon>
+          <p class="info-text">
+            La donación se publicará inmediatamente y estará disponible para todos los beneficiarios.
+          </p>
+        </div>
+
+        <!-- Botones de Acción -->
+        <div class="modal-actions">
+          <app-button 
+            type="button" 
+            (click)="onClose()" 
+            [theme]="'neutral'"
+            class="cancel-button">
+            Cancelar
+          </app-button>
+          <app-button 
+            type="submit" 
+            [theme]="'donor'"
+            [disabled]="!donationForm.valid">
+            Publicar Donación
+          </app-button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

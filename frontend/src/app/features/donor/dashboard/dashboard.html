@@ -1,40 +1,51 @@
 <app-header 
-  title="Donante" 
+  title="Dashboard de Donante" 
+  subtitle="KFC Calle Mayor"
   theme="donor"
   (logoutClick)="handleLogout()">
 </app-header>
 
 <main class="dashboard-content">
   <!-- Tarjeta de Horario -->
-  <div class="card">
-    <app-card-header 
-      title="Mi Horario y Picos de Donación" 
-      icon="clock" 
-      theme="donor">
-    </app-card-header>
-    
-    <div class="card-body">
-      <p>Contenido de Horario...</p>
-    </div>
-  </div>
+  <app-card-schedule 
+    [scheduleData]="scheduleData" 
+    [theme]="'donor'">
+  </app-card-schedule>
 
   <!-- Botón de Nueva Donación -->
   <div class="new-donation-action">
     <app-button (click)="onNewDonation()" theme="donor">
+      <lucide-icon name="plus" class="button-icon"></lucide-icon>
       Publicar Nueva Donación
     </app-button>
   </div>
 
   <!-- Tarjeta de Donaciones Publicadas -->
   <div class="card">
-    <app-card-header 
-      title="Mis Donaciones Publicadas" 
-      icon="package" 
-      theme="donor">
-    </app-card-header>
+    <div class="card-header-with-count">
+      <app-card-header 
+        title="Mis Donaciones Publicadas" 
+        icon="package" 
+        theme="donor">
+      </app-card-header>
+      <span class="donation-count">Total: {{ donations.length }} donación{{ donations.length !== 1 ? 'es' : '' }}</span>
+    </div>
     
     <div class="card-body">
-      <p>Aquí se mostrará la lista de tus donaciones...</p>
+      <div class="donations-grid">
+        <app-card-donation 
+          *ngFor="let donation of donations" 
+          [donation]="donation"
+          [theme]="'donor'">
+        </app-card-donation>
+      </div>
     </div>
   </div>
 </main>
+
+<!-- Modal de Nueva Donación -->
+<app-modal-new-donation
+  *ngIf="showNewDonationModal"
+  (close)="onModalClose()"
+  (submit)="onDonationSubmit($event)">
+</app-modal-new-donation>
