@@ -1,40 +1,61 @@
-<app-header 
-  title="Donante" 
+<app-header
+  title="Dashboard de Donante"
   theme="donor"
   (logoutClick)="handleLogout()">
 </app-header>
 
 <main class="dashboard-content">
-  <!-- Tarjeta de Horario -->
+
   <div class="card">
-    <app-card-header 
-      title="Mi Horario y Picos de Donación" 
-      icon="clock" 
+    <app-card-header
+      title="Mi Horario y Picos de Donación"
+      icon="calendar"
       theme="donor">
     </app-card-header>
-    
+
     <div class="card-body">
-      <p>Contenido de Horario...</p>
+      <p class="helper-text">Esta información ayuda a los beneficiarios a planificar mejor sus recogidas</p>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Días de la Semana</label>
+          <input type="text" class="input-base" [value]="schedule.days" readonly>
+        </div>
+        <div class="form-group">
+          <label>Horario Preferente</label>
+          <div class="input-with-icon">
+             <lucide-icon name="clock" class="input-icon"></lucide-icon>
+             <input type="text" class="input-base pl-icon" [value]="schedule.time" readonly>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group mt-md">
+        <label>Notas / Picos Habituales</label>
+        <input type="text" class="input-base" [value]="schedule.notes" readonly>
+      </div>
     </div>
   </div>
 
-  <!-- Botón de Nueva Donación -->
-  <div class="new-donation-action">
+  <div class="action-container">
     <app-button (click)="onNewDonation()" theme="donor">
+      <lucide-icon name="plus" style="width: 25px;"></lucide-icon>
       Publicar Nueva Donación
     </app-button>
   </div>
 
-  <!-- Tarjeta de Donaciones Publicadas -->
-  <div class="card">
-    <app-card-header 
-      title="Mis Donaciones Publicadas" 
-      icon="package" 
-      theme="donor">
-    </app-card-header>
-    
-    <div class="card-body">
-      <p>Aquí se mostrará la lista de tus donaciones...</p>
+  <section class="donations-section">
+    <div class="section-header">
+      <h2 class="section-title">Mis Donaciones Publicadas</h2>
+      <span class="total-label">Total: {{ recentDonations.length }} donación</span>
     </div>
-  </div>
+
+    <div class="donations-grid">
+      <app-donation-card
+        *ngFor="let item of recentDonations"
+        [donation]="item">
+      </app-donation-card>
+    </div>
+  </section>
+
 </main>
