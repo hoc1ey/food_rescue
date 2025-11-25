@@ -7,9 +7,21 @@
   font-weight: 600;
   width: 100%;
   transition: background-color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
-.btn:disabled { 
-  opacity: 0.6; 
-  cursor: not-allowed; 
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Corrección de alineación vertical del ícono dentro del botón */
+.btn lucide-icon {
+    /* Esto es clave para forzar la alineación del ícono con el texto */
+    vertical-align: middle;
+    /* Elimina cualquier espacio extra que pueda generar la caja del ícono */
+    line-height: 1;
 }
