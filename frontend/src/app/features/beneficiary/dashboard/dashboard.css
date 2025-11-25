@@ -1,18 +1,124 @@
 .dashboard-content {
   padding: var(--spacing-lg);
+  max-width: 1200px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-lg); /* Espacio entre los elementos */
+  gap: var(--spacing-lg);
 }
 
 /* Estilo general para las tarjetas */
 .card {
   background-color: var(--color-white);
-  border-radius: var(--radius-lg);
-  padding: var(--spacing-md);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-lg);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+}
+
+/* Header con filtro */
+.card-header-with-count {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-sm);
+}
+
+.donation-filter {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  font-size: 0.875rem;
+  color: #6b7280;
+  padding: 0.25rem 0.75rem;
+  background-color: #f3f4f6;
+  border-radius: var(--radius-md);
+}
+
+.filter-icon {
+  width: 16px;
+  height: 16px;
+  color: #9ca3af;
 }
 
 .card-body {
   padding-top: var(--spacing-md);
+}
+
+/* Grid de donaciones */
+.donations-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 350px));
+  gap: var(--spacing-md);
+  justify-content: center;
+}
+
+/* Wrapper para cada donación */
+.donation-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  width: 350px;
+}
+
+/* Acciones de donación */
+.donation-actions {
+  display: flex;
+  justify-content: center;
+}
+
+.claim-button {
+  width: 100%;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .donations-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .card-header-with-count {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-xs);
+  }
+}
+
+/* Estados de la UI */
+.error-message {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md);
+  background-color: #FEF2F2;
+  border: 1px solid #FCA5A5;
+  border-radius: var(--radius-md);
+  color: #991B1B;
+  margin-bottom: var(--spacing-md);
+}
+
+.error-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.loading-state {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: var(--spacing-lg);
+  color: #6b7280;
+}
+
+.empty-state {
+  text-align: center;
+  padding: var(--spacing-lg);
+  color: #6b7280;
+  grid-column: 1 / -1;
+}
+
+.empty-subtitle {
+  font-size: 0.875rem;
+  margin-top: var(--spacing-xs);
 }

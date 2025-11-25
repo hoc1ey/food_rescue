@@ -31,12 +31,30 @@
     </div>
     
     <div class="card-body">
-      <div class="donations-grid">
+      <!-- Mensaje de error -->
+      <div *ngIf="errorMessage" class="error-message">
+        <lucide-icon name="info" class="error-icon"></lucide-icon>
+        <p>{{ errorMessage }}</p>
+      </div>
+
+      <!-- Estado de carga -->
+      <div *ngIf="isLoading" class="loading-state">
+        <p>Cargando donaciones...</p>
+      </div>
+
+      <!-- Lista de donaciones -->
+      <div *ngIf="!isLoading && !errorMessage" class="donations-grid">
         <app-card-donation 
           *ngFor="let donation of donations" 
           [donation]="donation"
           [theme]="'donor'">
         </app-card-donation>
+
+        <!-- Mensaje cuando no hay donaciones -->
+        <div *ngIf="donations.length === 0" class="empty-state">
+          <p>Aún no has publicado ninguna donación.</p>
+          <p class="empty-subtitle">Haz clic en "Publicar Nueva Donación" para comenzar.</p>
+        </div>
       </div>
     </div>
   </div>

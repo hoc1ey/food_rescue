@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AppHeaderComponent } from '../../../shared/ui/molecules/app-header/app-header';
@@ -8,6 +8,8 @@ import { CardDonationComponent, type Donation } from '../../../shared/ui/molecul
 import { CardScheduleComponent, type ScheduleData } from '../../../shared/ui/molecules/card-schedule/card-schedule';
 import { ModalNewDonationComponent, type NewDonationData } from '../../../shared/ui/molecules/modal-new-donation/modal-new-donation';
 import { LucideIconsModule } from '../../../shared/lucide-icons.module';
+import { DonationsService, type DonationResponse } from '../../../core/services/donations';
+import { AuthService } from '../../../core/services/auth';
 
 @Component({
   selector: 'app-donor-dashboard',
@@ -25,11 +27,15 @@ import { LucideIconsModule } from '../../../shared/lucide-icons.module';
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css'
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
   private router = inject(Router);
+  private donationsService = inject(DonationsService);
+  private authService = inject(AuthService);
 
   // Control del modal
   showNewDonationModal = false;
+  isLoading = false;
+  errorMessage: string | null = null;
 
   // Datos de ejemplo para el horario
   scheduleData: ScheduleData = {
@@ -38,37 +44,52 @@ export class DashboardComponent {
     notes: 'Ej. Viernes por la noche y Domingos mediodía suelen tener más sobrantes'
   };
 
-  // Datos de ejemplo para las donaciones
-  donations: Donation[] = [
-    {
-      id: '1',
-      productName: 'Sándwiches de pollo',
-      quantity: 15,
-      unit: 'unidades',
-      status: 'AVAILABLE',
-      location: {
-        name: 'KFC Calle Mayor',
-        address: 'Calle Mayor 45, Madrid'
+  // Donaciones del donante
+  donations: Donation[] = [];
+
+  ngOnInit(): void {
+    this.loadDonations();
+  }
+
+  loadDonations(): void {
+    this.isLoading = true;
+    this.errorMessage = null;
+
+    this.donationsService.getDonations().subscribe({
+      next: (response) => {
+        // Mapear la respuesta del backend al formato de las tarjetas
+        this.donations = response.data.map(donation => this.mapDonationResponse(donation));
+        this.isLoading = false;
       },
-      pickupTime: '18:00'
-    },
-    {
-      id: '2',
-      productName: 'Sándwiches de pollo',
-      quantity: 25,
-      unit: 'unidades',
-      status: 'AVAILABLE',
+      error: (err) => {
+        console.error('Error al cargar donaciones:', err);
+        this.errorMessage = 'No se pudieron cargar las donaciones. Intenta de nuevo.';
+        this.isLoading = false;
+      }
+    });
+  }
+
+  private mapDonationResponse(donation: DonationResponse): Donation {
+    return {
+      id: donation.id,
+      productName: donation.productName,
+      quantity: donation.quantity,
+      unit: donation.unit,
+      status: donation.status,
       location: {
-        name: 'KFC Calle Mayor',
-        address: 'Calle Mayor 45, Madrid'
+        name: donation.donor?.name || 'Ubicación no disponible',
+        address: donation.donor?.address || 'Dirección no disponible'
       },
-      pickupTime: '18:00'
-    }
-  ];
+      pickupTime: new Date(donation.createdAt).toLocaleTimeString('es-ES', {
+        hour: '2-digit',
+        minute: '2-digit'
+      })
+    };
+  }
 
   handleLogout() {
     console.log('Cerrando sesión...');
-    // Aquí iría la lógica para limpiar el token de autenticación
+    this.authService.removeToken();
     this.router.navigate(['/login']);
   }
 
@@ -81,9 +102,26 @@ export class DashboardComponent {
   }
 
   onDonationSubmit(data: NewDonationData) {
-    console.log('Creando donación:', data);
-    // TODO: Aquí irá la llamada al servicio para crear la donación
-    // Por ahora solo cerramos el modal
-    this.showNewDonationModal = false;
+    this.isLoading = true;
+    this.errorMessage = null;
+
+    this.donationsService.createDonation(data).subscribe({
+      next: (response) => {
+        console.log('Donación creada exitosamente:', response);
+        // Agregar la nueva donación a la lista
+        const newDonation = this.mapDonationResponse(response.data);
+        this.donations = [newDonation, ...this.donations];
+
+        // Cerrar modal y resetear estado
+        this.showNewDonationModal = false;
+        this.isLoading = false;
+      },
+      error: (err) => {
+        console.error('Error al crear donación:', err);
+        this.errorMessage = 'No se pudo crear la donación. Verifica tu sesión.';
+        this.isLoading = false;
+        // Mantener el modal abierto para que el usuario pueda reintentar
+      }
+    });
   }
 }

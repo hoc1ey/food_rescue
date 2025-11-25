@@ -12,10 +12,10 @@ import { Router, RouterModule } from '@angular/router'; // <-- 1. Importa Router
   standalone: true,
   // Importamos nuestros átomos y moléculas
   imports: [
-    CommonModule, 
-    ReactiveFormsModule, 
-    ButtonComponent, 
-    FormFieldComponent, 
+    CommonModule,
+    ReactiveFormsModule,
+    ButtonComponent,
+    FormFieldComponent,
     TabGroupComponent,
     RouterModule // <-- 2. Añádelo aquí
   ],
@@ -67,7 +67,12 @@ export class LoginComponent {
     this.authService.login(credentials).subscribe({
       next: (response) => {
         console.log('Login exitoso:', response);
-        
+
+        // Guardar el token en localStorage
+        if (response.data?.token) {
+          this.authService.saveToken(response.data.token);
+        }
+
         // Redirige según el rol activo
         if (this.activeRole === 'donor') {
           this.router.navigate(['/donor/dashboard']);

@@ -70,3 +70,42 @@
     gap: var(--spacing-xs);
   }
 }
+
+/* Estados de la UI */
+.error-message {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md);
+  background-color: #FEF2F2;
+  border: 1px solid #FCA5A5;
+  border-radius: var(--radius-md);
+  color: #991B1B;
+  margin-bottom: var(--spacing-md);
+}
+
+.error-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.loading-state {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: var(--spacing-lg);
+  color: #6b7280;
+}
+
+.empty-state {
+  text-align: center;
+  padding: var(--spacing-lg);
+  color: #6b7280;
+  grid-column: 1 / -1;
+}
+
+.empty-subtitle {
+  font-size: 0.875rem;
+  margin-top: var(--spacing-xs);
+}

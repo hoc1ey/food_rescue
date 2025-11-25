@@ -1,5 +1,6 @@
 <app-header 
-  title="Beneficiario" 
+  title="Dashboard de Beneficiario" 
+  subtitle="Comedor La Esperanza"
   theme="beneficiary"
   (logoutClick)="handleLogout()">
 </app-header>
@@ -13,14 +14,54 @@
 
   <!-- Tarjeta de Donaciones Disponibles -->
   <div class="card">
-    <app-card-header 
-      title="Donaciones Disponibles" 
-      icon="package" 
-      theme="beneficiary">
-    </app-card-header>
+    <div class="card-header-with-count">
+      <app-card-header 
+        title="Donaciones Disponibles (Tablero en Vivo)" 
+        icon="package" 
+        theme="beneficiary">
+      </app-card-header>
+      <span class="donation-filter">
+        <lucide-icon name="search" class="filter-icon"></lucide-icon>
+        {{ availableDonations.length }} disponibles
+      </span>
+    </div>
     
     <div class="card-body">
-      <p>Aquí se mostrará la lista de donaciones disponibles cerca de ti.</p>
+      <!-- Mensaje de error -->
+      <div *ngIf="errorMessage" class="error-message">
+        <lucide-icon name="info" class="error-icon"></lucide-icon>
+        <p>{{ errorMessage }}</p>
+      </div>
+
+      <!-- Estado de carga -->
+      <div *ngIf="isLoading" class="loading-state">
+        <p>Buscando donaciones disponibles...</p>
+      </div>
+
+      <!-- Lista de donaciones -->
+      <div *ngIf="!isLoading && !errorMessage" class="donations-grid">
+        <div *ngFor="let donation of availableDonations" class="donation-wrapper">
+          <app-card-donation 
+            [donation]="donation"
+            [theme]="'beneficiary'">
+          </app-card-donation>
+          <div class="donation-actions">
+            <app-button 
+              (click)="onClaimDonation(donation)" 
+              theme="beneficiary"
+              [disabled]="donation.status !== 'AVAILABLE'"
+              class="claim-button">
+              {{ donation.status === 'AVAILABLE' ? '¡Reclamar Donación!' : 'Ya reclamada' }}
+            </app-button>
+          </div>
+        </div>
+
+        <!-- Mensaje cuando no hay donaciones -->
+        <div *ngIf="availableDonations.length === 0" class="empty-state">
+          <p>No hay donaciones disponibles en este momento.</p>
+          <p class="empty-subtitle">Vuelve a revisar más tarde.</p>
+        </div>
+      </div>
     </div>
   </div>
 </main>
