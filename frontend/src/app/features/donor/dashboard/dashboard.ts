@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AppHeaderComponent } from '../../../shared/ui/molecules/app-header/app-header';
@@ -10,6 +10,9 @@ import { ModalNewDonationComponent, type NewDonationData } from '../../../shared
 import { LucideIconsModule } from '../../../shared/lucide-icons.module';
 import { DonationsService, type DonationResponse } from '../../../core/services/donations';
 import { AuthService } from '../../../core/services/auth';
+import { WebSocketService } from '../../../core/services/websocket.service';
+import { Subscription } from 'rxjs';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-donor-dashboard',
@@ -27,15 +30,22 @@ import { AuthService } from '../../../core/services/auth';
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css'
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
   private router = inject(Router);
   private donationsService = inject(DonationsService);
   private authService = inject(AuthService);
+  private websocketService = inject(WebSocketService);
+
+  // Subscripciones para limpieza
+  private subscriptions: Subscription[] = [];
 
   // Control del modal
   showNewDonationModal = false;
   isLoading = false;
   errorMessage: string | null = null;
+
+  // Estado de conexión WebSocket
+  isWebSocketConnected = false;
 
   // Datos de ejemplo para el horario
   scheduleData: ScheduleData = {
@@ -49,6 +59,82 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadDonations();
+    this.setupWebSocketListeners();
+  }
+
+  ngOnDestroy(): void {
+    // Limpiar todas las subscripciones
+    this.subscriptions.forEach(sub => sub.unsubscribe());
+  }
+
+  /**
+   * Configurar listeners de WebSocket para actualizaciones en tiempo real
+   */
+  private setupWebSocketListeners(): void {
+    // Escuchar estado de conexión
+    const connectionSub = this.websocketService.getConnectionStatus()
+      .subscribe(isConnected => {
+        this.isWebSocketConnected = isConnected;
+        console.log(`WebSocket ${isConnected ? 'conectado ✅' : 'desconectado ❌'}`);
+      });
+
+    // Escuchar cuando una donación es reclamada
+    const claimedSub = this.websocketService.onDonationClaimed()
+      .pipe(filter(donation => donation !== null))
+      .subscribe(donation => {
+        if (donation) {
+          console.log('🔄 Actualizando donación reclamada:', donation);
+          this.updateDonationInList(donation);
+          // Mostrar notificación al usuario
+          this.showNotification(`Tu donación "${donation.productName}" ha sido reclamada`);
+        }
+      });
+
+    // Escuchar cuando una donación es entregada
+    const deliveredSub = this.websocketService.onDonationDelivered()
+      .pipe(filter(donation => donation !== null))
+      .subscribe(donation => {
+        if (donation) {
+          console.log('🔄 Actualizando donación entregada:', donation);
+          this.updateDonationInList(donation);
+          // Mostrar notificación al usuario
+          this.showNotification(`Tu donación "${donation.productName}" ha sido entregada exitosamente`);
+        }
+      });
+
+    // Guardar subscripciones para limpiar después
+    this.subscriptions.push(connectionSub, claimedSub, deliveredSub);
+  }
+
+  /**
+   * Actualizar una donación en la lista cuando se recibe un evento
+   */
+  private updateDonationInList(updatedDonation: DonationResponse): void {
+    const index = this.donations.findIndex(d => d.id === updatedDonation.id);
+    if (index !== -1) {
+      // Actualizar la donación existente
+      this.donations[index] = this.mapDonationResponse(updatedDonation);
+    } else {
+      // Si no existe, agregarla (por si acaso)
+      this.donations.unshift(this.mapDonationResponse(updatedDonation));
+    }
+  }
+
+  /**
+   * Mostrar notificación al usuario
+   */
+  private showNotification(message: string): void {
+    // Aquí podrías usar un servicio de notificaciones más sofisticado
+    // Por ahora usamos console.log y podrías agregar un toast/snackbar
+    console.log('📢 Notificación:', message);
+
+    // Verificar que estamos en el navegador (no en SSR)
+    if (typeof window !== 'undefined' && 'Notification' in window && Notification.permission === 'granted') {
+      new Notification('Food Rescue - Actualización', {
+        body: message,
+        icon: '/favicon.ico'
+      });
+    }
   }
 
   loadDonations(): void {
@@ -77,8 +163,8 @@ export class DashboardComponent implements OnInit {
       unit: donation.unit,
       status: donation.status,
       location: {
-        name: donation.donor?.name || 'Ubicación no disponible',
-        address: donation.donor?.address || 'Dirección no disponible'
+        name: donation.location?.city?.name || 'Ubicación no disponible',
+        address: donation.location?.address || 'Dirección no disponible'
       },
       pickupTime: new Date(donation.createdAt).toLocaleTimeString('es-ES', {
         hour: '2-digit',
@@ -102,6 +188,7 @@ export class DashboardComponent implements OnInit {
   }
 
   onDonationSubmit(data: NewDonationData) {
+    console.log('📝 Datos recibidos del modal:', data);
     this.isLoading = true;
     this.errorMessage = null;
 

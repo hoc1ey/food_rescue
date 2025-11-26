@@ -18,21 +18,28 @@ export class AuthService {
    * Guardar el token en localStorage
    */
   saveToken(token: string): void {
-    localStorage.setItem(this.TOKEN_KEY, token);
+    if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
+      localStorage.setItem(this.TOKEN_KEY, token);
+    }
   }
 
   /**
    * Obtener el token de localStorage
    */
   getToken(): string | null {
-    return localStorage.getItem(this.TOKEN_KEY);
+    if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
+      return localStorage.getItem(this.TOKEN_KEY);
+    }
+    return null;
   }
 
   /**
    * Eliminar el token (logout)
    */
   removeToken(): void {
-    localStorage.removeItem(this.TOKEN_KEY);
+    if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
+      localStorage.removeItem(this.TOKEN_KEY);
+    }
   }
 
   /**

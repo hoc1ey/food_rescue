@@ -19,14 +19,23 @@ export interface DonationResponse {
     beneficiaryId: string | null;
     createdAt: string;
     updatedAt: string;
+    location?: {
+        address: string;
+        city: {
+            name: string;
+        };
+    };
     donor?: {
         id: string;
-        name: string;
-        address: string;
+        user: {
+            firstName: string;
+            lastName: string;
+        };
     };
     beneficiary?: {
-        id: string;
-        name: string;
+        firstName: string;
+        lastName: string;
+        email: string;
     } | null;
 }
 

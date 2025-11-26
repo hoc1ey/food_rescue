@@ -7,6 +7,48 @@
   gap: var(--spacing-lg);
 }
 
+/* Indicador de estado WebSocket */
+.websocket-status {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.websocket-status.connected {
+  background-color: #D1FAE5;
+  color: #065F46;
+  border: 1px solid #6EE7B7;
+}
+
+.websocket-status.disconnected {
+  background-color: #FEF3C7;
+  color: #92400E;
+  border: 1px solid #FCD34D;
+}
+
+.websocket-status .status-icon {
+  width: 16px;
+  height: 16px;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
+}
+
 /* Estilo general para las tarjetas */
 .card {
   background-color: var(--color-white);

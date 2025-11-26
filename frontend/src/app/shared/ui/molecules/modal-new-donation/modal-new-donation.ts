@@ -41,7 +41,7 @@ export class ModalNewDonationComponent {
 
   donationForm = this.fb.group({
     productName: ['', [Validators.required, Validators.maxLength(100)]],
-    quantity: [null as number | null, [Validators.required, Validators.min(0.1)]],
+    quantity: [null as number | null, [Validators.required, Validators.min(1)]],
     unit: ['unidades', Validators.required]
   });
 
@@ -50,12 +50,17 @@ export class ModalNewDonationComponent {
     if (control?.touched && control?.errors) {
       if (control.errors['required']) return 'Este campo es obligatorio';
       if (control.errors['maxLength']) return 'Máximo 100 caracteres';
-      if (control.errors['min']) return 'La cantidad debe ser mayor a 0';
+      if (control.errors['min']) return 'La cantidad debe ser al menos 1';
     }
     return null;
   }
 
   onClose() {
+    this.donationForm.reset({
+      productName: '',
+      quantity: null,
+      unit: 'unidades'
+    });
     this.close.emit();
   }
 
@@ -66,10 +71,20 @@ export class ModalNewDonationComponent {
     }
 
     const formValue = this.donationForm.value;
-    this.submit.emit({
+    const donationData = {
       productName: formValue.productName!,
       quantity: formValue.quantity!,
       unit: formValue.unit!
+    };
+
+    console.log('📤 Enviando donación:', donationData);
+    this.submit.emit(donationData);
+
+    // Resetear el formulario después de enviar
+    this.donationForm.reset({
+      productName: '',
+      quantity: null,
+      unit: 'unidades'
     });
   }
 }
