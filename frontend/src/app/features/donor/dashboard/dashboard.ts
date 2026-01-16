@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, OnDestroy } from '@angular/core';
+import { Component, inject, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AppHeaderComponent } from '../../../shared/ui/molecules/app-header/app-header';
@@ -7,10 +7,13 @@ import { ButtonComponent } from '../../../shared/ui/atoms/button/button';
 import { CardDonationComponent, type Donation } from '../../../shared/ui/molecules/card-donation/card-donation';
 import { CardScheduleComponent, type ScheduleData } from '../../../shared/ui/molecules/card-schedule/card-schedule';
 import { ModalNewDonationComponent, type NewDonationData } from '../../../shared/ui/molecules/modal-new-donation/modal-new-donation';
+import { TabGroupComponent } from '../../../shared/ui/molecules/tab-group/tab-group';
+import { ToastContainerComponent } from '../../../shared/ui/atoms/toast/toast-container';
 import { LucideIconsModule } from '../../../shared/lucide-icons.module';
 import { DonationsService, type DonationResponse } from '../../../core/services/donations';
 import { AuthService } from '../../../core/services/auth';
 import { WebSocketService } from '../../../core/services/websocket.service';
+import { ToastService } from '../../../core/services/toast.service';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
@@ -25,6 +28,8 @@ import { filter } from 'rxjs/operators';
     CardDonationComponent,
     CardScheduleComponent,
     ModalNewDonationComponent,
+    TabGroupComponent,
+    ToastContainerComponent,
     LucideIconsModule
   ],
   templateUrl: './dashboard.html',
@@ -34,6 +39,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
   private router = inject(Router);
   private donationsService = inject(DonationsService);
   private authService = inject(AuthService);
+  private toastService = inject(ToastService);
+
+  @ViewChild(ToastContainerComponent) toastContainer?: ToastContainerComponent;
   private websocketService = inject(WebSocketService);
 
   // Subscripciones para limpieza
@@ -43,6 +51,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   showNewDonationModal = false;
   isLoading = false;
   errorMessage: string | null = null;
+  modalErrorMessage: string | null = null;
 
   // Estado de conexión WebSocket
   isWebSocketConnected = false;
@@ -56,6 +65,29 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   // Donaciones del donante
   donations: Donation[] = [];
+
+  // Control de filtros de donaciones
+  donationFilterTab: 'available' | 'pending' | 'delivered' = 'available';
+  donationFilterTabs = ['Disponibles', 'Pendientes', 'Entregados'];
+
+  // Donaciones filtradas según el tab activo
+  get filteredDonations(): Donation[] {
+    switch (this.donationFilterTab) {
+      case 'available':
+        return this.donations.filter(d => d.status === 'AVAILABLE');
+      case 'pending':
+        return this.donations.filter(d => d.status === 'ASSIGNED');
+      case 'delivered':
+        return this.donations.filter(d => d.status === 'DELIVERED');
+      default:
+        return this.donations;
+    }
+  }
+
+  // Contador de donaciones filtradas
+  get filteredCount(): number {
+    return this.filteredDonations.length;
+  }
 
   ngOnInit(): void {
     this.loadDonations();
@@ -71,11 +103,23 @@ export class DashboardComponent implements OnInit, OnDestroy {
    * Configurar listeners de WebSocket para actualizaciones en tiempo real
    */
   private setupWebSocketListeners(): void {
+    // Autenticar usuario en WebSocket para recibir notificaciones personales
+    const userId = this.authService.getUserId();
+    if (userId) {
+      this.websocketService.authenticate(userId);
+      console.log('🔐 Usuario autenticado en WebSocket:', userId);
+    }
+
     // Escuchar estado de conexión
     const connectionSub = this.websocketService.getConnectionStatus()
       .subscribe(isConnected => {
         this.isWebSocketConnected = isConnected;
         console.log(`WebSocket ${isConnected ? 'conectado ✅' : 'desconectado ❌'}`);
+
+        // Re-autenticar si se reconecta
+        if (isConnected && userId) {
+          this.websocketService.authenticate(userId);
+        }
       });
 
     // Escuchar cuando una donación es reclamada
@@ -102,8 +146,23 @@ export class DashboardComponent implements OnInit, OnDestroy {
         }
       });
 
+    // Escuchar notificaciones en tiempo real
+    const notificationSub = this.websocketService.onNotification()
+      .pipe(filter(notification => notification !== null))
+      .subscribe(notification => {
+        if (notification) {
+          console.log('🔔 Nueva notificación recibida:', notification);
+          this.toastContainer?.addToast({
+            type: 'info',
+            title: 'Nueva Notificación',
+            message: notification.message,
+            duration: 6000
+          });
+        }
+      });
+
     // Guardar subscripciones para limpiar después
-    this.subscriptions.push(connectionSub, claimedSub, deliveredSub);
+    this.subscriptions.push(connectionSub, claimedSub, deliveredSub, notificationSub);
   }
 
   /**
@@ -185,27 +244,42 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   onModalClose() {
     this.showNewDonationModal = false;
+    this.modalErrorMessage = null;
+  }
+
+  onDonationFilterChange(tab: string): void {
+    if (tab === 'Disponibles') {
+      this.donationFilterTab = 'available';
+    } else if (tab === 'Pendientes') {
+      this.donationFilterTab = 'pending';
+    } else if (tab === 'Entregados') {
+      this.donationFilterTab = 'delivered';
+    }
   }
 
   onDonationSubmit(data: NewDonationData) {
     console.log('📝 Datos recibidos del modal:', data);
     this.isLoading = true;
-    this.errorMessage = null;
+    this.modalErrorMessage = null;
 
     this.donationsService.createDonation(data).subscribe({
       next: (response) => {
-        console.log('Donación creada exitosamente:', response);
+        console.log('✅ Donación creada exitosamente:', response);
         // Agregar la nueva donación a la lista
         const newDonation = this.mapDonationResponse(response.data);
         this.donations = [newDonation, ...this.donations];
 
         // Cerrar modal y resetear estado
         this.showNewDonationModal = false;
+        this.modalErrorMessage = null;
         this.isLoading = false;
+
+        // Mostrar notificación de éxito
+        this.showNotification(`Donación "${data.productName}" publicada exitosamente`);
       },
       error: (err) => {
-        console.error('Error al crear donación:', err);
-        this.errorMessage = 'No se pudo crear la donación. Verifica tu sesión.';
+        console.error('❌ Error al crear donación:', err);
+        this.modalErrorMessage = 'No se pudo crear la donación. Verifica tu sesión e intenta nuevamente.';
         this.isLoading = false;
         // Mantener el modal abierto para que el usuario pueda reintentar
       }

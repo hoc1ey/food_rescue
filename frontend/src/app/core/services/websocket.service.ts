@@ -2,6 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { io, Socket } from 'socket.io-client';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { DonationResponse } from './donations';
+import { NotificationResponse } from './notifications';
 
 @Injectable({
     providedIn: 'root',
@@ -17,6 +18,9 @@ export class WebSocketService {
     private donationCreated$ = new BehaviorSubject<DonationResponse | null>(null);
     private donationClaimed$ = new BehaviorSubject<DonationResponse | null>(null);
     private donationDelivered$ = new BehaviorSubject<DonationResponse | null>(null);
+
+    // Observable para notificaciones en tiempo real
+    private notification$ = new BehaviorSubject<NotificationResponse | null>(null);
 
     constructor() {
         this.connect();
@@ -41,6 +45,27 @@ export class WebSocketService {
         });
 
         this.setupEventListeners();
+    }
+
+    /**
+     * Autenticar usuario en WebSocket para recibir notificaciones personales
+     */
+    authenticate(userId: string): void {
+        if (this.socket?.connected) {
+            console.log('🔐 Autenticando usuario en WebSocket:', userId);
+            this.socket.emit('authenticate', userId);
+
+            // Escuchar confirmación de autenticación
+            this.socket.once('authenticated', (response: any) => {
+                console.log('✅ Usuario autenticado en WebSocket:', response);
+            });
+        } else {
+            console.warn('⚠️ No se puede autenticar: Socket no conectado');
+            // Reintentar autenticación cuando se conecte
+            this.socket?.once('connect', () => {
+                this.authenticate(userId);
+            });
+        }
     }
 
     /**
@@ -79,6 +104,12 @@ export class WebSocketService {
         this.socket.on('donation:delivered', (data: DonationResponse) => {
             console.log('✅ [WebSocket] Donación entregada:', data);
             this.donationDelivered$.next(data);
+        });
+
+        // Eventos de notificaciones en tiempo real
+        this.socket.on('notification:new', (data: NotificationResponse) => {
+            console.log('🔔 [WebSocket] Nueva notificación:', data);
+            this.notification$.next(data);
         });
     }
 
@@ -120,6 +151,13 @@ export class WebSocketService {
      */
     onDonationDelivered(): Observable<DonationResponse | null> {
         return this.donationDelivered$.asObservable();
+    }
+
+    /**
+     * Escuchar notificaciones en tiempo real
+     */
+    onNotification(): Observable<NotificationResponse | null> {
+        return this.notification$.asObservable();
     }
 
     /**

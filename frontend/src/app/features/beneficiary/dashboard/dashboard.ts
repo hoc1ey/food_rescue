@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, OnDestroy } from '@angular/core';
+import { Component, inject, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AppHeaderComponent } from '../../../shared/ui/molecules/app-header/app-header';
@@ -6,10 +6,14 @@ import { NotificationBannerComponent } from '../../../shared/ui/molecules/notifi
 import { CardHeaderComponent } from '../../../shared/ui/molecules/card-header/card-header';
 import { CardDonationComponent, type Donation } from '../../../shared/ui/molecules/card-donation/card-donation';
 import { ButtonComponent } from '../../../shared/ui/atoms/button/button';
+import { TabGroupComponent } from '../../../shared/ui/molecules/tab-group/tab-group';
+import { ToastContainerComponent } from '../../../shared/ui/atoms/toast/toast-container';
 import { LucideIconsModule } from '../../../shared/lucide-icons.module';
 import { DonationsService, type DonationResponse } from '../../../core/services/donations';
+import { NotificationsService, type NotificationResponse } from '../../../core/services/notifications';
 import { AuthService } from '../../../core/services/auth';
 import { WebSocketService } from '../../../core/services/websocket.service';
+import { ToastService } from '../../../core/services/toast.service';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
@@ -23,6 +27,8 @@ import { filter } from 'rxjs/operators';
     CardHeaderComponent,
     CardDonationComponent,
     ButtonComponent,
+    TabGroupComponent,
+    ToastContainerComponent,
     LucideIconsModule
   ],
   templateUrl: './dashboard.html',
@@ -31,30 +37,67 @@ import { filter } from 'rxjs/operators';
 export class DashboardComponent implements OnInit, OnDestroy {
   private router = inject(Router);
   private donationsService = inject(DonationsService);
+  private notificationsService = inject(NotificationsService);
   private authService = inject(AuthService);
   private websocketService = inject(WebSocketService);
+  private toastService = inject(ToastService);
+
+  @ViewChild(ToastContainerComponent) toastContainer?: ToastContainerComponent;
 
   // Subscripciones para limpieza
   private subscriptions: Subscription[] = [];
 
-  notificationCount = 1;
   isLoading = false;
   errorMessage: string | null = null;
+
+  // Notificaciones
+  notifications: NotificationResponse[] = [];
+  loadingNotifications = false;
 
   // Estado de conexión WebSocket
   isWebSocketConnected = false;
 
-  // Donaciones disponibles para reclamar
-  availableDonations: Donation[] = [];
+  // Todas las donaciones del beneficiario (disponibles y reclamadas)
+  allDonations: Donation[] = [];
 
-  // Getter para contar solo las donaciones con estado AVAILABLE
+  // Control de filtros
+  donationFilterTab: 'available' | 'pending' | 'delivered' = 'available';
+  donationFilterTabs = ['Disponibles', 'Pendientes', 'Entregadas'];
+
+  // Donaciones filtradas según el tab activo
+  get filteredDonations(): Donation[] {
+    switch (this.donationFilterTab) {
+      case 'available':
+        return this.allDonations.filter(d => d.status === 'AVAILABLE');
+      case 'pending':
+        return this.allDonations.filter(d => d.status === 'ASSIGNED');
+      case 'delivered':
+        return this.allDonations.filter(d => d.status === 'DELIVERED');
+      default:
+        return this.allDonations;
+    }
+  }
+
+  // Contador de donaciones filtradas
+  get filteredCount(): number {
+    return this.filteredDonations.length;
+  }
+
+  // Getter para contar solo las donaciones con estado AVAILABLE (para el banner)
   get availableCount(): number {
-    return this.availableDonations.filter(d => d.status === 'AVAILABLE').length;
+    return this.allDonations.filter(d => d.status === 'AVAILABLE').length;
+  }
+
+  // Contador de notificaciones no leídas
+  get unreadNotificationsCount(): number {
+    return this.notifications.filter(n => !n.isRead).length;
   }
 
   ngOnInit(): void {
     this.loadAvailableDonations();
     this.setupWebSocketListeners();
+    // Cargar notificaciones en segundo plano
+    this.loadNotifications();
   }
 
   ngOnDestroy(): void {
@@ -66,11 +109,23 @@ export class DashboardComponent implements OnInit, OnDestroy {
    * Configurar listeners de WebSocket para actualizaciones en tiempo real
    */
   private setupWebSocketListeners(): void {
+    // Autenticar usuario en WebSocket para recibir notificaciones personales
+    const userId = this.authService.getUserId();
+    if (userId) {
+      this.websocketService.authenticate(userId);
+      console.log('🔐 Usuario autenticado en WebSocket:', userId);
+    }
+
     // Escuchar estado de conexión
     const connectionSub = this.websocketService.getConnectionStatus()
       .subscribe(isConnected => {
         this.isWebSocketConnected = isConnected;
         console.log(`WebSocket ${isConnected ? 'conectado ✅' : 'desconectado ❌'}`);
+
+        // Re-autenticar si se reconecta
+        if (isConnected && userId) {
+          this.websocketService.authenticate(userId);
+        }
       });
 
     // Escuchar cuando se crea una nueva donación
@@ -82,8 +137,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
           this.addNewDonationToList(donation);
           // Mostrar notificación al usuario
           this.showNotification(`Nueva donación disponible: ${donation.productName}`);
-          // Incrementar contador de notificaciones
-          this.notificationCount++;
         }
       });
 
@@ -107,8 +160,18 @@ export class DashboardComponent implements OnInit, OnDestroy {
         }
       });
 
+    // Escuchar notificaciones en tiempo real
+    const notificationSub = this.websocketService.onNotification()
+      .pipe(filter(notification => notification !== null))
+      .subscribe(notification => {
+        if (notification) {
+          console.log('🔔 Nueva notificación recibida:', notification);
+          this.handleNewNotification(notification);
+        }
+      });
+
     // Guardar subscripciones para limpiar después
-    this.subscriptions.push(connectionSub, createdSub, claimedSub, deliveredSub);
+    this.subscriptions.push(connectionSub, createdSub, claimedSub, deliveredSub, notificationSub);
   }
 
   /**
@@ -116,10 +179,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
    */
   private addNewDonationToList(newDonation: DonationResponse): void {
     // Verificar si ya existe para evitar duplicados
-    const exists = this.availableDonations.some(d => d.id === newDonation.id);
+    const exists = this.allDonations.some(d => d.id === newDonation.id);
     if (!exists) {
       // Agregar al inicio de la lista
-      this.availableDonations.unshift(this.mapDonationResponse(newDonation));
+      this.allDonations.unshift(this.mapDonationResponse(newDonation));
     }
   }
 
@@ -127,10 +190,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
    * Actualizar una donación en la lista cuando se recibe un evento
    */
   private updateDonationInList(updatedDonation: DonationResponse): void {
-    const index = this.availableDonations.findIndex(d => d.id === updatedDonation.id);
+    const index = this.allDonations.findIndex(d => d.id === updatedDonation.id);
     if (index !== -1) {
       // Actualizar la donación existente
-      this.availableDonations[index] = this.mapDonationResponse(updatedDonation);
+      this.allDonations[index] = this.mapDonationResponse(updatedDonation);
     }
   }
 
@@ -138,7 +201,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
    * Remover una donación de la lista
    */
   private removeDonationFromList(donationId: string): void {
-    this.availableDonations = this.availableDonations.filter(d => d.id !== donationId);
+    this.allDonations = this.allDonations.filter(d => d.id !== donationId);
   }
 
   /**
@@ -163,11 +226,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.donationsService.getDonations().subscribe({
       next: (response) => {
         // Mapear la respuesta del backend al formato de las tarjetas
-        this.availableDonations = response.data.map(donation => this.mapDonationResponse(donation));
+        this.allDonations = response.data.map(donation => this.mapDonationResponse(donation));
         this.isLoading = false;
-
-        // Actualizar contador de notificaciones con donaciones nuevas
-        this.notificationCount = this.availableDonations.filter(d => d.status === 'AVAILABLE').length;
       },
       error: (err) => {
         console.error('Error al cargar donaciones:', err);
@@ -211,24 +271,109 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     this.donationsService.claimDonation(donation.id).subscribe({
       next: (response) => {
-        console.log('Donación reclamada exitosamente:', response);
+        console.log('✅ Donación reclamada exitosamente:', response);
 
         // Actualizar el estado de la donación en la lista
-        const index = this.availableDonations.findIndex(d => d.id === donation.id);
+        const index = this.allDonations.findIndex(d => d.id === donation.id);
         if (index !== -1) {
-          this.availableDonations[index].status = 'ASSIGNED';
-        }
-
-        // Decrementar el contador de notificaciones ya que ya no está disponible
-        if (this.notificationCount > 0) {
-          this.notificationCount--;
+          this.allDonations[index].status = 'ASSIGNED';
         }
 
         this.isLoading = false;
+
+        // Mostrar notificación de éxito
+        this.showNotification(`Donación "${donation.productName}" reclamada exitosamente`);
       },
       error: (err) => {
-        console.error('Error al reclamar donación:', err);
+        console.error('❌ Error al reclamar donación:', err);
         this.errorMessage = 'No se pudo reclamar la donación. Puede que ya no esté disponible.';
+        this.isLoading = false;
+      }
+    });
+  }
+
+  // --- Cargar notificaciones en segundo plano ---
+  private loadNotifications(): void {
+    this.loadingNotifications = true;
+    this.notificationsService.getNotifications().subscribe({
+      next: (response) => {
+        this.notifications = response.data;
+        this.loadingNotifications = false;
+      },
+      error: (err) => {
+        console.error('Error al cargar notificaciones:', err);
+        this.loadingNotifications = false;
+      }
+    });
+  }
+
+  // --- Métodos para filtrado de donaciones ---
+  onDonationFilterChange(tab: string): void {
+    if (tab === 'Disponibles') {
+      this.donationFilterTab = 'available';
+    } else if (tab === 'Pendientes') {
+      this.donationFilterTab = 'pending';
+    } else if (tab === 'Entregadas') {
+      this.donationFilterTab = 'delivered';
+    }
+  }
+
+  /**
+   * Manejar nueva notificación recibida vía WebSocket
+   */
+  private handleNewNotification(notification: NotificationResponse): void {
+    // Agregar a la lista de notificaciones
+    this.notifications.unshift(notification);
+
+    // Mostrar toast según el tipo
+    const toastTitle = this.getNotificationTitle(notification.type);
+    this.toastContainer?.addToast({
+      type: this.getNotificationToastType(notification.type),
+      title: toastTitle,
+      message: notification.message,
+      duration: 6000
+    });
+  }
+
+  private getNotificationTitle(type: string): string {
+    switch (type) {
+      case 'DONATION_CREATED':
+        return 'Nueva Donación';
+      case 'DONATION_CLAIMED':
+        return 'Donación Reclamada';
+      case 'DONATION_DELIVERED':
+        return 'Donación Entregada';
+      default:
+        return 'Notificación';
+    }
+  }
+
+  private getNotificationToastType(type: string): 'success' | 'info' | 'warning' | 'error' {
+    switch (type) {
+      case 'DONATION_CREATED':
+        return 'info';
+      case 'DONATION_CLAIMED':
+        return 'warning';
+      case 'DONATION_DELIVERED':
+        return 'success';
+      default:
+        return 'info';
+    }
+  }
+
+  // --- Métodos para Confirmación ---
+  onConfirmDonation(donationId: string): void {
+    this.isLoading = true;
+    this.donationsService.confirmDonation(donationId).subscribe({
+      next: (response) => {
+        console.log('\u2705 Donaci\u00f3n confirmada:', response);
+        this.updateDonationInList(response.data);
+        this.isLoading = false;
+        this.showNotification(`Donaci\u00f3n \"${response.data.productName}\" confirmada exitosamente`);
+      },
+      error: (err) => {
+        console.error('\u274c Error al confirmar donaci\u00f3n:', err);
+        this.errorMessage = 'No se pudo confirmar la donaci\u00f3n';
         this.isLoading = false;
       }
     });

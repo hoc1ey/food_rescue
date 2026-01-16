@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, inject } from '@angular/core';
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ButtonComponent } from '../../atoms/button/button';
@@ -27,6 +27,8 @@ export interface NewDonationData {
 export class ModalNewDonationComponent {
   private fb = inject(FormBuilder);
 
+  @Input() errorMessage: string | null = null;
+  @Input() isLoading: boolean = false;
   @Output() close = new EventEmitter<void>();
   @Output() submit = new EventEmitter<NewDonationData>();
 

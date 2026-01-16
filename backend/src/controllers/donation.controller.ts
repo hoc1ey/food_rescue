@@ -71,8 +71,10 @@ export const createDonation = async (req: Request, res: Response) => {
       beneficiaryCount: beneficiaries.length
     });
 
+    const io = getIO();
+
     for (const beneficiary of beneficiaries) {
-      await prisma.notification.create({
+      const notification = await prisma.notification.create({
         data: {
           message: `New donation available: ${productName}`,
           type: 'DONATION_CREATED',
@@ -80,14 +82,31 @@ export const createDonation = async (req: Request, res: Response) => {
           donationId: donation.id
         }
       });
+
+      // Emit notification to specific user
+      logger.info('Emitting notification:new event', {
+        userId: beneficiary.userId,
+        notificationId: notification.id,
+        donationId: donation.id
+      });
+
+      io.to(beneficiary.userId).emit('notification:new', {
+        id: notification.id,
+        message: notification.message,
+        type: notification.type,
+        isRead: notification.isRead,
+        createdAt: notification.createdAt,
+        userId: notification.userId,
+        donationId: notification.donationId
+      });
     }
 
     // Emit WebSocket event
-    logger.websocket('Emitting donation:created event', 'broadcast', {
+    logger.info('Emitting donation:created event', {
+      target: 'broadcast',
       donationId: donation.id
     });
 
-    const io = getIO();
     io.emit('donation:created', donation);
 
     return sendSuccess(res, 'Donation created successfully', donation);
@@ -258,7 +277,8 @@ export const claimDonation = async (req: Request, res: Response) => {
     });
 
     // Emit WebSocket events
-    logger.websocket('Emitting donation:claimed event', 'broadcast', {
+    logger.info('Emitting donation:claimed event', {
+      target: 'broadcast',
       donationId: id
     });
 
@@ -394,7 +414,8 @@ export const confirmDonation = async (req: Request, res: Response) => {
       logger.info('Donation delivered successfully', { donationId: id });
 
       // Emit WebSocket event
-      logger.websocket('Emitting donation:delivered event', 'broadcast', {
+      logger.info('Emitting donation:delivered event', {
+        target: 'broadcast',
         donationId: id
       });
 
