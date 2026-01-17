@@ -1,16 +1,5 @@
 import { NgModule } from '@angular/core';
-import {
-  LucideAngularModule,
-  Info,
-  Package,
-  Search,
-  Clock,
-  Bell,
-  Plus,
-  Calendar,
-  Building,
-  MapPin
-} from 'lucide-angular';
+import { LucideAngularModule, Info, Package, Search, Clock, Bell, MapPin, Plus, Calendar } from 'lucide-angular';
 
 @NgModule({
   // Importa y configura los iconos aquí
@@ -21,10 +10,9 @@ import {
       Search,
       Clock,
       Bell,
+      MapPin,
       Plus,
-      Calendar,
-      Building,
-      MapPin
+      Calendar
     })
   ],
   exports: [

@@ -1,61 +1,89 @@
-<app-header
-  title="Dashboard de Donante"
+<app-toast-container></app-toast-container>
+
+<app-header 
+  title="Dashboard de Donante" 
+  subtitle="KFC Calle Mayor"
   theme="donor"
   (logoutClick)="handleLogout()">
 </app-header>
 
 <main class="dashboard-content">
+  <!-- Tarjeta de Horario -->
+  <app-card-schedule 
+    [scheduleData]="scheduleData" 
+    [theme]="'donor'">
+  </app-card-schedule>
 
-  <div class="card">
-    <app-card-header
-      title="Mi Horario y Picos de Donación"
-      icon="calendar"
-      theme="donor">
-    </app-card-header>
-
-    <div class="card-body">
-      <p class="helper-text">Esta información ayuda a los beneficiarios a planificar mejor sus recogidas</p>
-
-      <div class="form-row">
-        <div class="form-group">
-          <label>Días de la Semana</label>
-          <input type="text" class="input-base" [value]="schedule.days" readonly>
-        </div>
-        <div class="form-group">
-          <label>Horario Preferente</label>
-          <div class="input-with-icon">
-             <lucide-icon name="clock" class="input-icon"></lucide-icon>
-             <input type="text" class="input-base pl-icon" [value]="schedule.time" readonly>
-          </div>
-        </div>
-      </div>
-
-      <div class="form-group mt-md">
-        <label>Notas / Picos Habituales</label>
-        <input type="text" class="input-base" [value]="schedule.notes" readonly>
-      </div>
-    </div>
-  </div>
-
-  <div class="action-container">
+  <div class="new-donation-action">
     <app-button (click)="onNewDonation()" theme="donor">
-      <lucide-icon name="plus" style="width: 25px;"></lucide-icon>
+      <lucide-icon name="plus" class="button-icon"></lucide-icon>
       Publicar Nueva Donación
     </app-button>
   </div>
 
-  <section class="donations-section">
-    <div class="section-header">
-      <h2 class="section-title">Mis Donaciones Publicadas</h2>
-      <span class="total-label">Total: {{ recentDonations.length }} donación</span>
+  <!-- Tarjeta de Donaciones Publicadas -->
+  <div class="card">
+    <div class="card-header-with-count">
+      <app-card-header 
+        title="Mis Donaciones Publicadas" 
+        icon="package" 
+        theme="donor">
+      </app-card-header>
+      <span class="donation-count">Total: {{ donations.length }} donación{{ donations.length !== 1 ? 'es' : '' }}</span>
     </div>
 
-    <div class="donations-grid">
-      <app-donation-card
-        *ngFor="let item of recentDonations"
-        [donation]="item">
-      </app-donation-card>
+    <!-- Tabs de filtrado -->
+    <div class="card-tabs">
+      <app-tab-group
+        [tabs]="donationFilterTabs"
+        [theme]="'donor'"
+        (tabChange)="onDonationFilterChange($event)">
+      </app-tab-group>
     </div>
-  </section>
+    
+    <div class="card-body">
+      <!-- Mensaje de error -->
+      <div *ngIf="errorMessage" class="error-message">
+        <lucide-icon name="info" class="error-icon"></lucide-icon>
+        <p>{{ errorMessage }}</p>
+      </div>
 
+      <!-- Estado de carga -->
+      <div *ngIf="isLoading" class="loading-state">
+        <p>Cargando donaciones...</p>
+      </div>
+
+      <!-- Contador de donaciones filtradas -->
+      <div *ngIf="!isLoading && !errorMessage" class="filter-counter">
+        <lucide-icon name="filter" class="filter-icon"></lucide-icon>
+        <span>{{ filteredCount }} donación{{ filteredCount !== 1 ? 'es' : '' }}</span>
+      </div>
+
+      <!-- Lista de donaciones -->
+      <div *ngIf="!isLoading && !errorMessage" class="donations-grid">
+        <app-card-donation 
+          *ngFor="let donation of filteredDonations" 
+          [donation]="donation"
+          [theme]="'donor'">
+        </app-card-donation>
+
+        <!-- Mensaje cuando no hay donaciones -->
+        <div *ngIf="filteredDonations.length === 0" class="empty-state">
+          <p *ngIf="donationFilterTab === 'available'">No tienes donaciones disponibles.</p>
+          <p *ngIf="donationFilterTab === 'pending'">No tienes donaciones pendientes de entrega.</p>
+          <p *ngIf="donationFilterTab === 'delivered'">No tienes donaciones entregadas.</p>
+          <p class="empty-subtitle" *ngIf="donations.length === 0">Haz clic en "Publicar Nueva Donación" para comenzar.</p>
+        </div>
+      </div>
+    </div>
+  </div>
 </main>
+
+<!-- Modal de Nueva Donación -->
+<app-modal-new-donation
+  *ngIf="showNewDonationModal"
+  [errorMessage]="modalErrorMessage"
+  [isLoading]="isLoading"
+  (close)="onModalClose()"
+  (submit)="onDonationSubmit($event)">
+</app-modal-new-donation>

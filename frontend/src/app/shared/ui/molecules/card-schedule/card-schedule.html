@@ -1,0 +1,39 @@
+<div class="schedule-card">
+  <app-card-header 
+    title="Mi Horario y Picos de Donación" 
+    icon="calendar" 
+    [theme]="theme">
+  </app-card-header>
+  
+  <p class="card-subtitle">Esta información ayuda a los beneficiarios a planificar mejor sus recogidas</p>
+  
+  <div class="card-body">
+    <div class="schedule-grid">
+      <!-- Días de la Semana -->
+      <div class="form-group">
+        <label class="form-label">Días de la Semana</label>
+        <div class="input-display">
+          <lucide-icon name="calendar" class="input-icon"></lucide-icon>
+          <span class="input-text">{{ scheduleData.days }}</span>
+        </div>
+      </div>
+
+      <!-- Horario Preferente -->
+      <div class="form-group">
+        <label class="form-label">Horario Preferente</label>
+        <div class="input-display">
+          <lucide-icon name="clock" class="input-icon"></lucide-icon>
+          <span class="input-text">{{ scheduleData.preferredTime }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Notas / Picos Habituales -->
+    <div class="form-group full-width">
+      <label class="form-label">Notas / Picos Habituales</label>
+      <div class="textarea-display">
+        <span class="textarea-text">{{ scheduleData.notes }}</span>
+      </div>
+    </div>
+  </div>
+</div>
