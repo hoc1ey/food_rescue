@@ -1,0 +1,73 @@
+<div class="notification-list">
+  <!-- Header -->
+  <div class="notification-header">
+    <div class="header-title">
+      <lucide-icon [img]="Bell" [size]="20"></lucide-icon>
+      <h3>Notificaciones</h3>
+      <span *ngIf="unreadCount > 0" class="unread-badge">{{ unreadCount }}</span>
+    </div>
+    <button 
+      *ngIf="hasUnread" 
+      class="mark-all-read-btn"
+      (click)="markAllAsRead()"
+      title="Marcar todas como leídas">
+      <lucide-icon [img]="CheckCheck" [size]="16"></lucide-icon>
+    </button>
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="loading" class="notification-loading">
+    <div class="loading-spinner"></div>
+    <p>Cargando notificaciones...</p>
+  </div>
+
+  <!-- Error -->
+  <div *ngIf="error && !loading" class="notification-error">
+    <p>{{ error }}</p>
+    <button (click)="loadNotifications()">Reintentar</button>
+  </div>
+
+  <!-- Empty State -->
+  <div *ngIf="!loading && !error && notifications.length === 0" class="notification-empty">
+    <lucide-icon [img]="Bell" [size]="48"></lucide-icon>
+    <p>No tienes notificaciones</p>
+  </div>
+
+  <!-- Notification List -->
+  <div *ngIf="!loading && !error && notifications.length > 0" class="notification-items">
+    <div 
+      *ngFor="let notification of notifications"
+      class="notification-item"
+      [class.unread]="!notification.isRead"
+      [ngClass]="getNotificationClass(notification.type)">
+      
+      <!-- Icon -->
+      <div class="notification-icon">
+        {{ getNotificationIcon(notification.type) }}
+      </div>
+
+      <!-- Content -->
+      <div class="notification-content">
+        <p class="notification-message">{{ notification.message }}</p>
+        <span class="notification-time">{{ getTimeAgo(notification.createdAt) }}</span>
+      </div>
+
+      <!-- Actions -->
+      <div class="notification-actions">
+        <button 
+          *ngIf="!notification.isRead"
+          class="action-btn mark-read"
+          (click)="markAsRead(notification.id)"
+          title="Marcar como leída">
+          <lucide-icon [img]="Check" [size]="16"></lucide-icon>
+        </button>
+        <button 
+          class="action-btn delete"
+          (click)="deleteNotification(notification.id)"
+          title="Eliminar">
+          <lucide-icon [img]="Trash2" [size]="16"></lucide-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

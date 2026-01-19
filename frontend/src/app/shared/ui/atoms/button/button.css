@@ -7,9 +7,13 @@
   font-weight: 600;
   width: 100%;
   transition: background-color 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-xs);
 }
 
-.btn:disabled { 
-  opacity: 0.6; 
-  cursor: not-allowed; 
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }

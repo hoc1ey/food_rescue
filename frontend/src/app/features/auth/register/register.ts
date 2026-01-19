@@ -70,12 +70,12 @@ export class RegisterComponent {
     if (control.hasError('required')) return 'Este campo es obligatorio.';
     if (control.hasError('email')) return 'El formato del email es incorrecto.';
     if (control.hasError('minlength')) return 'La contraseña debe tener al menos 8 caracteres.';
-    
+
     // Error para el grupo de formulario
     if (controlName === 'confirmPassword' && this.registerForm.hasError('passwordMismatch')) {
       return 'Las contraseñas no coinciden.';
     }
-    
+
     return null;
   }
 }

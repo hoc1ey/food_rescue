@@ -1,9 +1,38 @@
 <header class="app-header" [ngClass]="'theme-' + theme">
-  <h1 class="header-title">{{ title }}</h1>
+  <div class="header-left">
+    <h1 class="header-title">{{ title }}</h1>
+    <p *ngIf="subtitle" class="header-subtitle">{{ subtitle }}</p>
+  </div>
   <div class="header-actions">
-    <!-- Usamos un tema 'neutral' o 'secondary' que crearemos para el botón -->
+    <!-- Botón de notificaciones -->
+    <div class="notification-wrapper">
+      <button 
+        class="notification-btn"
+        (click)="toggleNotificationPanel()"
+        [class.has-unread]="unreadCount > 0">
+        <lucide-icon [img]="Bell" [size]="20"></lucide-icon>
+        <span *ngIf="unreadCount > 0" class="notification-badge">{{ unreadCount }}</span>
+      </button>
+      
+      <!-- Panel de notificaciones -->
+      <div 
+        *ngIf="showNotificationPanel" 
+        class="notification-panel-wrapper"
+        (click)="$event.stopPropagation()">
+        <app-notification-list></app-notification-list>
+      </div>
+    </div>
+
+    <!-- Botón de cerrar sesión -->
     <app-button (click)="onLogout()" [theme]="'neutral'">
       Cerrar Sesión
     </app-button>
   </div>
 </header>
+
+<!-- Overlay para cerrar el panel al hacer clic fuera -->
+<div 
+  *ngIf="showNotificationPanel" 
+  class="notification-overlay"
+  (click)="closeNotificationPanel()">
+</div>

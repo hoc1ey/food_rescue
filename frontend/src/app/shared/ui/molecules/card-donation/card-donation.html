@@ -1,0 +1,34 @@
+<div class="donation-card" [ngClass]="'theme-' + theme">
+  <div class="card-header-row">
+    <h3 class="donation-title">{{ donation.quantity }} {{ donation.productName }}</h3>
+    <span class="status-badge" [ngClass]="getStatusClass(donation.status)">
+      {{ getStatusLabel(donation.status) }}
+    </span>
+  </div>
+
+  <div class="card-info">
+    <div class="info-item">
+      <lucide-icon name="map-pin" class="info-icon"></lucide-icon>
+      <span class="info-text">{{ donation.location.name }}</span>
+    </div>
+
+    <div class="info-item">
+      <lucide-icon name="clock" class="info-icon"></lucide-icon>
+      <span class="info-text">Hoy antes de las {{ donation.pickupTime }}</span>
+    </div>
+  </div>
+
+  <div class="card-divider"></div>
+
+  <div class="card-footer">
+    <div class="footer-item">
+      <lucide-icon name="map-pin" class="footer-icon"></lucide-icon>
+      <span class="footer-text">{{ donation.location.address }}</span>
+    </div>
+  </div>
+
+  <div class="card-status-footer">
+    <span class="status-label">Estado:</span>
+    <span class="status-value">Pendiente de reclamo</span>
+  </div>
+</div>
