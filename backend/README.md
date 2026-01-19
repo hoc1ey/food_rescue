@@ -48,10 +48,11 @@ npx prisma generate
 npx prisma migrate dev --name init
 ```
 
-6. Poblar base de datos (opcional)
+6. Poblar base de datos (Recomendado)
 ```
 npm run seed
 ```  
+Esto creará usuarios de prueba y otros datos iniciales.
 
 7. Iniciar servidor
 
@@ -124,12 +125,14 @@ text
 
 ## Datos de Prueba
 
-Después de ejecutar `npm run seed`:
+Después de ejecutar `npm run seed`, puedes usar las siguientes credenciales para probar la aplicación:
 
 | Email | Password | Tipo |
 |-------|----------|------|
 | donor1@example.com | password123 | Donante |
 | beneficiary1@example.com | password123 | Beneficiario |
+
+**Nota:** La contraseña es `password123` (todo en minúsculas).
 
 ---
 
