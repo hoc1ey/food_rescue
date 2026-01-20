@@ -11,9 +11,16 @@ var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 var dataSourceBuilder = new NpgsqlDataSourceBuilder(connectionString);
-dataSourceBuilder.MapEnum<UserType>();
-dataSourceBuilder.MapEnum<Days>();
 var dataSource = dataSourceBuilder.Build();
+
+// Habilitar CORS para permitir peticiones desde Angular
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAngular",
+        policy => policy.WithOrigins("http://localhost:4200")
+                        .AllowAnyMethod()
+                        .AllowAnyHeader());
+});
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(dataSource));
@@ -24,6 +31,8 @@ builder.Services.AddServiceModelMetadata();
 builder.Services.AddTransient<UserService>();
 
 var app = builder.Build();
+app.UseRouting(); // <-- IMPORTANTE: Agregar esto antes de CORS
+app.UseCors("AllowAngular"); // Aplicar la política CORS
 
 app.UseServiceModel(serviceBuilder =>
 {

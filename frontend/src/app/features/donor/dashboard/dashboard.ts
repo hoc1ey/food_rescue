@@ -17,6 +17,11 @@ import { ToastService } from '../../../core/services/toast.service';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
+type DashboardDonation = Donation & {
+  beneficiaryConfirmed?: boolean;
+  donorConfirmed?: boolean;
+};
+
 @Component({
   selector: 'app-donor-dashboard',
   standalone: true,
@@ -49,7 +54,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   // Control del modal
   showNewDonationModal = false;
-  isLoading = false;
+  isInitialLoading = false; // Carga inicial
+  isActionLoading = false;  // Acciones (botones)
   errorMessage: string | null = null;
   modalErrorMessage: string | null = null;
 
@@ -64,14 +70,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
   };
 
   // Donaciones del donante
-  donations: Donation[] = [];
+  donations: DashboardDonation[] = [];
 
   // Control de filtros de donaciones
   donationFilterTab: 'available' | 'pending' | 'delivered' = 'available';
   donationFilterTabs = ['Disponibles', 'Pendientes', 'Entregados'];
 
   // Donaciones filtradas según el tab activo
-  get filteredDonations(): Donation[] {
+  get filteredDonations(): DashboardDonation[] {
     switch (this.donationFilterTab) {
       case 'available':
         return this.donations.filter(d => d.status === 'AVAILABLE');
@@ -172,7 +178,18 @@ export class DashboardComponent implements OnInit, OnDestroy {
     const index = this.donations.findIndex(d => d.id === updatedDonation.id);
     if (index !== -1) {
       // Actualizar la donación existente
-      this.donations[index] = this.mapDonationResponse(updatedDonation);
+      const currentDonation = this.donations[index];
+      const mappedDonation = this.mapDonationResponse(updatedDonation);
+
+      // Preservar datos de ubicación si vienen vacíos en la actualización
+      if (mappedDonation.location.name === 'Ubicación no disponible' && currentDonation.location.name !== 'Ubicación no disponible') {
+        mappedDonation.location.name = currentDonation.location.name;
+      }
+      if (mappedDonation.location.address === 'Dirección no disponible' && currentDonation.location.address !== 'Dirección no disponible') {
+        mappedDonation.location.address = currentDonation.location.address;
+      }
+
+      this.donations[index] = mappedDonation;
     } else {
       // Si no existe, agregarla (por si acaso)
       this.donations.unshift(this.mapDonationResponse(updatedDonation));
@@ -197,24 +214,48 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   loadDonations(): void {
-    this.isLoading = true;
+    this.isInitialLoading = true;
     this.errorMessage = null;
 
     this.donationsService.getDonations().subscribe({
       next: (response) => {
         // Mapear la respuesta del backend al formato de las tarjetas
         this.donations = response.data.map(donation => this.mapDonationResponse(donation));
-        this.isLoading = false;
+        this.isInitialLoading = false;
       },
       error: (err) => {
         console.error('Error al cargar donaciones:', err);
         this.errorMessage = 'No se pudieron cargar las donaciones. Intenta de nuevo.';
-        this.isLoading = false;
+        this.isInitialLoading = false;
       }
     });
   }
 
-  private mapDonationResponse(donation: DonationResponse): Donation {
+  private mapDonationResponse(donation: DonationResponse): DashboardDonation {
+    // Recuperamos los datos de ubicación del backend
+    const loc = donation.location;
+
+    let address = 'Dirección no disponible';
+    let locationName = 'Ubicación no disponible';
+
+    if (loc) {
+      // Preferimos el nombre del lugar (ej. "Casa"), si no, la ciudad
+      locationName = loc.name || loc.city?.name || 'Ubicación no disponible';
+
+      // Construimos la dirección: "Calle Principal y Calle Secundaria, Referencia"
+      const parts = [];
+      if (loc.mainStreet) parts.push(loc.mainStreet);
+      if (loc.secondaryStreet) parts.push(loc.secondaryStreet);
+
+      if (parts.length > 0) {
+        address = parts.join(' y ');
+      }
+
+      if (loc.reference) {
+        address += `, ${loc.reference}`;
+      }
+    }
+
     return {
       id: donation.id,
       productName: donation.productName,
@@ -222,9 +263,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
       unit: donation.unit,
       status: donation.status,
       location: {
-        name: donation.location?.city?.name || 'Ubicación no disponible',
-        address: donation.location?.address || 'Dirección no disponible'
+        name: locationName,
+        address: address
       },
+      donorConfirmed: donation.donorConfirmed ?? false,             // Aseguramos false si es null
+      beneficiaryConfirmed: donation.beneficiaryConfirmed ?? false, // Aseguramos false si es null
       pickupTime: new Date(donation.createdAt).toLocaleTimeString('es-ES', {
         hour: '2-digit',
         minute: '2-digit'
@@ -259,7 +302,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   onDonationSubmit(data: NewDonationData) {
     console.log('📝 Datos recibidos del modal:', data);
-    this.isLoading = true;
+    this.isActionLoading = true;
     this.modalErrorMessage = null;
 
     this.donationsService.createDonation(data).subscribe({
@@ -272,7 +315,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         // Cerrar modal y resetear estado
         this.showNewDonationModal = false;
         this.modalErrorMessage = null;
-        this.isLoading = false;
+        this.isActionLoading = false;
 
         // Mostrar notificación de éxito
         this.showNotification(`Donación "${data.productName}" publicada exitosamente`);
@@ -280,8 +323,26 @@ export class DashboardComponent implements OnInit, OnDestroy {
       error: (err) => {
         console.error('❌ Error al crear donación:', err);
         this.modalErrorMessage = 'No se pudo crear la donación. Verifica tu sesión e intenta nuevamente.';
-        this.isLoading = false;
+        this.isActionLoading = false;
         // Mantener el modal abierto para que el usuario pueda reintentar
+      }
+    });
+  }
+
+  // --- Confirmar Entrega ---
+  onConfirmDonation(donationId: string | number) {
+    this.isActionLoading = true;
+    this.donationsService.confirmDonation(String(donationId)).subscribe({
+      next: (response) => {
+        console.log('✅ Entrega confirmada:', response);
+        this.updateDonationInList(response.data);
+        this.isActionLoading = false;
+        this.showNotification(`Entrega de "${response.data.productName}" confirmada`);
+      },
+      error: (err) => {
+        console.error('❌ Error al confirmar entrega:', err);
+        this.errorMessage = 'No se pudo confirmar la entrega.';
+        this.isActionLoading = false;
       }
     });
   }

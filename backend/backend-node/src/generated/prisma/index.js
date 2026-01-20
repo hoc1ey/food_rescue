@@ -231,7 +231,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Users\\Public\\Documents\\Codes\\2025-B_Aplicaciones Web Avanzadas\\food_rescue\\backend\\backend-node\\src\\generated\\prisma",
+      "value": "C:\\Users\\Mateo\\VSCodeProjects\\awa\\food_rescue\\backend\\backend-node\\src\\generated\\prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -245,7 +245,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Users\\Public\\Documents\\Codes\\2025-B_Aplicaciones Web Avanzadas\\food_rescue\\backend\\backend-node\\prisma\\schema.prisma",
+    "sourceFilePath": "C:\\Users\\Mateo\\VSCodeProjects\\awa\\food_rescue\\backend\\backend-node\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {

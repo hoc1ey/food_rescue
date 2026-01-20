@@ -1,7 +1,7 @@
 <app-toast-container></app-toast-container>
 
-<app-header 
-  title="Dashboard de Donante" 
+<app-header
+  title="Dashboard de Donante"
   subtitle="KFC Calle Mayor"
   theme="donor"
   (logoutClick)="handleLogout()">
@@ -9,8 +9,8 @@
 
 <main class="dashboard-content">
   <!-- Tarjeta de Horario -->
-  <app-card-schedule 
-    [scheduleData]="scheduleData" 
+  <app-card-schedule
+    [scheduleData]="scheduleData"
     [theme]="'donor'">
   </app-card-schedule>
 
@@ -24,9 +24,9 @@
   <!-- Tarjeta de Donaciones Publicadas -->
   <div class="card">
     <div class="card-header-with-count">
-      <app-card-header 
-        title="Mis Donaciones Publicadas" 
-        icon="package" 
+      <app-card-header
+        title="Mis Donaciones Publicadas"
+        icon="package"
         theme="donor">
       </app-card-header>
       <span class="donation-count">Total: {{ donations.length }} donación{{ donations.length !== 1 ? 'es' : '' }}</span>
@@ -40,7 +40,7 @@
         (tabChange)="onDonationFilterChange($event)">
       </app-tab-group>
     </div>
-    
+
     <div class="card-body">
       <!-- Mensaje de error -->
       <div *ngIf="errorMessage" class="error-message">
@@ -49,23 +49,43 @@
       </div>
 
       <!-- Estado de carga -->
-      <div *ngIf="isLoading" class="loading-state">
+      <div *ngIf="isInitialLoading" class="loading-state">
         <p>Cargando donaciones...</p>
       </div>
 
       <!-- Contador de donaciones filtradas -->
-      <div *ngIf="!isLoading && !errorMessage" class="filter-counter">
+      <div *ngIf="!isInitialLoading && !errorMessage" class="filter-counter">
         <lucide-icon name="filter" class="filter-icon"></lucide-icon>
         <span>{{ filteredCount }} donación{{ filteredCount !== 1 ? 'es' : '' }}</span>
       </div>
 
       <!-- Lista de donaciones -->
-      <div *ngIf="!isLoading && !errorMessage" class="donations-grid">
-        <app-card-donation 
-          *ngFor="let donation of filteredDonations" 
-          [donation]="donation"
-          [theme]="'donor'">
-        </app-card-donation>
+      <div *ngIf="!isInitialLoading && !errorMessage" class="donations-grid">
+        <div *ngFor="let donation of filteredDonations" class="donation-wrapper">
+          <app-card-donation
+            [donation]="donation"
+            [theme]="'donor'">
+          </app-card-donation>
+
+          <div class="donation-actions">
+            <!-- Botón de Confirmar Entrega -->
+            <app-button
+              *ngIf="donation.status === 'ASSIGNED' && !donation.donorConfirmed"
+              (click)="onConfirmDonation(donation.id)"
+              theme="donor"
+              [disabled]="isActionLoading"
+              class="confirm-button">
+              <lucide-icon name="check-circle" class="button-icon"></lucide-icon>
+              Confirmar Entrega
+            </app-button>
+
+            <!-- Mensaje de espera -->
+            <div *ngIf="donation.status === 'ASSIGNED' && donation.donorConfirmed" class="waiting-status" style="display: flex; align-items: center; gap: 0.5rem; color: #f59e0b; font-weight: 500; font-size: 0.9rem;">
+              <lucide-icon name="clock" style="width: 18px; height: 18px;"></lucide-icon>
+              <span>Esperando confirmación del beneficiario</span>
+            </div>
+          </div>
+        </div>
 
         <!-- Mensaje cuando no hay donaciones -->
         <div *ngIf="filteredDonations.length === 0" class="empty-state">
@@ -83,7 +103,7 @@
 <app-modal-new-donation
   *ngIf="showNewDonationModal"
   [errorMessage]="modalErrorMessage"
-  [isLoading]="isLoading"
+  [isLoading]="isActionLoading"
   (close)="onModalClose()"
   (submit)="onDonationSubmit($event)">
 </app-modal-new-donation>
