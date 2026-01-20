@@ -1,4 +1,6 @@
 using CoreWCF;
+using System.Threading.Tasks;
+using backend_dotnet.Models;
 
 namespace backend_dotnet.Services
 {
@@ -6,6 +8,6 @@ namespace backend_dotnet.Services
     public interface IUserService
     {
         [OperationContract]
-        string RegistrarUsuario(RegistroUsuarioRequest request);
+        Task<string> RegistrarUsuario(RegistroUsuarioRequest request);
     }
 }

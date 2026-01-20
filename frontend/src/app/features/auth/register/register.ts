@@ -3,9 +3,11 @@ import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, Validatio
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../../core/services/auth';
+import { SoapRegistrationService, RegistroUsuarioSoap } from '../../../core/services/soap-registration';
 import { ButtonComponent } from '../../../shared/ui/atoms/button/button';
 import { FormFieldComponent } from '../../../shared/ui/molecules/form-field/form-field';
 import { TabGroupComponent } from '../../../shared/ui/molecules/tab-group/tab-group';
+import { User, Mail, Lock, MapPin, Home, Navigation } from 'lucide-angular';
 
 // Validador personalizado para confirmar la contraseña
 export const passwordMatchValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
@@ -31,11 +33,23 @@ export const passwordMatchValidator: ValidatorFn = (control: AbstractControl): V
 export class RegisterComponent {
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
+  private soapService = inject(SoapRegistrationService);
   private router = inject(Router);
+
+  // --- Iconos para la UI ---
+  readonly icons = {
+    user: User,
+    mail: Mail,
+    lock: Lock,
+    mapPin: MapPin,
+    home: Home,
+    navigation: Navigation
+  };
 
   // --- Lógica de Tabs ---
   userRoles = ['Donante', 'Beneficiario'];
   activeRole: 'donor' | 'beneficiary' = 'donor';
+  currentStep = 1; // Controla el paso actual (1: Datos Personales, 2: Ubicación)
 
   // --- Formulario Reactivo ---
   registerForm: FormGroup = this.fb.group({
@@ -43,11 +57,39 @@ export class RegisterComponent {
     lastName: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(8)]],
-    confirmPassword: ['', Validators.required]
+    confirmPassword: ['', Validators.required],
+    // Campos requeridos por la estructura SOAP (se llenarán si es Donante)
+    locationName: [''],
+    locationMainStreet: [''],
+    locationSecondaryStreet: [''],
+    locationReference: [''],
+    locationCityCode: ['UIO'] // Valor por defecto temporal
   }, { validators: passwordMatchValidator }); // Aplicamos el validador al grupo
 
   handleRoleChange(role: string) {
     this.activeRole = role === 'Donante' ? 'donor' : 'beneficiary';
+  }
+
+  // Avanzar al siguiente paso validando primero
+  nextStep() {
+    const step1Fields = ['firstName', 'lastName', 'email', 'password', 'confirmPassword'];
+    let isStep1Valid = true;
+
+    step1Fields.forEach(field => {
+      const control = this.registerForm.get(field);
+      if (control?.invalid) {
+        control.markAsTouched();
+        isStep1Valid = false;
+      }
+    });
+
+    if (isStep1Valid) {
+      this.currentStep = 2;
+    }
+  }
+
+  prevStep() {
+    this.currentStep = 1;
   }
 
   onSubmit() {
@@ -55,10 +97,32 @@ export class RegisterComponent {
       this.registerForm.markAllAsTouched();
       return;
     }
-    // Por ahora, solo mostraremos los datos. El siguiente paso será enviarlos.
-    console.log('Formulario válido. Datos a enviar:', {
-      ...this.registerForm.value,
-      userType: this.activeRole.toUpperCase() // DONOR o BENEFICIARY
+
+    const formValue = this.registerForm.value;
+
+    // Mapear datos al contrato SOAP
+    const datosSoap: RegistroUsuarioSoap = {
+      email: formValue.email,
+      password: formValue.password,
+      firstName: formValue.firstName,
+      lastName: formValue.lastName,
+      userType: this.activeRole.toUpperCase(),
+      locationName: formValue.locationName || '',
+      locationMainStreet: formValue.locationMainStreet || '',
+      locationSecondaryStreet: formValue.locationSecondaryStreet || '',
+      locationReference: formValue.locationReference || '',
+      locationCityCode: formValue.locationCityCode || ''
+    };
+
+    this.soapService.registrarUsuario(datosSoap).subscribe({
+      next: (response) => {
+        console.log('Respuesta del servidor SOAP:', response);
+        // Aquí puedes agregar una alerta o redirigir al login
+        if (response.includes('Éxito')) {
+          // this.router.navigate(['/login']);
+        }
+      },
+      error: (err) => console.error('Error en registro SOAP:', err)
     });
   }
 

@@ -34,20 +34,10 @@ export type Donor = $Result.DefaultSelection<Prisma.$DonorPayload>
  */
 export type Location = $Result.DefaultSelection<Prisma.$LocationPayload>
 /**
- * Model PeakHour
- * 
- */
-export type PeakHour = $Result.DefaultSelection<Prisma.$PeakHourPayload>
-/**
  * Model Beneficiary
  * 
  */
 export type Beneficiary = $Result.DefaultSelection<Prisma.$BeneficiaryPayload>
-/**
- * Model Foundation
- * 
- */
-export type Foundation = $Result.DefaultSelection<Prisma.$FoundationPayload>
 /**
  * Model Donation
  * 
@@ -58,20 +48,17 @@ export type Donation = $Result.DefaultSelection<Prisma.$DonationPayload>
  * 
  */
 export type Notification = $Result.DefaultSelection<Prisma.$NotificationPayload>
+/**
+ * Model EFMigrationsHistory
+ * 
+ */
+export type EFMigrationsHistory = $Result.DefaultSelection<Prisma.$EFMigrationsHistoryPayload>
 
 /**
  * Enums
  */
 export namespace $Enums {
-  export const UserType: {
-  DONOR: 'DONOR',
-  BENEFICIARY: 'BENEFICIARY'
-};
-
-export type UserType = (typeof UserType)[keyof typeof UserType]
-
-
-export const Days: {
+  export const Days: {
   MONDAY: 'MONDAY',
   TUESDAY: 'TUESDAY',
   WEDNESDAY: 'WEDNESDAY',
@@ -93,10 +80,6 @@ export const DonationStatus: {
 export type DonationStatus = (typeof DonationStatus)[keyof typeof DonationStatus]
 
 }
-
-export type UserType = $Enums.UserType
-
-export const UserType: typeof $Enums.UserType
 
 export type Days = $Enums.Days
 
@@ -265,16 +248,6 @@ export class PrismaClient<
   get location(): Prisma.LocationDelegate<ExtArgs, ClientOptions>;
 
   /**
-   * `prisma.peakHour`: Exposes CRUD operations for the **PeakHour** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more PeakHours
-    * const peakHours = await prisma.peakHour.findMany()
-    * ```
-    */
-  get peakHour(): Prisma.PeakHourDelegate<ExtArgs, ClientOptions>;
-
-  /**
    * `prisma.beneficiary`: Exposes CRUD operations for the **Beneficiary** model.
     * Example usage:
     * ```ts
@@ -283,16 +256,6 @@ export class PrismaClient<
     * ```
     */
   get beneficiary(): Prisma.BeneficiaryDelegate<ExtArgs, ClientOptions>;
-
-  /**
-   * `prisma.foundation`: Exposes CRUD operations for the **Foundation** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more Foundations
-    * const foundations = await prisma.foundation.findMany()
-    * ```
-    */
-  get foundation(): Prisma.FoundationDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.donation`: Exposes CRUD operations for the **Donation** model.
@@ -313,6 +276,16 @@ export class PrismaClient<
     * ```
     */
   get notification(): Prisma.NotificationDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.eFMigrationsHistory`: Exposes CRUD operations for the **EFMigrationsHistory** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more EFMigrationsHistories
+    * const eFMigrationsHistories = await prisma.eFMigrationsHistory.findMany()
+    * ```
+    */
+  get eFMigrationsHistory(): Prisma.EFMigrationsHistoryDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -758,11 +731,10 @@ export namespace Prisma {
     User: 'User',
     Donor: 'Donor',
     Location: 'Location',
-    PeakHour: 'PeakHour',
     Beneficiary: 'Beneficiary',
-    Foundation: 'Foundation',
     Donation: 'Donation',
-    Notification: 'Notification'
+    Notification: 'Notification',
+    EFMigrationsHistory: 'EFMigrationsHistory'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -781,7 +753,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "city" | "user" | "donor" | "location" | "peakHour" | "beneficiary" | "foundation" | "donation" | "notification"
+      modelProps: "city" | "user" | "donor" | "location" | "beneficiary" | "donation" | "notification" | "eFMigrationsHistory"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1081,80 +1053,6 @@ export namespace Prisma {
           }
         }
       }
-      PeakHour: {
-        payload: Prisma.$PeakHourPayload<ExtArgs>
-        fields: Prisma.PeakHourFieldRefs
-        operations: {
-          findUnique: {
-            args: Prisma.PeakHourFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PeakHourPayload> | null
-          }
-          findUniqueOrThrow: {
-            args: Prisma.PeakHourFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PeakHourPayload>
-          }
-          findFirst: {
-            args: Prisma.PeakHourFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PeakHourPayload> | null
-          }
-          findFirstOrThrow: {
-            args: Prisma.PeakHourFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PeakHourPayload>
-          }
-          findMany: {
-            args: Prisma.PeakHourFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PeakHourPayload>[]
-          }
-          create: {
-            args: Prisma.PeakHourCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PeakHourPayload>
-          }
-          createMany: {
-            args: Prisma.PeakHourCreateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          createManyAndReturn: {
-            args: Prisma.PeakHourCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PeakHourPayload>[]
-          }
-          delete: {
-            args: Prisma.PeakHourDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PeakHourPayload>
-          }
-          update: {
-            args: Prisma.PeakHourUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PeakHourPayload>
-          }
-          deleteMany: {
-            args: Prisma.PeakHourDeleteManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateMany: {
-            args: Prisma.PeakHourUpdateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateManyAndReturn: {
-            args: Prisma.PeakHourUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PeakHourPayload>[]
-          }
-          upsert: {
-            args: Prisma.PeakHourUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PeakHourPayload>
-          }
-          aggregate: {
-            args: Prisma.PeakHourAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregatePeakHour>
-          }
-          groupBy: {
-            args: Prisma.PeakHourGroupByArgs<ExtArgs>
-            result: $Utils.Optional<PeakHourGroupByOutputType>[]
-          }
-          count: {
-            args: Prisma.PeakHourCountArgs<ExtArgs>
-            result: $Utils.Optional<PeakHourCountAggregateOutputType> | number
-          }
-        }
-      }
       Beneficiary: {
         payload: Prisma.$BeneficiaryPayload<ExtArgs>
         fields: Prisma.BeneficiaryFieldRefs
@@ -1226,80 +1124,6 @@ export namespace Prisma {
           count: {
             args: Prisma.BeneficiaryCountArgs<ExtArgs>
             result: $Utils.Optional<BeneficiaryCountAggregateOutputType> | number
-          }
-        }
-      }
-      Foundation: {
-        payload: Prisma.$FoundationPayload<ExtArgs>
-        fields: Prisma.FoundationFieldRefs
-        operations: {
-          findUnique: {
-            args: Prisma.FoundationFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$FoundationPayload> | null
-          }
-          findUniqueOrThrow: {
-            args: Prisma.FoundationFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$FoundationPayload>
-          }
-          findFirst: {
-            args: Prisma.FoundationFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$FoundationPayload> | null
-          }
-          findFirstOrThrow: {
-            args: Prisma.FoundationFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$FoundationPayload>
-          }
-          findMany: {
-            args: Prisma.FoundationFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$FoundationPayload>[]
-          }
-          create: {
-            args: Prisma.FoundationCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$FoundationPayload>
-          }
-          createMany: {
-            args: Prisma.FoundationCreateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          createManyAndReturn: {
-            args: Prisma.FoundationCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$FoundationPayload>[]
-          }
-          delete: {
-            args: Prisma.FoundationDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$FoundationPayload>
-          }
-          update: {
-            args: Prisma.FoundationUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$FoundationPayload>
-          }
-          deleteMany: {
-            args: Prisma.FoundationDeleteManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateMany: {
-            args: Prisma.FoundationUpdateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateManyAndReturn: {
-            args: Prisma.FoundationUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$FoundationPayload>[]
-          }
-          upsert: {
-            args: Prisma.FoundationUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$FoundationPayload>
-          }
-          aggregate: {
-            args: Prisma.FoundationAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateFoundation>
-          }
-          groupBy: {
-            args: Prisma.FoundationGroupByArgs<ExtArgs>
-            result: $Utils.Optional<FoundationGroupByOutputType>[]
-          }
-          count: {
-            args: Prisma.FoundationCountArgs<ExtArgs>
-            result: $Utils.Optional<FoundationCountAggregateOutputType> | number
           }
         }
       }
@@ -1451,6 +1275,80 @@ export namespace Prisma {
           }
         }
       }
+      EFMigrationsHistory: {
+        payload: Prisma.$EFMigrationsHistoryPayload<ExtArgs>
+        fields: Prisma.EFMigrationsHistoryFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.EFMigrationsHistoryFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EFMigrationsHistoryPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.EFMigrationsHistoryFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EFMigrationsHistoryPayload>
+          }
+          findFirst: {
+            args: Prisma.EFMigrationsHistoryFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EFMigrationsHistoryPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.EFMigrationsHistoryFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EFMigrationsHistoryPayload>
+          }
+          findMany: {
+            args: Prisma.EFMigrationsHistoryFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EFMigrationsHistoryPayload>[]
+          }
+          create: {
+            args: Prisma.EFMigrationsHistoryCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EFMigrationsHistoryPayload>
+          }
+          createMany: {
+            args: Prisma.EFMigrationsHistoryCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.EFMigrationsHistoryCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EFMigrationsHistoryPayload>[]
+          }
+          delete: {
+            args: Prisma.EFMigrationsHistoryDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EFMigrationsHistoryPayload>
+          }
+          update: {
+            args: Prisma.EFMigrationsHistoryUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EFMigrationsHistoryPayload>
+          }
+          deleteMany: {
+            args: Prisma.EFMigrationsHistoryDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.EFMigrationsHistoryUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.EFMigrationsHistoryUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EFMigrationsHistoryPayload>[]
+          }
+          upsert: {
+            args: Prisma.EFMigrationsHistoryUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EFMigrationsHistoryPayload>
+          }
+          aggregate: {
+            args: Prisma.EFMigrationsHistoryAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateEFMigrationsHistory>
+          }
+          groupBy: {
+            args: Prisma.EFMigrationsHistoryGroupByArgs<ExtArgs>
+            result: $Utils.Optional<EFMigrationsHistoryGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.EFMigrationsHistoryCountArgs<ExtArgs>
+            result: $Utils.Optional<EFMigrationsHistoryCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1551,11 +1449,10 @@ export namespace Prisma {
     user?: UserOmit
     donor?: DonorOmit
     location?: LocationOmit
-    peakHour?: PeakHourOmit
     beneficiary?: BeneficiaryOmit
-    foundation?: FoundationOmit
     donation?: DonationOmit
     notification?: NotificationOmit
+    eFMigrationsHistory?: EFMigrationsHistoryOmit
   }
 
   /* Types for Logging */
@@ -1637,12 +1534,10 @@ export namespace Prisma {
 
   export type CityCountOutputType = {
     locations: number
-    foundations: number
   }
 
   export type CityCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     locations?: boolean | CityCountOutputTypeCountLocationsArgs
-    foundations?: boolean | CityCountOutputTypeCountFoundationsArgs
   }
 
   // Custom InputTypes
@@ -1663,13 +1558,6 @@ export namespace Prisma {
     where?: LocationWhereInput
   }
 
-  /**
-   * CityCountOutputType without action
-   */
-  export type CityCountOutputTypeCountFoundationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: FoundationWhereInput
-  }
-
 
   /**
    * Count Type UserCountOutputType
@@ -1677,12 +1565,12 @@ export namespace Prisma {
 
   export type UserCountOutputType = {
     notifications: number
-    beneficiaryDonations: number
+    claimedDonations: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     notifications?: boolean | UserCountOutputTypeCountNotificationsArgs
-    beneficiaryDonations?: boolean | UserCountOutputTypeCountBeneficiaryDonationsArgs
+    claimedDonations?: boolean | UserCountOutputTypeCountClaimedDonationsArgs
   }
 
   // Custom InputTypes
@@ -1706,7 +1594,7 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountBeneficiaryDonationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserCountOutputTypeCountClaimedDonationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: DonationWhereInput
   }
 
@@ -1756,12 +1644,10 @@ export namespace Prisma {
    */
 
   export type LocationCountOutputType = {
-    peakHours: number
     donations: number
   }
 
   export type LocationCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    peakHours?: boolean | LocationCountOutputTypeCountPeakHoursArgs
     donations?: boolean | LocationCountOutputTypeCountDonationsArgs
   }
 
@@ -1774,13 +1660,6 @@ export namespace Prisma {
      * Select specific fields to fetch from the LocationCountOutputType
      */
     select?: LocationCountOutputTypeSelect<ExtArgs> | null
-  }
-
-  /**
-   * LocationCountOutputType without action
-   */
-  export type LocationCountOutputTypeCountPeakHoursArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: PeakHourWhereInput
   }
 
   /**
@@ -1967,7 +1846,6 @@ export namespace Prisma {
     code?: boolean
     name?: boolean
     locations?: boolean | City$locationsArgs<ExtArgs>
-    foundations?: boolean | City$foundationsArgs<ExtArgs>
     _count?: boolean | CityCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["city"]>
 
@@ -1989,7 +1867,6 @@ export namespace Prisma {
   export type CityOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"code" | "name", ExtArgs["result"]["city"]>
   export type CityInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     locations?: boolean | City$locationsArgs<ExtArgs>
-    foundations?: boolean | City$foundationsArgs<ExtArgs>
     _count?: boolean | CityCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type CityIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -1999,7 +1876,6 @@ export namespace Prisma {
     name: "City"
     objects: {
       locations: Prisma.$LocationPayload<ExtArgs>[]
-      foundations: Prisma.$FoundationPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       code: string
@@ -2399,7 +2275,6 @@ export namespace Prisma {
   export interface Prisma__CityClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     locations<T extends City$locationsArgs<ExtArgs> = {}>(args?: Subset<T, City$locationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LocationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    foundations<T extends City$foundationsArgs<ExtArgs> = {}>(args?: Subset<T, City$foundationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FoundationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2843,30 +2718,6 @@ export namespace Prisma {
   }
 
   /**
-   * City.foundations
-   */
-  export type City$foundationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Foundation
-     */
-    select?: FoundationSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Foundation
-     */
-    omit?: FoundationOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: FoundationInclude<ExtArgs> | null
-    where?: FoundationWhereInput
-    orderBy?: FoundationOrderByWithRelationInput | FoundationOrderByWithRelationInput[]
-    cursor?: FoundationWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: FoundationScalarFieldEnum | FoundationScalarFieldEnum[]
-  }
-
-  /**
    * City without action
    */
   export type CityDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3073,10 +2924,10 @@ export namespace Prisma {
     userType?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    donor?: boolean | User$donorArgs<ExtArgs>
     beneficiary?: boolean | User$beneficiaryArgs<ExtArgs>
+    donor?: boolean | User$donorArgs<ExtArgs>
     notifications?: boolean | User$notificationsArgs<ExtArgs>
-    beneficiaryDonations?: boolean | User$beneficiaryDonationsArgs<ExtArgs>
+    claimedDonations?: boolean | User$claimedDonationsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -3115,10 +2966,10 @@ export namespace Prisma {
 
   export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "password" | "firstName" | "lastName" | "userType" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    donor?: boolean | User$donorArgs<ExtArgs>
     beneficiary?: boolean | User$beneficiaryArgs<ExtArgs>
+    donor?: boolean | User$donorArgs<ExtArgs>
     notifications?: boolean | User$notificationsArgs<ExtArgs>
-    beneficiaryDonations?: boolean | User$beneficiaryDonationsArgs<ExtArgs>
+    claimedDonations?: boolean | User$claimedDonationsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -3127,10 +2978,10 @@ export namespace Prisma {
   export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "User"
     objects: {
-      donor: Prisma.$DonorPayload<ExtArgs> | null
       beneficiary: Prisma.$BeneficiaryPayload<ExtArgs> | null
+      donor: Prisma.$DonorPayload<ExtArgs> | null
       notifications: Prisma.$NotificationPayload<ExtArgs>[]
-      beneficiaryDonations: Prisma.$DonationPayload<ExtArgs>[]
+      claimedDonations: Prisma.$DonationPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -3535,10 +3386,10 @@ export namespace Prisma {
    */
   export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    donor<T extends User$donorArgs<ExtArgs> = {}>(args?: Subset<T, User$donorArgs<ExtArgs>>): Prisma__DonorClient<$Result.GetResult<Prisma.$DonorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     beneficiary<T extends User$beneficiaryArgs<ExtArgs> = {}>(args?: Subset<T, User$beneficiaryArgs<ExtArgs>>): Prisma__BeneficiaryClient<$Result.GetResult<Prisma.$BeneficiaryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    donor<T extends User$donorArgs<ExtArgs> = {}>(args?: Subset<T, User$donorArgs<ExtArgs>>): Prisma__DonorClient<$Result.GetResult<Prisma.$DonorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     notifications<T extends User$notificationsArgs<ExtArgs> = {}>(args?: Subset<T, User$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    beneficiaryDonations<T extends User$beneficiaryDonationsArgs<ExtArgs> = {}>(args?: Subset<T, User$beneficiaryDonationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DonationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    claimedDonations<T extends User$claimedDonationsArgs<ExtArgs> = {}>(args?: Subset<T, User$claimedDonationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DonationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3964,25 +3815,6 @@ export namespace Prisma {
   }
 
   /**
-   * User.donor
-   */
-  export type User$donorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Donor
-     */
-    select?: DonorSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Donor
-     */
-    omit?: DonorOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: DonorInclude<ExtArgs> | null
-    where?: DonorWhereInput
-  }
-
-  /**
    * User.beneficiary
    */
   export type User$beneficiaryArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3999,6 +3831,25 @@ export namespace Prisma {
      */
     include?: BeneficiaryInclude<ExtArgs> | null
     where?: BeneficiaryWhereInput
+  }
+
+  /**
+   * User.donor
+   */
+  export type User$donorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Donor
+     */
+    select?: DonorSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Donor
+     */
+    omit?: DonorOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DonorInclude<ExtArgs> | null
+    where?: DonorWhereInput
   }
 
   /**
@@ -4026,9 +3877,9 @@ export namespace Prisma {
   }
 
   /**
-   * User.beneficiaryDonations
+   * User.claimedDonations
    */
-  export type User$beneficiaryDonationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type User$claimedDonationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Donation
      */
@@ -5397,9 +5248,8 @@ export namespace Prisma {
     reference?: boolean
     donorId?: boolean
     cityCode?: boolean
-    donor?: boolean | DonorDefaultArgs<ExtArgs>
     city?: boolean | CityDefaultArgs<ExtArgs>
-    peakHours?: boolean | Location$peakHoursArgs<ExtArgs>
+    donor?: boolean | DonorDefaultArgs<ExtArgs>
     donations?: boolean | Location$donationsArgs<ExtArgs>
     _count?: boolean | LocationCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["location"]>
@@ -5412,8 +5262,8 @@ export namespace Prisma {
     reference?: boolean
     donorId?: boolean
     cityCode?: boolean
-    donor?: boolean | DonorDefaultArgs<ExtArgs>
     city?: boolean | CityDefaultArgs<ExtArgs>
+    donor?: boolean | DonorDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["location"]>
 
   export type LocationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -5424,8 +5274,8 @@ export namespace Prisma {
     reference?: boolean
     donorId?: boolean
     cityCode?: boolean
-    donor?: boolean | DonorDefaultArgs<ExtArgs>
     city?: boolean | CityDefaultArgs<ExtArgs>
+    donor?: boolean | DonorDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["location"]>
 
   export type LocationSelectScalar = {
@@ -5440,27 +5290,25 @@ export namespace Prisma {
 
   export type LocationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "mainStreet" | "secondaryStreet" | "reference" | "donorId" | "cityCode", ExtArgs["result"]["location"]>
   export type LocationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    donor?: boolean | DonorDefaultArgs<ExtArgs>
     city?: boolean | CityDefaultArgs<ExtArgs>
-    peakHours?: boolean | Location$peakHoursArgs<ExtArgs>
+    donor?: boolean | DonorDefaultArgs<ExtArgs>
     donations?: boolean | Location$donationsArgs<ExtArgs>
     _count?: boolean | LocationCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type LocationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    donor?: boolean | DonorDefaultArgs<ExtArgs>
     city?: boolean | CityDefaultArgs<ExtArgs>
+    donor?: boolean | DonorDefaultArgs<ExtArgs>
   }
   export type LocationIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    donor?: boolean | DonorDefaultArgs<ExtArgs>
     city?: boolean | CityDefaultArgs<ExtArgs>
+    donor?: boolean | DonorDefaultArgs<ExtArgs>
   }
 
   export type $LocationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Location"
     objects: {
-      donor: Prisma.$DonorPayload<ExtArgs>
       city: Prisma.$CityPayload<ExtArgs>
-      peakHours: Prisma.$PeakHourPayload<ExtArgs>[]
+      donor: Prisma.$DonorPayload<ExtArgs>
       donations: Prisma.$DonationPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -5865,9 +5713,8 @@ export namespace Prisma {
    */
   export interface Prisma__LocationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    donor<T extends DonorDefaultArgs<ExtArgs> = {}>(args?: Subset<T, DonorDefaultArgs<ExtArgs>>): Prisma__DonorClient<$Result.GetResult<Prisma.$DonorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     city<T extends CityDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CityDefaultArgs<ExtArgs>>): Prisma__CityClient<$Result.GetResult<Prisma.$CityPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    peakHours<T extends Location$peakHoursArgs<ExtArgs> = {}>(args?: Subset<T, Location$peakHoursArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PeakHourPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    donor<T extends DonorDefaultArgs<ExtArgs> = {}>(args?: Subset<T, DonorDefaultArgs<ExtArgs>>): Prisma__DonorClient<$Result.GetResult<Prisma.$DonorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     donations<T extends Location$donationsArgs<ExtArgs> = {}>(args?: Subset<T, Location$donationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DonationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -6301,30 +6148,6 @@ export namespace Prisma {
   }
 
   /**
-   * Location.peakHours
-   */
-  export type Location$peakHoursArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the PeakHour
-     */
-    select?: PeakHourSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the PeakHour
-     */
-    omit?: PeakHourOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PeakHourInclude<ExtArgs> | null
-    where?: PeakHourWhereInput
-    orderBy?: PeakHourOrderByWithRelationInput | PeakHourOrderByWithRelationInput[]
-    cursor?: PeakHourWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: PeakHourScalarFieldEnum | PeakHourScalarFieldEnum[]
-  }
-
-  /**
    * Location.donations
    */
   export type Location$donationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6368,1111 +6191,6 @@ export namespace Prisma {
 
 
   /**
-   * Model PeakHour
-   */
-
-  export type AggregatePeakHour = {
-    _count: PeakHourCountAggregateOutputType | null
-    _avg: PeakHourAvgAggregateOutputType | null
-    _sum: PeakHourSumAggregateOutputType | null
-    _min: PeakHourMinAggregateOutputType | null
-    _max: PeakHourMaxAggregateOutputType | null
-  }
-
-  export type PeakHourAvgAggregateOutputType = {
-    id: number | null
-    locationId: number | null
-  }
-
-  export type PeakHourSumAggregateOutputType = {
-    id: number | null
-    locationId: number | null
-  }
-
-  export type PeakHourMinAggregateOutputType = {
-    id: number | null
-    startTime: string | null
-    endTime: string | null
-    note: string | null
-    locationId: number | null
-  }
-
-  export type PeakHourMaxAggregateOutputType = {
-    id: number | null
-    startTime: string | null
-    endTime: string | null
-    note: string | null
-    locationId: number | null
-  }
-
-  export type PeakHourCountAggregateOutputType = {
-    id: number
-    day: number
-    startTime: number
-    endTime: number
-    note: number
-    locationId: number
-    _all: number
-  }
-
-
-  export type PeakHourAvgAggregateInputType = {
-    id?: true
-    locationId?: true
-  }
-
-  export type PeakHourSumAggregateInputType = {
-    id?: true
-    locationId?: true
-  }
-
-  export type PeakHourMinAggregateInputType = {
-    id?: true
-    startTime?: true
-    endTime?: true
-    note?: true
-    locationId?: true
-  }
-
-  export type PeakHourMaxAggregateInputType = {
-    id?: true
-    startTime?: true
-    endTime?: true
-    note?: true
-    locationId?: true
-  }
-
-  export type PeakHourCountAggregateInputType = {
-    id?: true
-    day?: true
-    startTime?: true
-    endTime?: true
-    note?: true
-    locationId?: true
-    _all?: true
-  }
-
-  export type PeakHourAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which PeakHour to aggregate.
-     */
-    where?: PeakHourWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of PeakHours to fetch.
-     */
-    orderBy?: PeakHourOrderByWithRelationInput | PeakHourOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: PeakHourWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` PeakHours from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` PeakHours.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned PeakHours
-    **/
-    _count?: true | PeakHourCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to average
-    **/
-    _avg?: PeakHourAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: PeakHourSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: PeakHourMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: PeakHourMaxAggregateInputType
-  }
-
-  export type GetPeakHourAggregateType<T extends PeakHourAggregateArgs> = {
-        [P in keyof T & keyof AggregatePeakHour]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregatePeakHour[P]>
-      : GetScalarType<T[P], AggregatePeakHour[P]>
-  }
-
-
-
-
-  export type PeakHourGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: PeakHourWhereInput
-    orderBy?: PeakHourOrderByWithAggregationInput | PeakHourOrderByWithAggregationInput[]
-    by: PeakHourScalarFieldEnum[] | PeakHourScalarFieldEnum
-    having?: PeakHourScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: PeakHourCountAggregateInputType | true
-    _avg?: PeakHourAvgAggregateInputType
-    _sum?: PeakHourSumAggregateInputType
-    _min?: PeakHourMinAggregateInputType
-    _max?: PeakHourMaxAggregateInputType
-  }
-
-  export type PeakHourGroupByOutputType = {
-    id: number
-    day: $Enums.Days[]
-    startTime: string
-    endTime: string
-    note: string | null
-    locationId: number
-    _count: PeakHourCountAggregateOutputType | null
-    _avg: PeakHourAvgAggregateOutputType | null
-    _sum: PeakHourSumAggregateOutputType | null
-    _min: PeakHourMinAggregateOutputType | null
-    _max: PeakHourMaxAggregateOutputType | null
-  }
-
-  type GetPeakHourGroupByPayload<T extends PeakHourGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<PeakHourGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof PeakHourGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], PeakHourGroupByOutputType[P]>
-            : GetScalarType<T[P], PeakHourGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type PeakHourSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    day?: boolean
-    startTime?: boolean
-    endTime?: boolean
-    note?: boolean
-    locationId?: boolean
-    location?: boolean | LocationDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["peakHour"]>
-
-  export type PeakHourSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    day?: boolean
-    startTime?: boolean
-    endTime?: boolean
-    note?: boolean
-    locationId?: boolean
-    location?: boolean | LocationDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["peakHour"]>
-
-  export type PeakHourSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    day?: boolean
-    startTime?: boolean
-    endTime?: boolean
-    note?: boolean
-    locationId?: boolean
-    location?: boolean | LocationDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["peakHour"]>
-
-  export type PeakHourSelectScalar = {
-    id?: boolean
-    day?: boolean
-    startTime?: boolean
-    endTime?: boolean
-    note?: boolean
-    locationId?: boolean
-  }
-
-  export type PeakHourOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "day" | "startTime" | "endTime" | "note" | "locationId", ExtArgs["result"]["peakHour"]>
-  export type PeakHourInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    location?: boolean | LocationDefaultArgs<ExtArgs>
-  }
-  export type PeakHourIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    location?: boolean | LocationDefaultArgs<ExtArgs>
-  }
-  export type PeakHourIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    location?: boolean | LocationDefaultArgs<ExtArgs>
-  }
-
-  export type $PeakHourPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "PeakHour"
-    objects: {
-      location: Prisma.$LocationPayload<ExtArgs>
-    }
-    scalars: $Extensions.GetPayloadResult<{
-      id: number
-      day: $Enums.Days[]
-      startTime: string
-      endTime: string
-      note: string | null
-      locationId: number
-    }, ExtArgs["result"]["peakHour"]>
-    composites: {}
-  }
-
-  type PeakHourGetPayload<S extends boolean | null | undefined | PeakHourDefaultArgs> = $Result.GetResult<Prisma.$PeakHourPayload, S>
-
-  type PeakHourCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<PeakHourFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: PeakHourCountAggregateInputType | true
-    }
-
-  export interface PeakHourDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PeakHour'], meta: { name: 'PeakHour' } }
-    /**
-     * Find zero or one PeakHour that matches the filter.
-     * @param {PeakHourFindUniqueArgs} args - Arguments to find a PeakHour
-     * @example
-     * // Get one PeakHour
-     * const peakHour = await prisma.peakHour.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends PeakHourFindUniqueArgs>(args: SelectSubset<T, PeakHourFindUniqueArgs<ExtArgs>>): Prisma__PeakHourClient<$Result.GetResult<Prisma.$PeakHourPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find one PeakHour that matches the filter or throw an error with `error.code='P2025'`
-     * if no matches were found.
-     * @param {PeakHourFindUniqueOrThrowArgs} args - Arguments to find a PeakHour
-     * @example
-     * // Get one PeakHour
-     * const peakHour = await prisma.peakHour.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends PeakHourFindUniqueOrThrowArgs>(args: SelectSubset<T, PeakHourFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PeakHourClient<$Result.GetResult<Prisma.$PeakHourPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first PeakHour that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {PeakHourFindFirstArgs} args - Arguments to find a PeakHour
-     * @example
-     * // Get one PeakHour
-     * const peakHour = await prisma.peakHour.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends PeakHourFindFirstArgs>(args?: SelectSubset<T, PeakHourFindFirstArgs<ExtArgs>>): Prisma__PeakHourClient<$Result.GetResult<Prisma.$PeakHourPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first PeakHour that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {PeakHourFindFirstOrThrowArgs} args - Arguments to find a PeakHour
-     * @example
-     * // Get one PeakHour
-     * const peakHour = await prisma.peakHour.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends PeakHourFindFirstOrThrowArgs>(args?: SelectSubset<T, PeakHourFindFirstOrThrowArgs<ExtArgs>>): Prisma__PeakHourClient<$Result.GetResult<Prisma.$PeakHourPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find zero or more PeakHours that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {PeakHourFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all PeakHours
-     * const peakHours = await prisma.peakHour.findMany()
-     * 
-     * // Get first 10 PeakHours
-     * const peakHours = await prisma.peakHour.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const peakHourWithIdOnly = await prisma.peakHour.findMany({ select: { id: true } })
-     * 
-     */
-    findMany<T extends PeakHourFindManyArgs>(args?: SelectSubset<T, PeakHourFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PeakHourPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
-
-    /**
-     * Create a PeakHour.
-     * @param {PeakHourCreateArgs} args - Arguments to create a PeakHour.
-     * @example
-     * // Create one PeakHour
-     * const PeakHour = await prisma.peakHour.create({
-     *   data: {
-     *     // ... data to create a PeakHour
-     *   }
-     * })
-     * 
-     */
-    create<T extends PeakHourCreateArgs>(args: SelectSubset<T, PeakHourCreateArgs<ExtArgs>>): Prisma__PeakHourClient<$Result.GetResult<Prisma.$PeakHourPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Create many PeakHours.
-     * @param {PeakHourCreateManyArgs} args - Arguments to create many PeakHours.
-     * @example
-     * // Create many PeakHours
-     * const peakHour = await prisma.peakHour.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *     
-     */
-    createMany<T extends PeakHourCreateManyArgs>(args?: SelectSubset<T, PeakHourCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create many PeakHours and returns the data saved in the database.
-     * @param {PeakHourCreateManyAndReturnArgs} args - Arguments to create many PeakHours.
-     * @example
-     * // Create many PeakHours
-     * const peakHour = await prisma.peakHour.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many PeakHours and only return the `id`
-     * const peakHourWithIdOnly = await prisma.peakHour.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends PeakHourCreateManyAndReturnArgs>(args?: SelectSubset<T, PeakHourCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PeakHourPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Delete a PeakHour.
-     * @param {PeakHourDeleteArgs} args - Arguments to delete one PeakHour.
-     * @example
-     * // Delete one PeakHour
-     * const PeakHour = await prisma.peakHour.delete({
-     *   where: {
-     *     // ... filter to delete one PeakHour
-     *   }
-     * })
-     * 
-     */
-    delete<T extends PeakHourDeleteArgs>(args: SelectSubset<T, PeakHourDeleteArgs<ExtArgs>>): Prisma__PeakHourClient<$Result.GetResult<Prisma.$PeakHourPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Update one PeakHour.
-     * @param {PeakHourUpdateArgs} args - Arguments to update one PeakHour.
-     * @example
-     * // Update one PeakHour
-     * const peakHour = await prisma.peakHour.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    update<T extends PeakHourUpdateArgs>(args: SelectSubset<T, PeakHourUpdateArgs<ExtArgs>>): Prisma__PeakHourClient<$Result.GetResult<Prisma.$PeakHourPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Delete zero or more PeakHours.
-     * @param {PeakHourDeleteManyArgs} args - Arguments to filter PeakHours to delete.
-     * @example
-     * // Delete a few PeakHours
-     * const { count } = await prisma.peakHour.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-     */
-    deleteMany<T extends PeakHourDeleteManyArgs>(args?: SelectSubset<T, PeakHourDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more PeakHours.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {PeakHourUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many PeakHours
-     * const peakHour = await prisma.peakHour.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    updateMany<T extends PeakHourUpdateManyArgs>(args: SelectSubset<T, PeakHourUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more PeakHours and returns the data updated in the database.
-     * @param {PeakHourUpdateManyAndReturnArgs} args - Arguments to update many PeakHours.
-     * @example
-     * // Update many PeakHours
-     * const peakHour = await prisma.peakHour.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more PeakHours and only return the `id`
-     * const peakHourWithIdOnly = await prisma.peakHour.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends PeakHourUpdateManyAndReturnArgs>(args: SelectSubset<T, PeakHourUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PeakHourPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Create or update one PeakHour.
-     * @param {PeakHourUpsertArgs} args - Arguments to update or create a PeakHour.
-     * @example
-     * // Update or create a PeakHour
-     * const peakHour = await prisma.peakHour.upsert({
-     *   create: {
-     *     // ... data to create a PeakHour
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the PeakHour we want to update
-     *   }
-     * })
-     */
-    upsert<T extends PeakHourUpsertArgs>(args: SelectSubset<T, PeakHourUpsertArgs<ExtArgs>>): Prisma__PeakHourClient<$Result.GetResult<Prisma.$PeakHourPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-
-    /**
-     * Count the number of PeakHours.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {PeakHourCountArgs} args - Arguments to filter PeakHours to count.
-     * @example
-     * // Count the number of PeakHours
-     * const count = await prisma.peakHour.count({
-     *   where: {
-     *     // ... the filter for the PeakHours we want to count
-     *   }
-     * })
-    **/
-    count<T extends PeakHourCountArgs>(
-      args?: Subset<T, PeakHourCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], PeakHourCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a PeakHour.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {PeakHourAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends PeakHourAggregateArgs>(args: Subset<T, PeakHourAggregateArgs>): Prisma.PrismaPromise<GetPeakHourAggregateType<T>>
-
-    /**
-     * Group by PeakHour.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {PeakHourGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends PeakHourGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: PeakHourGroupByArgs['orderBy'] }
-        : { orderBy?: PeakHourGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, PeakHourGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPeakHourGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the PeakHour model
-   */
-  readonly fields: PeakHourFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for PeakHour.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__PeakHourClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    location<T extends LocationDefaultArgs<ExtArgs> = {}>(args?: Subset<T, LocationDefaultArgs<ExtArgs>>): Prisma__LocationClient<$Result.GetResult<Prisma.$LocationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
-  }
-
-
-
-
-  /**
-   * Fields of the PeakHour model
-   */
-  interface PeakHourFieldRefs {
-    readonly id: FieldRef<"PeakHour", 'Int'>
-    readonly day: FieldRef<"PeakHour", 'Days[]'>
-    readonly startTime: FieldRef<"PeakHour", 'String'>
-    readonly endTime: FieldRef<"PeakHour", 'String'>
-    readonly note: FieldRef<"PeakHour", 'String'>
-    readonly locationId: FieldRef<"PeakHour", 'Int'>
-  }
-    
-
-  // Custom InputTypes
-  /**
-   * PeakHour findUnique
-   */
-  export type PeakHourFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the PeakHour
-     */
-    select?: PeakHourSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the PeakHour
-     */
-    omit?: PeakHourOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PeakHourInclude<ExtArgs> | null
-    /**
-     * Filter, which PeakHour to fetch.
-     */
-    where: PeakHourWhereUniqueInput
-  }
-
-  /**
-   * PeakHour findUniqueOrThrow
-   */
-  export type PeakHourFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the PeakHour
-     */
-    select?: PeakHourSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the PeakHour
-     */
-    omit?: PeakHourOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PeakHourInclude<ExtArgs> | null
-    /**
-     * Filter, which PeakHour to fetch.
-     */
-    where: PeakHourWhereUniqueInput
-  }
-
-  /**
-   * PeakHour findFirst
-   */
-  export type PeakHourFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the PeakHour
-     */
-    select?: PeakHourSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the PeakHour
-     */
-    omit?: PeakHourOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PeakHourInclude<ExtArgs> | null
-    /**
-     * Filter, which PeakHour to fetch.
-     */
-    where?: PeakHourWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of PeakHours to fetch.
-     */
-    orderBy?: PeakHourOrderByWithRelationInput | PeakHourOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for PeakHours.
-     */
-    cursor?: PeakHourWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` PeakHours from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` PeakHours.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of PeakHours.
-     */
-    distinct?: PeakHourScalarFieldEnum | PeakHourScalarFieldEnum[]
-  }
-
-  /**
-   * PeakHour findFirstOrThrow
-   */
-  export type PeakHourFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the PeakHour
-     */
-    select?: PeakHourSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the PeakHour
-     */
-    omit?: PeakHourOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PeakHourInclude<ExtArgs> | null
-    /**
-     * Filter, which PeakHour to fetch.
-     */
-    where?: PeakHourWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of PeakHours to fetch.
-     */
-    orderBy?: PeakHourOrderByWithRelationInput | PeakHourOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for PeakHours.
-     */
-    cursor?: PeakHourWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` PeakHours from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` PeakHours.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of PeakHours.
-     */
-    distinct?: PeakHourScalarFieldEnum | PeakHourScalarFieldEnum[]
-  }
-
-  /**
-   * PeakHour findMany
-   */
-  export type PeakHourFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the PeakHour
-     */
-    select?: PeakHourSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the PeakHour
-     */
-    omit?: PeakHourOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PeakHourInclude<ExtArgs> | null
-    /**
-     * Filter, which PeakHours to fetch.
-     */
-    where?: PeakHourWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of PeakHours to fetch.
-     */
-    orderBy?: PeakHourOrderByWithRelationInput | PeakHourOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing PeakHours.
-     */
-    cursor?: PeakHourWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` PeakHours from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` PeakHours.
-     */
-    skip?: number
-    distinct?: PeakHourScalarFieldEnum | PeakHourScalarFieldEnum[]
-  }
-
-  /**
-   * PeakHour create
-   */
-  export type PeakHourCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the PeakHour
-     */
-    select?: PeakHourSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the PeakHour
-     */
-    omit?: PeakHourOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PeakHourInclude<ExtArgs> | null
-    /**
-     * The data needed to create a PeakHour.
-     */
-    data: XOR<PeakHourCreateInput, PeakHourUncheckedCreateInput>
-  }
-
-  /**
-   * PeakHour createMany
-   */
-  export type PeakHourCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many PeakHours.
-     */
-    data: PeakHourCreateManyInput | PeakHourCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * PeakHour createManyAndReturn
-   */
-  export type PeakHourCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the PeakHour
-     */
-    select?: PeakHourSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the PeakHour
-     */
-    omit?: PeakHourOmit<ExtArgs> | null
-    /**
-     * The data used to create many PeakHours.
-     */
-    data: PeakHourCreateManyInput | PeakHourCreateManyInput[]
-    skipDuplicates?: boolean
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PeakHourIncludeCreateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * PeakHour update
-   */
-  export type PeakHourUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the PeakHour
-     */
-    select?: PeakHourSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the PeakHour
-     */
-    omit?: PeakHourOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PeakHourInclude<ExtArgs> | null
-    /**
-     * The data needed to update a PeakHour.
-     */
-    data: XOR<PeakHourUpdateInput, PeakHourUncheckedUpdateInput>
-    /**
-     * Choose, which PeakHour to update.
-     */
-    where: PeakHourWhereUniqueInput
-  }
-
-  /**
-   * PeakHour updateMany
-   */
-  export type PeakHourUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update PeakHours.
-     */
-    data: XOR<PeakHourUpdateManyMutationInput, PeakHourUncheckedUpdateManyInput>
-    /**
-     * Filter which PeakHours to update
-     */
-    where?: PeakHourWhereInput
-    /**
-     * Limit how many PeakHours to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * PeakHour updateManyAndReturn
-   */
-  export type PeakHourUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the PeakHour
-     */
-    select?: PeakHourSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the PeakHour
-     */
-    omit?: PeakHourOmit<ExtArgs> | null
-    /**
-     * The data used to update PeakHours.
-     */
-    data: XOR<PeakHourUpdateManyMutationInput, PeakHourUncheckedUpdateManyInput>
-    /**
-     * Filter which PeakHours to update
-     */
-    where?: PeakHourWhereInput
-    /**
-     * Limit how many PeakHours to update.
-     */
-    limit?: number
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PeakHourIncludeUpdateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * PeakHour upsert
-   */
-  export type PeakHourUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the PeakHour
-     */
-    select?: PeakHourSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the PeakHour
-     */
-    omit?: PeakHourOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PeakHourInclude<ExtArgs> | null
-    /**
-     * The filter to search for the PeakHour to update in case it exists.
-     */
-    where: PeakHourWhereUniqueInput
-    /**
-     * In case the PeakHour found by the `where` argument doesn't exist, create a new PeakHour with this data.
-     */
-    create: XOR<PeakHourCreateInput, PeakHourUncheckedCreateInput>
-    /**
-     * In case the PeakHour was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<PeakHourUpdateInput, PeakHourUncheckedUpdateInput>
-  }
-
-  /**
-   * PeakHour delete
-   */
-  export type PeakHourDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the PeakHour
-     */
-    select?: PeakHourSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the PeakHour
-     */
-    omit?: PeakHourOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PeakHourInclude<ExtArgs> | null
-    /**
-     * Filter which PeakHour to delete.
-     */
-    where: PeakHourWhereUniqueInput
-  }
-
-  /**
-   * PeakHour deleteMany
-   */
-  export type PeakHourDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which PeakHours to delete
-     */
-    where?: PeakHourWhereInput
-    /**
-     * Limit how many PeakHours to delete.
-     */
-    limit?: number
-  }
-
-  /**
-   * PeakHour without action
-   */
-  export type PeakHourDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the PeakHour
-     */
-    select?: PeakHourSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the PeakHour
-     */
-    omit?: PeakHourOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PeakHourInclude<ExtArgs> | null
-  }
-
-
-  /**
    * Model Beneficiary
    */
 
@@ -7486,60 +6204,50 @@ export namespace Prisma {
 
   export type BeneficiaryAvgAggregateOutputType = {
     id: number | null
-    foundationId: number | null
   }
 
   export type BeneficiarySumAggregateOutputType = {
     id: number | null
-    foundationId: number | null
   }
 
   export type BeneficiaryMinAggregateOutputType = {
     id: number | null
     userId: string | null
-    foundationId: number | null
   }
 
   export type BeneficiaryMaxAggregateOutputType = {
     id: number | null
     userId: string | null
-    foundationId: number | null
   }
 
   export type BeneficiaryCountAggregateOutputType = {
     id: number
     userId: number
-    foundationId: number
     _all: number
   }
 
 
   export type BeneficiaryAvgAggregateInputType = {
     id?: true
-    foundationId?: true
   }
 
   export type BeneficiarySumAggregateInputType = {
     id?: true
-    foundationId?: true
   }
 
   export type BeneficiaryMinAggregateInputType = {
     id?: true
     userId?: true
-    foundationId?: true
   }
 
   export type BeneficiaryMaxAggregateInputType = {
     id?: true
     userId?: true
-    foundationId?: true
   }
 
   export type BeneficiaryCountAggregateInputType = {
     id?: true
     userId?: true
-    foundationId?: true
     _all?: true
   }
 
@@ -7632,7 +6340,6 @@ export namespace Prisma {
   export type BeneficiaryGroupByOutputType = {
     id: number
     userId: string
-    foundationId: number
     _count: BeneficiaryCountAggregateOutputType | null
     _avg: BeneficiaryAvgAggregateOutputType | null
     _sum: BeneficiarySumAggregateOutputType | null
@@ -7657,57 +6364,45 @@ export namespace Prisma {
   export type BeneficiarySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     userId?: boolean
-    foundationId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
-    foundation?: boolean | FoundationDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["beneficiary"]>
 
   export type BeneficiarySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     userId?: boolean
-    foundationId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
-    foundation?: boolean | FoundationDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["beneficiary"]>
 
   export type BeneficiarySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     userId?: boolean
-    foundationId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
-    foundation?: boolean | FoundationDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["beneficiary"]>
 
   export type BeneficiarySelectScalar = {
     id?: boolean
     userId?: boolean
-    foundationId?: boolean
   }
 
-  export type BeneficiaryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "foundationId", ExtArgs["result"]["beneficiary"]>
+  export type BeneficiaryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId", ExtArgs["result"]["beneficiary"]>
   export type BeneficiaryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
-    foundation?: boolean | FoundationDefaultArgs<ExtArgs>
   }
   export type BeneficiaryIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
-    foundation?: boolean | FoundationDefaultArgs<ExtArgs>
   }
   export type BeneficiaryIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
-    foundation?: boolean | FoundationDefaultArgs<ExtArgs>
   }
 
   export type $BeneficiaryPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Beneficiary"
     objects: {
       user: Prisma.$UserPayload<ExtArgs>
-      foundation: Prisma.$FoundationPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
       userId: string
-      foundationId: number
     }, ExtArgs["result"]["beneficiary"]>
     composites: {}
   }
@@ -8103,7 +6798,6 @@ export namespace Prisma {
   export interface Prisma__BeneficiaryClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    foundation<T extends FoundationDefaultArgs<ExtArgs> = {}>(args?: Subset<T, FoundationDefaultArgs<ExtArgs>>): Prisma__FoundationClient<$Result.GetResult<Prisma.$FoundationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -8135,7 +6829,6 @@ export namespace Prisma {
   interface BeneficiaryFieldRefs {
     readonly id: FieldRef<"Beneficiary", 'Int'>
     readonly userId: FieldRef<"Beneficiary", 'String'>
-    readonly foundationId: FieldRef<"Beneficiary", 'Int'>
   }
     
 
@@ -8551,1134 +7244,6 @@ export namespace Prisma {
 
 
   /**
-   * Model Foundation
-   */
-
-  export type AggregateFoundation = {
-    _count: FoundationCountAggregateOutputType | null
-    _avg: FoundationAvgAggregateOutputType | null
-    _sum: FoundationSumAggregateOutputType | null
-    _min: FoundationMinAggregateOutputType | null
-    _max: FoundationMaxAggregateOutputType | null
-  }
-
-  export type FoundationAvgAggregateOutputType = {
-    id: number | null
-  }
-
-  export type FoundationSumAggregateOutputType = {
-    id: number | null
-  }
-
-  export type FoundationMinAggregateOutputType = {
-    id: number | null
-    name: string | null
-    mainStreet: string | null
-    secondaryStreet: string | null
-    reference: string | null
-    cityCode: string | null
-  }
-
-  export type FoundationMaxAggregateOutputType = {
-    id: number | null
-    name: string | null
-    mainStreet: string | null
-    secondaryStreet: string | null
-    reference: string | null
-    cityCode: string | null
-  }
-
-  export type FoundationCountAggregateOutputType = {
-    id: number
-    name: number
-    mainStreet: number
-    secondaryStreet: number
-    reference: number
-    cityCode: number
-    _all: number
-  }
-
-
-  export type FoundationAvgAggregateInputType = {
-    id?: true
-  }
-
-  export type FoundationSumAggregateInputType = {
-    id?: true
-  }
-
-  export type FoundationMinAggregateInputType = {
-    id?: true
-    name?: true
-    mainStreet?: true
-    secondaryStreet?: true
-    reference?: true
-    cityCode?: true
-  }
-
-  export type FoundationMaxAggregateInputType = {
-    id?: true
-    name?: true
-    mainStreet?: true
-    secondaryStreet?: true
-    reference?: true
-    cityCode?: true
-  }
-
-  export type FoundationCountAggregateInputType = {
-    id?: true
-    name?: true
-    mainStreet?: true
-    secondaryStreet?: true
-    reference?: true
-    cityCode?: true
-    _all?: true
-  }
-
-  export type FoundationAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which Foundation to aggregate.
-     */
-    where?: FoundationWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Foundations to fetch.
-     */
-    orderBy?: FoundationOrderByWithRelationInput | FoundationOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: FoundationWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Foundations from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Foundations.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned Foundations
-    **/
-    _count?: true | FoundationCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to average
-    **/
-    _avg?: FoundationAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: FoundationSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: FoundationMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: FoundationMaxAggregateInputType
-  }
-
-  export type GetFoundationAggregateType<T extends FoundationAggregateArgs> = {
-        [P in keyof T & keyof AggregateFoundation]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateFoundation[P]>
-      : GetScalarType<T[P], AggregateFoundation[P]>
-  }
-
-
-
-
-  export type FoundationGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: FoundationWhereInput
-    orderBy?: FoundationOrderByWithAggregationInput | FoundationOrderByWithAggregationInput[]
-    by: FoundationScalarFieldEnum[] | FoundationScalarFieldEnum
-    having?: FoundationScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: FoundationCountAggregateInputType | true
-    _avg?: FoundationAvgAggregateInputType
-    _sum?: FoundationSumAggregateInputType
-    _min?: FoundationMinAggregateInputType
-    _max?: FoundationMaxAggregateInputType
-  }
-
-  export type FoundationGroupByOutputType = {
-    id: number
-    name: string
-    mainStreet: string
-    secondaryStreet: string
-    reference: string
-    cityCode: string
-    _count: FoundationCountAggregateOutputType | null
-    _avg: FoundationAvgAggregateOutputType | null
-    _sum: FoundationSumAggregateOutputType | null
-    _min: FoundationMinAggregateOutputType | null
-    _max: FoundationMaxAggregateOutputType | null
-  }
-
-  type GetFoundationGroupByPayload<T extends FoundationGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<FoundationGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof FoundationGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], FoundationGroupByOutputType[P]>
-            : GetScalarType<T[P], FoundationGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type FoundationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    name?: boolean
-    mainStreet?: boolean
-    secondaryStreet?: boolean
-    reference?: boolean
-    cityCode?: boolean
-    city?: boolean | CityDefaultArgs<ExtArgs>
-    beneficiary?: boolean | Foundation$beneficiaryArgs<ExtArgs>
-  }, ExtArgs["result"]["foundation"]>
-
-  export type FoundationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    name?: boolean
-    mainStreet?: boolean
-    secondaryStreet?: boolean
-    reference?: boolean
-    cityCode?: boolean
-    city?: boolean | CityDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["foundation"]>
-
-  export type FoundationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    name?: boolean
-    mainStreet?: boolean
-    secondaryStreet?: boolean
-    reference?: boolean
-    cityCode?: boolean
-    city?: boolean | CityDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["foundation"]>
-
-  export type FoundationSelectScalar = {
-    id?: boolean
-    name?: boolean
-    mainStreet?: boolean
-    secondaryStreet?: boolean
-    reference?: boolean
-    cityCode?: boolean
-  }
-
-  export type FoundationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "mainStreet" | "secondaryStreet" | "reference" | "cityCode", ExtArgs["result"]["foundation"]>
-  export type FoundationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    city?: boolean | CityDefaultArgs<ExtArgs>
-    beneficiary?: boolean | Foundation$beneficiaryArgs<ExtArgs>
-  }
-  export type FoundationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    city?: boolean | CityDefaultArgs<ExtArgs>
-  }
-  export type FoundationIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    city?: boolean | CityDefaultArgs<ExtArgs>
-  }
-
-  export type $FoundationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "Foundation"
-    objects: {
-      city: Prisma.$CityPayload<ExtArgs>
-      beneficiary: Prisma.$BeneficiaryPayload<ExtArgs> | null
-    }
-    scalars: $Extensions.GetPayloadResult<{
-      id: number
-      name: string
-      mainStreet: string
-      secondaryStreet: string
-      reference: string
-      cityCode: string
-    }, ExtArgs["result"]["foundation"]>
-    composites: {}
-  }
-
-  type FoundationGetPayload<S extends boolean | null | undefined | FoundationDefaultArgs> = $Result.GetResult<Prisma.$FoundationPayload, S>
-
-  type FoundationCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<FoundationFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: FoundationCountAggregateInputType | true
-    }
-
-  export interface FoundationDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Foundation'], meta: { name: 'Foundation' } }
-    /**
-     * Find zero or one Foundation that matches the filter.
-     * @param {FoundationFindUniqueArgs} args - Arguments to find a Foundation
-     * @example
-     * // Get one Foundation
-     * const foundation = await prisma.foundation.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends FoundationFindUniqueArgs>(args: SelectSubset<T, FoundationFindUniqueArgs<ExtArgs>>): Prisma__FoundationClient<$Result.GetResult<Prisma.$FoundationPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find one Foundation that matches the filter or throw an error with `error.code='P2025'`
-     * if no matches were found.
-     * @param {FoundationFindUniqueOrThrowArgs} args - Arguments to find a Foundation
-     * @example
-     * // Get one Foundation
-     * const foundation = await prisma.foundation.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends FoundationFindUniqueOrThrowArgs>(args: SelectSubset<T, FoundationFindUniqueOrThrowArgs<ExtArgs>>): Prisma__FoundationClient<$Result.GetResult<Prisma.$FoundationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first Foundation that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {FoundationFindFirstArgs} args - Arguments to find a Foundation
-     * @example
-     * // Get one Foundation
-     * const foundation = await prisma.foundation.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends FoundationFindFirstArgs>(args?: SelectSubset<T, FoundationFindFirstArgs<ExtArgs>>): Prisma__FoundationClient<$Result.GetResult<Prisma.$FoundationPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first Foundation that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {FoundationFindFirstOrThrowArgs} args - Arguments to find a Foundation
-     * @example
-     * // Get one Foundation
-     * const foundation = await prisma.foundation.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends FoundationFindFirstOrThrowArgs>(args?: SelectSubset<T, FoundationFindFirstOrThrowArgs<ExtArgs>>): Prisma__FoundationClient<$Result.GetResult<Prisma.$FoundationPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find zero or more Foundations that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {FoundationFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all Foundations
-     * const foundations = await prisma.foundation.findMany()
-     * 
-     * // Get first 10 Foundations
-     * const foundations = await prisma.foundation.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const foundationWithIdOnly = await prisma.foundation.findMany({ select: { id: true } })
-     * 
-     */
-    findMany<T extends FoundationFindManyArgs>(args?: SelectSubset<T, FoundationFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FoundationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
-
-    /**
-     * Create a Foundation.
-     * @param {FoundationCreateArgs} args - Arguments to create a Foundation.
-     * @example
-     * // Create one Foundation
-     * const Foundation = await prisma.foundation.create({
-     *   data: {
-     *     // ... data to create a Foundation
-     *   }
-     * })
-     * 
-     */
-    create<T extends FoundationCreateArgs>(args: SelectSubset<T, FoundationCreateArgs<ExtArgs>>): Prisma__FoundationClient<$Result.GetResult<Prisma.$FoundationPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Create many Foundations.
-     * @param {FoundationCreateManyArgs} args - Arguments to create many Foundations.
-     * @example
-     * // Create many Foundations
-     * const foundation = await prisma.foundation.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *     
-     */
-    createMany<T extends FoundationCreateManyArgs>(args?: SelectSubset<T, FoundationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create many Foundations and returns the data saved in the database.
-     * @param {FoundationCreateManyAndReturnArgs} args - Arguments to create many Foundations.
-     * @example
-     * // Create many Foundations
-     * const foundation = await prisma.foundation.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many Foundations and only return the `id`
-     * const foundationWithIdOnly = await prisma.foundation.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends FoundationCreateManyAndReturnArgs>(args?: SelectSubset<T, FoundationCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FoundationPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Delete a Foundation.
-     * @param {FoundationDeleteArgs} args - Arguments to delete one Foundation.
-     * @example
-     * // Delete one Foundation
-     * const Foundation = await prisma.foundation.delete({
-     *   where: {
-     *     // ... filter to delete one Foundation
-     *   }
-     * })
-     * 
-     */
-    delete<T extends FoundationDeleteArgs>(args: SelectSubset<T, FoundationDeleteArgs<ExtArgs>>): Prisma__FoundationClient<$Result.GetResult<Prisma.$FoundationPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Update one Foundation.
-     * @param {FoundationUpdateArgs} args - Arguments to update one Foundation.
-     * @example
-     * // Update one Foundation
-     * const foundation = await prisma.foundation.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    update<T extends FoundationUpdateArgs>(args: SelectSubset<T, FoundationUpdateArgs<ExtArgs>>): Prisma__FoundationClient<$Result.GetResult<Prisma.$FoundationPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Delete zero or more Foundations.
-     * @param {FoundationDeleteManyArgs} args - Arguments to filter Foundations to delete.
-     * @example
-     * // Delete a few Foundations
-     * const { count } = await prisma.foundation.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-     */
-    deleteMany<T extends FoundationDeleteManyArgs>(args?: SelectSubset<T, FoundationDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Foundations.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {FoundationUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many Foundations
-     * const foundation = await prisma.foundation.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    updateMany<T extends FoundationUpdateManyArgs>(args: SelectSubset<T, FoundationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Foundations and returns the data updated in the database.
-     * @param {FoundationUpdateManyAndReturnArgs} args - Arguments to update many Foundations.
-     * @example
-     * // Update many Foundations
-     * const foundation = await prisma.foundation.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more Foundations and only return the `id`
-     * const foundationWithIdOnly = await prisma.foundation.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends FoundationUpdateManyAndReturnArgs>(args: SelectSubset<T, FoundationUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FoundationPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Create or update one Foundation.
-     * @param {FoundationUpsertArgs} args - Arguments to update or create a Foundation.
-     * @example
-     * // Update or create a Foundation
-     * const foundation = await prisma.foundation.upsert({
-     *   create: {
-     *     // ... data to create a Foundation
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the Foundation we want to update
-     *   }
-     * })
-     */
-    upsert<T extends FoundationUpsertArgs>(args: SelectSubset<T, FoundationUpsertArgs<ExtArgs>>): Prisma__FoundationClient<$Result.GetResult<Prisma.$FoundationPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-
-    /**
-     * Count the number of Foundations.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {FoundationCountArgs} args - Arguments to filter Foundations to count.
-     * @example
-     * // Count the number of Foundations
-     * const count = await prisma.foundation.count({
-     *   where: {
-     *     // ... the filter for the Foundations we want to count
-     *   }
-     * })
-    **/
-    count<T extends FoundationCountArgs>(
-      args?: Subset<T, FoundationCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], FoundationCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a Foundation.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {FoundationAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends FoundationAggregateArgs>(args: Subset<T, FoundationAggregateArgs>): Prisma.PrismaPromise<GetFoundationAggregateType<T>>
-
-    /**
-     * Group by Foundation.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {FoundationGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends FoundationGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: FoundationGroupByArgs['orderBy'] }
-        : { orderBy?: FoundationGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, FoundationGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetFoundationGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the Foundation model
-   */
-  readonly fields: FoundationFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for Foundation.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__FoundationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    city<T extends CityDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CityDefaultArgs<ExtArgs>>): Prisma__CityClient<$Result.GetResult<Prisma.$CityPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    beneficiary<T extends Foundation$beneficiaryArgs<ExtArgs> = {}>(args?: Subset<T, Foundation$beneficiaryArgs<ExtArgs>>): Prisma__BeneficiaryClient<$Result.GetResult<Prisma.$BeneficiaryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
-  }
-
-
-
-
-  /**
-   * Fields of the Foundation model
-   */
-  interface FoundationFieldRefs {
-    readonly id: FieldRef<"Foundation", 'Int'>
-    readonly name: FieldRef<"Foundation", 'String'>
-    readonly mainStreet: FieldRef<"Foundation", 'String'>
-    readonly secondaryStreet: FieldRef<"Foundation", 'String'>
-    readonly reference: FieldRef<"Foundation", 'String'>
-    readonly cityCode: FieldRef<"Foundation", 'String'>
-  }
-    
-
-  // Custom InputTypes
-  /**
-   * Foundation findUnique
-   */
-  export type FoundationFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Foundation
-     */
-    select?: FoundationSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Foundation
-     */
-    omit?: FoundationOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: FoundationInclude<ExtArgs> | null
-    /**
-     * Filter, which Foundation to fetch.
-     */
-    where: FoundationWhereUniqueInput
-  }
-
-  /**
-   * Foundation findUniqueOrThrow
-   */
-  export type FoundationFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Foundation
-     */
-    select?: FoundationSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Foundation
-     */
-    omit?: FoundationOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: FoundationInclude<ExtArgs> | null
-    /**
-     * Filter, which Foundation to fetch.
-     */
-    where: FoundationWhereUniqueInput
-  }
-
-  /**
-   * Foundation findFirst
-   */
-  export type FoundationFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Foundation
-     */
-    select?: FoundationSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Foundation
-     */
-    omit?: FoundationOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: FoundationInclude<ExtArgs> | null
-    /**
-     * Filter, which Foundation to fetch.
-     */
-    where?: FoundationWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Foundations to fetch.
-     */
-    orderBy?: FoundationOrderByWithRelationInput | FoundationOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Foundations.
-     */
-    cursor?: FoundationWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Foundations from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Foundations.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Foundations.
-     */
-    distinct?: FoundationScalarFieldEnum | FoundationScalarFieldEnum[]
-  }
-
-  /**
-   * Foundation findFirstOrThrow
-   */
-  export type FoundationFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Foundation
-     */
-    select?: FoundationSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Foundation
-     */
-    omit?: FoundationOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: FoundationInclude<ExtArgs> | null
-    /**
-     * Filter, which Foundation to fetch.
-     */
-    where?: FoundationWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Foundations to fetch.
-     */
-    orderBy?: FoundationOrderByWithRelationInput | FoundationOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Foundations.
-     */
-    cursor?: FoundationWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Foundations from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Foundations.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Foundations.
-     */
-    distinct?: FoundationScalarFieldEnum | FoundationScalarFieldEnum[]
-  }
-
-  /**
-   * Foundation findMany
-   */
-  export type FoundationFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Foundation
-     */
-    select?: FoundationSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Foundation
-     */
-    omit?: FoundationOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: FoundationInclude<ExtArgs> | null
-    /**
-     * Filter, which Foundations to fetch.
-     */
-    where?: FoundationWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Foundations to fetch.
-     */
-    orderBy?: FoundationOrderByWithRelationInput | FoundationOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing Foundations.
-     */
-    cursor?: FoundationWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Foundations from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Foundations.
-     */
-    skip?: number
-    distinct?: FoundationScalarFieldEnum | FoundationScalarFieldEnum[]
-  }
-
-  /**
-   * Foundation create
-   */
-  export type FoundationCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Foundation
-     */
-    select?: FoundationSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Foundation
-     */
-    omit?: FoundationOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: FoundationInclude<ExtArgs> | null
-    /**
-     * The data needed to create a Foundation.
-     */
-    data: XOR<FoundationCreateInput, FoundationUncheckedCreateInput>
-  }
-
-  /**
-   * Foundation createMany
-   */
-  export type FoundationCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many Foundations.
-     */
-    data: FoundationCreateManyInput | FoundationCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * Foundation createManyAndReturn
-   */
-  export type FoundationCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Foundation
-     */
-    select?: FoundationSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the Foundation
-     */
-    omit?: FoundationOmit<ExtArgs> | null
-    /**
-     * The data used to create many Foundations.
-     */
-    data: FoundationCreateManyInput | FoundationCreateManyInput[]
-    skipDuplicates?: boolean
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: FoundationIncludeCreateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * Foundation update
-   */
-  export type FoundationUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Foundation
-     */
-    select?: FoundationSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Foundation
-     */
-    omit?: FoundationOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: FoundationInclude<ExtArgs> | null
-    /**
-     * The data needed to update a Foundation.
-     */
-    data: XOR<FoundationUpdateInput, FoundationUncheckedUpdateInput>
-    /**
-     * Choose, which Foundation to update.
-     */
-    where: FoundationWhereUniqueInput
-  }
-
-  /**
-   * Foundation updateMany
-   */
-  export type FoundationUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update Foundations.
-     */
-    data: XOR<FoundationUpdateManyMutationInput, FoundationUncheckedUpdateManyInput>
-    /**
-     * Filter which Foundations to update
-     */
-    where?: FoundationWhereInput
-    /**
-     * Limit how many Foundations to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * Foundation updateManyAndReturn
-   */
-  export type FoundationUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Foundation
-     */
-    select?: FoundationSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the Foundation
-     */
-    omit?: FoundationOmit<ExtArgs> | null
-    /**
-     * The data used to update Foundations.
-     */
-    data: XOR<FoundationUpdateManyMutationInput, FoundationUncheckedUpdateManyInput>
-    /**
-     * Filter which Foundations to update
-     */
-    where?: FoundationWhereInput
-    /**
-     * Limit how many Foundations to update.
-     */
-    limit?: number
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: FoundationIncludeUpdateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * Foundation upsert
-   */
-  export type FoundationUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Foundation
-     */
-    select?: FoundationSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Foundation
-     */
-    omit?: FoundationOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: FoundationInclude<ExtArgs> | null
-    /**
-     * The filter to search for the Foundation to update in case it exists.
-     */
-    where: FoundationWhereUniqueInput
-    /**
-     * In case the Foundation found by the `where` argument doesn't exist, create a new Foundation with this data.
-     */
-    create: XOR<FoundationCreateInput, FoundationUncheckedCreateInput>
-    /**
-     * In case the Foundation was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<FoundationUpdateInput, FoundationUncheckedUpdateInput>
-  }
-
-  /**
-   * Foundation delete
-   */
-  export type FoundationDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Foundation
-     */
-    select?: FoundationSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Foundation
-     */
-    omit?: FoundationOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: FoundationInclude<ExtArgs> | null
-    /**
-     * Filter which Foundation to delete.
-     */
-    where: FoundationWhereUniqueInput
-  }
-
-  /**
-   * Foundation deleteMany
-   */
-  export type FoundationDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which Foundations to delete
-     */
-    where?: FoundationWhereInput
-    /**
-     * Limit how many Foundations to delete.
-     */
-    limit?: number
-  }
-
-  /**
-   * Foundation.beneficiary
-   */
-  export type Foundation$beneficiaryArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Beneficiary
-     */
-    select?: BeneficiarySelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Beneficiary
-     */
-    omit?: BeneficiaryOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: BeneficiaryInclude<ExtArgs> | null
-    where?: BeneficiaryWhereInput
-  }
-
-  /**
-   * Foundation without action
-   */
-  export type FoundationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Foundation
-     */
-    select?: FoundationSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Foundation
-     */
-    omit?: FoundationOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: FoundationInclude<ExtArgs> | null
-  }
-
-
-  /**
    * Model Donation
    */
 
@@ -9691,45 +7256,47 @@ export namespace Prisma {
   }
 
   export type DonationAvgAggregateOutputType = {
+    id: number | null
     quantity: number | null
     donorId: number | null
     locationId: number | null
   }
 
   export type DonationSumAggregateOutputType = {
+    id: number | null
     quantity: number | null
     donorId: number | null
     locationId: number | null
   }
 
   export type DonationMinAggregateOutputType = {
-    id: string | null
+    id: number | null
     productName: string | null
     quantity: number | null
     unit: string | null
     status: $Enums.DonationStatus | null
-    createdAt: Date | null
-    updatedAt: Date | null
-    donorConfirmed: boolean | null
-    beneficiaryConfirmed: boolean | null
     donorId: number | null
     locationId: number | null
     beneficiaryId: string | null
+    donorConfirmed: boolean | null
+    beneficiaryConfirmed: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type DonationMaxAggregateOutputType = {
-    id: string | null
+    id: number | null
     productName: string | null
     quantity: number | null
     unit: string | null
     status: $Enums.DonationStatus | null
-    createdAt: Date | null
-    updatedAt: Date | null
-    donorConfirmed: boolean | null
-    beneficiaryConfirmed: boolean | null
     donorId: number | null
     locationId: number | null
     beneficiaryId: string | null
+    donorConfirmed: boolean | null
+    beneficiaryConfirmed: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type DonationCountAggregateOutputType = {
@@ -9738,24 +7305,26 @@ export namespace Prisma {
     quantity: number
     unit: number
     status: number
-    createdAt: number
-    updatedAt: number
-    donorConfirmed: number
-    beneficiaryConfirmed: number
     donorId: number
     locationId: number
     beneficiaryId: number
+    donorConfirmed: number
+    beneficiaryConfirmed: number
+    createdAt: number
+    updatedAt: number
     _all: number
   }
 
 
   export type DonationAvgAggregateInputType = {
+    id?: true
     quantity?: true
     donorId?: true
     locationId?: true
   }
 
   export type DonationSumAggregateInputType = {
+    id?: true
     quantity?: true
     donorId?: true
     locationId?: true
@@ -9767,13 +7336,13 @@ export namespace Prisma {
     quantity?: true
     unit?: true
     status?: true
-    createdAt?: true
-    updatedAt?: true
-    donorConfirmed?: true
-    beneficiaryConfirmed?: true
     donorId?: true
     locationId?: true
     beneficiaryId?: true
+    donorConfirmed?: true
+    beneficiaryConfirmed?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type DonationMaxAggregateInputType = {
@@ -9782,13 +7351,13 @@ export namespace Prisma {
     quantity?: true
     unit?: true
     status?: true
-    createdAt?: true
-    updatedAt?: true
-    donorConfirmed?: true
-    beneficiaryConfirmed?: true
     donorId?: true
     locationId?: true
     beneficiaryId?: true
+    donorConfirmed?: true
+    beneficiaryConfirmed?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type DonationCountAggregateInputType = {
@@ -9797,13 +7366,13 @@ export namespace Prisma {
     quantity?: true
     unit?: true
     status?: true
-    createdAt?: true
-    updatedAt?: true
-    donorConfirmed?: true
-    beneficiaryConfirmed?: true
     donorId?: true
     locationId?: true
     beneficiaryId?: true
+    donorConfirmed?: true
+    beneficiaryConfirmed?: true
+    createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -9894,18 +7463,18 @@ export namespace Prisma {
   }
 
   export type DonationGroupByOutputType = {
-    id: string
+    id: number
     productName: string
     quantity: number
     unit: string
     status: $Enums.DonationStatus
-    createdAt: Date
-    updatedAt: Date
-    donorConfirmed: boolean
-    beneficiaryConfirmed: boolean
     donorId: number
     locationId: number
     beneficiaryId: string | null
+    donorConfirmed: boolean
+    beneficiaryConfirmed: boolean
+    createdAt: Date
+    updatedAt: Date
     _count: DonationCountAggregateOutputType | null
     _avg: DonationAvgAggregateOutputType | null
     _sum: DonationSumAggregateOutputType | null
@@ -9933,13 +7502,13 @@ export namespace Prisma {
     quantity?: boolean
     unit?: boolean
     status?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    donorConfirmed?: boolean
-    beneficiaryConfirmed?: boolean
     donorId?: boolean
     locationId?: boolean
     beneficiaryId?: boolean
+    donorConfirmed?: boolean
+    beneficiaryConfirmed?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     donor?: boolean | DonorDefaultArgs<ExtArgs>
     location?: boolean | LocationDefaultArgs<ExtArgs>
     beneficiary?: boolean | Donation$beneficiaryArgs<ExtArgs>
@@ -9953,13 +7522,13 @@ export namespace Prisma {
     quantity?: boolean
     unit?: boolean
     status?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    donorConfirmed?: boolean
-    beneficiaryConfirmed?: boolean
     donorId?: boolean
     locationId?: boolean
     beneficiaryId?: boolean
+    donorConfirmed?: boolean
+    beneficiaryConfirmed?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     donor?: boolean | DonorDefaultArgs<ExtArgs>
     location?: boolean | LocationDefaultArgs<ExtArgs>
     beneficiary?: boolean | Donation$beneficiaryArgs<ExtArgs>
@@ -9971,13 +7540,13 @@ export namespace Prisma {
     quantity?: boolean
     unit?: boolean
     status?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    donorConfirmed?: boolean
-    beneficiaryConfirmed?: boolean
     donorId?: boolean
     locationId?: boolean
     beneficiaryId?: boolean
+    donorConfirmed?: boolean
+    beneficiaryConfirmed?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     donor?: boolean | DonorDefaultArgs<ExtArgs>
     location?: boolean | LocationDefaultArgs<ExtArgs>
     beneficiary?: boolean | Donation$beneficiaryArgs<ExtArgs>
@@ -9989,16 +7558,16 @@ export namespace Prisma {
     quantity?: boolean
     unit?: boolean
     status?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    donorConfirmed?: boolean
-    beneficiaryConfirmed?: boolean
     donorId?: boolean
     locationId?: boolean
     beneficiaryId?: boolean
+    donorConfirmed?: boolean
+    beneficiaryConfirmed?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }
 
-  export type DonationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "productName" | "quantity" | "unit" | "status" | "createdAt" | "updatedAt" | "donorConfirmed" | "beneficiaryConfirmed" | "donorId" | "locationId" | "beneficiaryId", ExtArgs["result"]["donation"]>
+  export type DonationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "productName" | "quantity" | "unit" | "status" | "donorId" | "locationId" | "beneficiaryId" | "donorConfirmed" | "beneficiaryConfirmed" | "createdAt" | "updatedAt", ExtArgs["result"]["donation"]>
   export type DonationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     donor?: boolean | DonorDefaultArgs<ExtArgs>
     location?: boolean | LocationDefaultArgs<ExtArgs>
@@ -10026,18 +7595,18 @@ export namespace Prisma {
       notifications: Prisma.$NotificationPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
-      id: string
+      id: number
       productName: string
       quantity: number
       unit: string
       status: $Enums.DonationStatus
-      createdAt: Date
-      updatedAt: Date
-      donorConfirmed: boolean
-      beneficiaryConfirmed: boolean
       donorId: number
       locationId: number
       beneficiaryId: string | null
+      donorConfirmed: boolean
+      beneficiaryConfirmed: boolean
+      createdAt: Date
+      updatedAt: Date
     }, ExtArgs["result"]["donation"]>
     composites: {}
   }
@@ -10465,18 +8034,18 @@ export namespace Prisma {
    * Fields of the Donation model
    */
   interface DonationFieldRefs {
-    readonly id: FieldRef<"Donation", 'String'>
+    readonly id: FieldRef<"Donation", 'Int'>
     readonly productName: FieldRef<"Donation", 'String'>
     readonly quantity: FieldRef<"Donation", 'Float'>
     readonly unit: FieldRef<"Donation", 'String'>
     readonly status: FieldRef<"Donation", 'DonationStatus'>
-    readonly createdAt: FieldRef<"Donation", 'DateTime'>
-    readonly updatedAt: FieldRef<"Donation", 'DateTime'>
-    readonly donorConfirmed: FieldRef<"Donation", 'Boolean'>
-    readonly beneficiaryConfirmed: FieldRef<"Donation", 'Boolean'>
     readonly donorId: FieldRef<"Donation", 'Int'>
     readonly locationId: FieldRef<"Donation", 'Int'>
     readonly beneficiaryId: FieldRef<"Donation", 'String'>
+    readonly donorConfirmed: FieldRef<"Donation", 'Boolean'>
+    readonly beneficiaryConfirmed: FieldRef<"Donation", 'Boolean'>
+    readonly createdAt: FieldRef<"Donation", 'DateTime'>
+    readonly updatedAt: FieldRef<"Donation", 'DateTime'>
   }
     
 
@@ -10948,10 +8517,12 @@ export namespace Prisma {
 
   export type NotificationAvgAggregateOutputType = {
     id: number | null
+    donationId: number | null
   }
 
   export type NotificationSumAggregateOutputType = {
     id: number | null
+    donationId: number | null
   }
 
   export type NotificationMinAggregateOutputType = {
@@ -10959,9 +8530,9 @@ export namespace Prisma {
     message: string | null
     type: string | null
     isRead: boolean | null
-    createdAt: Date | null
     userId: string | null
-    donationId: string | null
+    donationId: number | null
+    createdAt: Date | null
   }
 
   export type NotificationMaxAggregateOutputType = {
@@ -10969,9 +8540,9 @@ export namespace Prisma {
     message: string | null
     type: string | null
     isRead: boolean | null
-    createdAt: Date | null
     userId: string | null
-    donationId: string | null
+    donationId: number | null
+    createdAt: Date | null
   }
 
   export type NotificationCountAggregateOutputType = {
@@ -10979,19 +8550,21 @@ export namespace Prisma {
     message: number
     type: number
     isRead: number
-    createdAt: number
     userId: number
     donationId: number
+    createdAt: number
     _all: number
   }
 
 
   export type NotificationAvgAggregateInputType = {
     id?: true
+    donationId?: true
   }
 
   export type NotificationSumAggregateInputType = {
     id?: true
+    donationId?: true
   }
 
   export type NotificationMinAggregateInputType = {
@@ -10999,9 +8572,9 @@ export namespace Prisma {
     message?: true
     type?: true
     isRead?: true
-    createdAt?: true
     userId?: true
     donationId?: true
+    createdAt?: true
   }
 
   export type NotificationMaxAggregateInputType = {
@@ -11009,9 +8582,9 @@ export namespace Prisma {
     message?: true
     type?: true
     isRead?: true
-    createdAt?: true
     userId?: true
     donationId?: true
+    createdAt?: true
   }
 
   export type NotificationCountAggregateInputType = {
@@ -11019,9 +8592,9 @@ export namespace Prisma {
     message?: true
     type?: true
     isRead?: true
-    createdAt?: true
     userId?: true
     donationId?: true
+    createdAt?: true
     _all?: true
   }
 
@@ -11116,9 +8689,9 @@ export namespace Prisma {
     message: string
     type: string
     isRead: boolean
-    createdAt: Date
     userId: string
-    donationId: string | null
+    donationId: number | null
+    createdAt: Date
     _count: NotificationCountAggregateOutputType | null
     _avg: NotificationAvgAggregateOutputType | null
     _sum: NotificationSumAggregateOutputType | null
@@ -11145,9 +8718,9 @@ export namespace Prisma {
     message?: boolean
     type?: boolean
     isRead?: boolean
-    createdAt?: boolean
     userId?: boolean
     donationId?: boolean
+    createdAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     donation?: boolean | Notification$donationArgs<ExtArgs>
   }, ExtArgs["result"]["notification"]>
@@ -11157,9 +8730,9 @@ export namespace Prisma {
     message?: boolean
     type?: boolean
     isRead?: boolean
-    createdAt?: boolean
     userId?: boolean
     donationId?: boolean
+    createdAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     donation?: boolean | Notification$donationArgs<ExtArgs>
   }, ExtArgs["result"]["notification"]>
@@ -11169,9 +8742,9 @@ export namespace Prisma {
     message?: boolean
     type?: boolean
     isRead?: boolean
-    createdAt?: boolean
     userId?: boolean
     donationId?: boolean
+    createdAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     donation?: boolean | Notification$donationArgs<ExtArgs>
   }, ExtArgs["result"]["notification"]>
@@ -11181,12 +8754,12 @@ export namespace Prisma {
     message?: boolean
     type?: boolean
     isRead?: boolean
-    createdAt?: boolean
     userId?: boolean
     donationId?: boolean
+    createdAt?: boolean
   }
 
-  export type NotificationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "message" | "type" | "isRead" | "createdAt" | "userId" | "donationId", ExtArgs["result"]["notification"]>
+  export type NotificationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "message" | "type" | "isRead" | "userId" | "donationId" | "createdAt", ExtArgs["result"]["notification"]>
   export type NotificationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     donation?: boolean | Notification$donationArgs<ExtArgs>
@@ -11211,9 +8784,9 @@ export namespace Prisma {
       message: string
       type: string
       isRead: boolean
-      createdAt: Date
       userId: string
-      donationId: string | null
+      donationId: number | null
+      createdAt: Date
     }, ExtArgs["result"]["notification"]>
     composites: {}
   }
@@ -11643,9 +9216,9 @@ export namespace Prisma {
     readonly message: FieldRef<"Notification", 'String'>
     readonly type: FieldRef<"Notification", 'String'>
     readonly isRead: FieldRef<"Notification", 'Boolean'>
-    readonly createdAt: FieldRef<"Notification", 'DateTime'>
     readonly userId: FieldRef<"Notification", 'String'>
-    readonly donationId: FieldRef<"Notification", 'String'>
+    readonly donationId: FieldRef<"Notification", 'Int'>
+    readonly createdAt: FieldRef<"Notification", 'DateTime'>
   }
     
 
@@ -12080,6 +9653,962 @@ export namespace Prisma {
 
 
   /**
+   * Model EFMigrationsHistory
+   */
+
+  export type AggregateEFMigrationsHistory = {
+    _count: EFMigrationsHistoryCountAggregateOutputType | null
+    _min: EFMigrationsHistoryMinAggregateOutputType | null
+    _max: EFMigrationsHistoryMaxAggregateOutputType | null
+  }
+
+  export type EFMigrationsHistoryMinAggregateOutputType = {
+    MigrationId: string | null
+    ProductVersion: string | null
+  }
+
+  export type EFMigrationsHistoryMaxAggregateOutputType = {
+    MigrationId: string | null
+    ProductVersion: string | null
+  }
+
+  export type EFMigrationsHistoryCountAggregateOutputType = {
+    MigrationId: number
+    ProductVersion: number
+    _all: number
+  }
+
+
+  export type EFMigrationsHistoryMinAggregateInputType = {
+    MigrationId?: true
+    ProductVersion?: true
+  }
+
+  export type EFMigrationsHistoryMaxAggregateInputType = {
+    MigrationId?: true
+    ProductVersion?: true
+  }
+
+  export type EFMigrationsHistoryCountAggregateInputType = {
+    MigrationId?: true
+    ProductVersion?: true
+    _all?: true
+  }
+
+  export type EFMigrationsHistoryAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which EFMigrationsHistory to aggregate.
+     */
+    where?: EFMigrationsHistoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EFMigrationsHistories to fetch.
+     */
+    orderBy?: EFMigrationsHistoryOrderByWithRelationInput | EFMigrationsHistoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: EFMigrationsHistoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EFMigrationsHistories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EFMigrationsHistories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned EFMigrationsHistories
+    **/
+    _count?: true | EFMigrationsHistoryCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: EFMigrationsHistoryMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: EFMigrationsHistoryMaxAggregateInputType
+  }
+
+  export type GetEFMigrationsHistoryAggregateType<T extends EFMigrationsHistoryAggregateArgs> = {
+        [P in keyof T & keyof AggregateEFMigrationsHistory]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateEFMigrationsHistory[P]>
+      : GetScalarType<T[P], AggregateEFMigrationsHistory[P]>
+  }
+
+
+
+
+  export type EFMigrationsHistoryGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: EFMigrationsHistoryWhereInput
+    orderBy?: EFMigrationsHistoryOrderByWithAggregationInput | EFMigrationsHistoryOrderByWithAggregationInput[]
+    by: EFMigrationsHistoryScalarFieldEnum[] | EFMigrationsHistoryScalarFieldEnum
+    having?: EFMigrationsHistoryScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: EFMigrationsHistoryCountAggregateInputType | true
+    _min?: EFMigrationsHistoryMinAggregateInputType
+    _max?: EFMigrationsHistoryMaxAggregateInputType
+  }
+
+  export type EFMigrationsHistoryGroupByOutputType = {
+    MigrationId: string
+    ProductVersion: string
+    _count: EFMigrationsHistoryCountAggregateOutputType | null
+    _min: EFMigrationsHistoryMinAggregateOutputType | null
+    _max: EFMigrationsHistoryMaxAggregateOutputType | null
+  }
+
+  type GetEFMigrationsHistoryGroupByPayload<T extends EFMigrationsHistoryGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<EFMigrationsHistoryGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof EFMigrationsHistoryGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], EFMigrationsHistoryGroupByOutputType[P]>
+            : GetScalarType<T[P], EFMigrationsHistoryGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type EFMigrationsHistorySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    MigrationId?: boolean
+    ProductVersion?: boolean
+  }, ExtArgs["result"]["eFMigrationsHistory"]>
+
+  export type EFMigrationsHistorySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    MigrationId?: boolean
+    ProductVersion?: boolean
+  }, ExtArgs["result"]["eFMigrationsHistory"]>
+
+  export type EFMigrationsHistorySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    MigrationId?: boolean
+    ProductVersion?: boolean
+  }, ExtArgs["result"]["eFMigrationsHistory"]>
+
+  export type EFMigrationsHistorySelectScalar = {
+    MigrationId?: boolean
+    ProductVersion?: boolean
+  }
+
+  export type EFMigrationsHistoryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"MigrationId" | "ProductVersion", ExtArgs["result"]["eFMigrationsHistory"]>
+
+  export type $EFMigrationsHistoryPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "EFMigrationsHistory"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      MigrationId: string
+      ProductVersion: string
+    }, ExtArgs["result"]["eFMigrationsHistory"]>
+    composites: {}
+  }
+
+  type EFMigrationsHistoryGetPayload<S extends boolean | null | undefined | EFMigrationsHistoryDefaultArgs> = $Result.GetResult<Prisma.$EFMigrationsHistoryPayload, S>
+
+  type EFMigrationsHistoryCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<EFMigrationsHistoryFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: EFMigrationsHistoryCountAggregateInputType | true
+    }
+
+  export interface EFMigrationsHistoryDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['EFMigrationsHistory'], meta: { name: 'EFMigrationsHistory' } }
+    /**
+     * Find zero or one EFMigrationsHistory that matches the filter.
+     * @param {EFMigrationsHistoryFindUniqueArgs} args - Arguments to find a EFMigrationsHistory
+     * @example
+     * // Get one EFMigrationsHistory
+     * const eFMigrationsHistory = await prisma.eFMigrationsHistory.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends EFMigrationsHistoryFindUniqueArgs>(args: SelectSubset<T, EFMigrationsHistoryFindUniqueArgs<ExtArgs>>): Prisma__EFMigrationsHistoryClient<$Result.GetResult<Prisma.$EFMigrationsHistoryPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one EFMigrationsHistory that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {EFMigrationsHistoryFindUniqueOrThrowArgs} args - Arguments to find a EFMigrationsHistory
+     * @example
+     * // Get one EFMigrationsHistory
+     * const eFMigrationsHistory = await prisma.eFMigrationsHistory.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends EFMigrationsHistoryFindUniqueOrThrowArgs>(args: SelectSubset<T, EFMigrationsHistoryFindUniqueOrThrowArgs<ExtArgs>>): Prisma__EFMigrationsHistoryClient<$Result.GetResult<Prisma.$EFMigrationsHistoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first EFMigrationsHistory that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EFMigrationsHistoryFindFirstArgs} args - Arguments to find a EFMigrationsHistory
+     * @example
+     * // Get one EFMigrationsHistory
+     * const eFMigrationsHistory = await prisma.eFMigrationsHistory.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends EFMigrationsHistoryFindFirstArgs>(args?: SelectSubset<T, EFMigrationsHistoryFindFirstArgs<ExtArgs>>): Prisma__EFMigrationsHistoryClient<$Result.GetResult<Prisma.$EFMigrationsHistoryPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first EFMigrationsHistory that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EFMigrationsHistoryFindFirstOrThrowArgs} args - Arguments to find a EFMigrationsHistory
+     * @example
+     * // Get one EFMigrationsHistory
+     * const eFMigrationsHistory = await prisma.eFMigrationsHistory.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends EFMigrationsHistoryFindFirstOrThrowArgs>(args?: SelectSubset<T, EFMigrationsHistoryFindFirstOrThrowArgs<ExtArgs>>): Prisma__EFMigrationsHistoryClient<$Result.GetResult<Prisma.$EFMigrationsHistoryPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more EFMigrationsHistories that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EFMigrationsHistoryFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all EFMigrationsHistories
+     * const eFMigrationsHistories = await prisma.eFMigrationsHistory.findMany()
+     * 
+     * // Get first 10 EFMigrationsHistories
+     * const eFMigrationsHistories = await prisma.eFMigrationsHistory.findMany({ take: 10 })
+     * 
+     * // Only select the `MigrationId`
+     * const eFMigrationsHistoryWithMigrationIdOnly = await prisma.eFMigrationsHistory.findMany({ select: { MigrationId: true } })
+     * 
+     */
+    findMany<T extends EFMigrationsHistoryFindManyArgs>(args?: SelectSubset<T, EFMigrationsHistoryFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EFMigrationsHistoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a EFMigrationsHistory.
+     * @param {EFMigrationsHistoryCreateArgs} args - Arguments to create a EFMigrationsHistory.
+     * @example
+     * // Create one EFMigrationsHistory
+     * const EFMigrationsHistory = await prisma.eFMigrationsHistory.create({
+     *   data: {
+     *     // ... data to create a EFMigrationsHistory
+     *   }
+     * })
+     * 
+     */
+    create<T extends EFMigrationsHistoryCreateArgs>(args: SelectSubset<T, EFMigrationsHistoryCreateArgs<ExtArgs>>): Prisma__EFMigrationsHistoryClient<$Result.GetResult<Prisma.$EFMigrationsHistoryPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many EFMigrationsHistories.
+     * @param {EFMigrationsHistoryCreateManyArgs} args - Arguments to create many EFMigrationsHistories.
+     * @example
+     * // Create many EFMigrationsHistories
+     * const eFMigrationsHistory = await prisma.eFMigrationsHistory.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends EFMigrationsHistoryCreateManyArgs>(args?: SelectSubset<T, EFMigrationsHistoryCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many EFMigrationsHistories and returns the data saved in the database.
+     * @param {EFMigrationsHistoryCreateManyAndReturnArgs} args - Arguments to create many EFMigrationsHistories.
+     * @example
+     * // Create many EFMigrationsHistories
+     * const eFMigrationsHistory = await prisma.eFMigrationsHistory.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many EFMigrationsHistories and only return the `MigrationId`
+     * const eFMigrationsHistoryWithMigrationIdOnly = await prisma.eFMigrationsHistory.createManyAndReturn({
+     *   select: { MigrationId: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends EFMigrationsHistoryCreateManyAndReturnArgs>(args?: SelectSubset<T, EFMigrationsHistoryCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EFMigrationsHistoryPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a EFMigrationsHistory.
+     * @param {EFMigrationsHistoryDeleteArgs} args - Arguments to delete one EFMigrationsHistory.
+     * @example
+     * // Delete one EFMigrationsHistory
+     * const EFMigrationsHistory = await prisma.eFMigrationsHistory.delete({
+     *   where: {
+     *     // ... filter to delete one EFMigrationsHistory
+     *   }
+     * })
+     * 
+     */
+    delete<T extends EFMigrationsHistoryDeleteArgs>(args: SelectSubset<T, EFMigrationsHistoryDeleteArgs<ExtArgs>>): Prisma__EFMigrationsHistoryClient<$Result.GetResult<Prisma.$EFMigrationsHistoryPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one EFMigrationsHistory.
+     * @param {EFMigrationsHistoryUpdateArgs} args - Arguments to update one EFMigrationsHistory.
+     * @example
+     * // Update one EFMigrationsHistory
+     * const eFMigrationsHistory = await prisma.eFMigrationsHistory.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends EFMigrationsHistoryUpdateArgs>(args: SelectSubset<T, EFMigrationsHistoryUpdateArgs<ExtArgs>>): Prisma__EFMigrationsHistoryClient<$Result.GetResult<Prisma.$EFMigrationsHistoryPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more EFMigrationsHistories.
+     * @param {EFMigrationsHistoryDeleteManyArgs} args - Arguments to filter EFMigrationsHistories to delete.
+     * @example
+     * // Delete a few EFMigrationsHistories
+     * const { count } = await prisma.eFMigrationsHistory.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends EFMigrationsHistoryDeleteManyArgs>(args?: SelectSubset<T, EFMigrationsHistoryDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more EFMigrationsHistories.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EFMigrationsHistoryUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many EFMigrationsHistories
+     * const eFMigrationsHistory = await prisma.eFMigrationsHistory.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends EFMigrationsHistoryUpdateManyArgs>(args: SelectSubset<T, EFMigrationsHistoryUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more EFMigrationsHistories and returns the data updated in the database.
+     * @param {EFMigrationsHistoryUpdateManyAndReturnArgs} args - Arguments to update many EFMigrationsHistories.
+     * @example
+     * // Update many EFMigrationsHistories
+     * const eFMigrationsHistory = await prisma.eFMigrationsHistory.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more EFMigrationsHistories and only return the `MigrationId`
+     * const eFMigrationsHistoryWithMigrationIdOnly = await prisma.eFMigrationsHistory.updateManyAndReturn({
+     *   select: { MigrationId: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends EFMigrationsHistoryUpdateManyAndReturnArgs>(args: SelectSubset<T, EFMigrationsHistoryUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EFMigrationsHistoryPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one EFMigrationsHistory.
+     * @param {EFMigrationsHistoryUpsertArgs} args - Arguments to update or create a EFMigrationsHistory.
+     * @example
+     * // Update or create a EFMigrationsHistory
+     * const eFMigrationsHistory = await prisma.eFMigrationsHistory.upsert({
+     *   create: {
+     *     // ... data to create a EFMigrationsHistory
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the EFMigrationsHistory we want to update
+     *   }
+     * })
+     */
+    upsert<T extends EFMigrationsHistoryUpsertArgs>(args: SelectSubset<T, EFMigrationsHistoryUpsertArgs<ExtArgs>>): Prisma__EFMigrationsHistoryClient<$Result.GetResult<Prisma.$EFMigrationsHistoryPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of EFMigrationsHistories.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EFMigrationsHistoryCountArgs} args - Arguments to filter EFMigrationsHistories to count.
+     * @example
+     * // Count the number of EFMigrationsHistories
+     * const count = await prisma.eFMigrationsHistory.count({
+     *   where: {
+     *     // ... the filter for the EFMigrationsHistories we want to count
+     *   }
+     * })
+    **/
+    count<T extends EFMigrationsHistoryCountArgs>(
+      args?: Subset<T, EFMigrationsHistoryCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], EFMigrationsHistoryCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a EFMigrationsHistory.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EFMigrationsHistoryAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends EFMigrationsHistoryAggregateArgs>(args: Subset<T, EFMigrationsHistoryAggregateArgs>): Prisma.PrismaPromise<GetEFMigrationsHistoryAggregateType<T>>
+
+    /**
+     * Group by EFMigrationsHistory.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EFMigrationsHistoryGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends EFMigrationsHistoryGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: EFMigrationsHistoryGroupByArgs['orderBy'] }
+        : { orderBy?: EFMigrationsHistoryGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, EFMigrationsHistoryGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetEFMigrationsHistoryGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the EFMigrationsHistory model
+   */
+  readonly fields: EFMigrationsHistoryFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for EFMigrationsHistory.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__EFMigrationsHistoryClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the EFMigrationsHistory model
+   */
+  interface EFMigrationsHistoryFieldRefs {
+    readonly MigrationId: FieldRef<"EFMigrationsHistory", 'String'>
+    readonly ProductVersion: FieldRef<"EFMigrationsHistory", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * EFMigrationsHistory findUnique
+   */
+  export type EFMigrationsHistoryFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EFMigrationsHistory
+     */
+    select?: EFMigrationsHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EFMigrationsHistory
+     */
+    omit?: EFMigrationsHistoryOmit<ExtArgs> | null
+    /**
+     * Filter, which EFMigrationsHistory to fetch.
+     */
+    where: EFMigrationsHistoryWhereUniqueInput
+  }
+
+  /**
+   * EFMigrationsHistory findUniqueOrThrow
+   */
+  export type EFMigrationsHistoryFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EFMigrationsHistory
+     */
+    select?: EFMigrationsHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EFMigrationsHistory
+     */
+    omit?: EFMigrationsHistoryOmit<ExtArgs> | null
+    /**
+     * Filter, which EFMigrationsHistory to fetch.
+     */
+    where: EFMigrationsHistoryWhereUniqueInput
+  }
+
+  /**
+   * EFMigrationsHistory findFirst
+   */
+  export type EFMigrationsHistoryFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EFMigrationsHistory
+     */
+    select?: EFMigrationsHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EFMigrationsHistory
+     */
+    omit?: EFMigrationsHistoryOmit<ExtArgs> | null
+    /**
+     * Filter, which EFMigrationsHistory to fetch.
+     */
+    where?: EFMigrationsHistoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EFMigrationsHistories to fetch.
+     */
+    orderBy?: EFMigrationsHistoryOrderByWithRelationInput | EFMigrationsHistoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for EFMigrationsHistories.
+     */
+    cursor?: EFMigrationsHistoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EFMigrationsHistories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EFMigrationsHistories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of EFMigrationsHistories.
+     */
+    distinct?: EFMigrationsHistoryScalarFieldEnum | EFMigrationsHistoryScalarFieldEnum[]
+  }
+
+  /**
+   * EFMigrationsHistory findFirstOrThrow
+   */
+  export type EFMigrationsHistoryFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EFMigrationsHistory
+     */
+    select?: EFMigrationsHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EFMigrationsHistory
+     */
+    omit?: EFMigrationsHistoryOmit<ExtArgs> | null
+    /**
+     * Filter, which EFMigrationsHistory to fetch.
+     */
+    where?: EFMigrationsHistoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EFMigrationsHistories to fetch.
+     */
+    orderBy?: EFMigrationsHistoryOrderByWithRelationInput | EFMigrationsHistoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for EFMigrationsHistories.
+     */
+    cursor?: EFMigrationsHistoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EFMigrationsHistories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EFMigrationsHistories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of EFMigrationsHistories.
+     */
+    distinct?: EFMigrationsHistoryScalarFieldEnum | EFMigrationsHistoryScalarFieldEnum[]
+  }
+
+  /**
+   * EFMigrationsHistory findMany
+   */
+  export type EFMigrationsHistoryFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EFMigrationsHistory
+     */
+    select?: EFMigrationsHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EFMigrationsHistory
+     */
+    omit?: EFMigrationsHistoryOmit<ExtArgs> | null
+    /**
+     * Filter, which EFMigrationsHistories to fetch.
+     */
+    where?: EFMigrationsHistoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EFMigrationsHistories to fetch.
+     */
+    orderBy?: EFMigrationsHistoryOrderByWithRelationInput | EFMigrationsHistoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing EFMigrationsHistories.
+     */
+    cursor?: EFMigrationsHistoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EFMigrationsHistories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EFMigrationsHistories.
+     */
+    skip?: number
+    distinct?: EFMigrationsHistoryScalarFieldEnum | EFMigrationsHistoryScalarFieldEnum[]
+  }
+
+  /**
+   * EFMigrationsHistory create
+   */
+  export type EFMigrationsHistoryCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EFMigrationsHistory
+     */
+    select?: EFMigrationsHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EFMigrationsHistory
+     */
+    omit?: EFMigrationsHistoryOmit<ExtArgs> | null
+    /**
+     * The data needed to create a EFMigrationsHistory.
+     */
+    data: XOR<EFMigrationsHistoryCreateInput, EFMigrationsHistoryUncheckedCreateInput>
+  }
+
+  /**
+   * EFMigrationsHistory createMany
+   */
+  export type EFMigrationsHistoryCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many EFMigrationsHistories.
+     */
+    data: EFMigrationsHistoryCreateManyInput | EFMigrationsHistoryCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * EFMigrationsHistory createManyAndReturn
+   */
+  export type EFMigrationsHistoryCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EFMigrationsHistory
+     */
+    select?: EFMigrationsHistorySelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the EFMigrationsHistory
+     */
+    omit?: EFMigrationsHistoryOmit<ExtArgs> | null
+    /**
+     * The data used to create many EFMigrationsHistories.
+     */
+    data: EFMigrationsHistoryCreateManyInput | EFMigrationsHistoryCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * EFMigrationsHistory update
+   */
+  export type EFMigrationsHistoryUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EFMigrationsHistory
+     */
+    select?: EFMigrationsHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EFMigrationsHistory
+     */
+    omit?: EFMigrationsHistoryOmit<ExtArgs> | null
+    /**
+     * The data needed to update a EFMigrationsHistory.
+     */
+    data: XOR<EFMigrationsHistoryUpdateInput, EFMigrationsHistoryUncheckedUpdateInput>
+    /**
+     * Choose, which EFMigrationsHistory to update.
+     */
+    where: EFMigrationsHistoryWhereUniqueInput
+  }
+
+  /**
+   * EFMigrationsHistory updateMany
+   */
+  export type EFMigrationsHistoryUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update EFMigrationsHistories.
+     */
+    data: XOR<EFMigrationsHistoryUpdateManyMutationInput, EFMigrationsHistoryUncheckedUpdateManyInput>
+    /**
+     * Filter which EFMigrationsHistories to update
+     */
+    where?: EFMigrationsHistoryWhereInput
+    /**
+     * Limit how many EFMigrationsHistories to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * EFMigrationsHistory updateManyAndReturn
+   */
+  export type EFMigrationsHistoryUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EFMigrationsHistory
+     */
+    select?: EFMigrationsHistorySelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the EFMigrationsHistory
+     */
+    omit?: EFMigrationsHistoryOmit<ExtArgs> | null
+    /**
+     * The data used to update EFMigrationsHistories.
+     */
+    data: XOR<EFMigrationsHistoryUpdateManyMutationInput, EFMigrationsHistoryUncheckedUpdateManyInput>
+    /**
+     * Filter which EFMigrationsHistories to update
+     */
+    where?: EFMigrationsHistoryWhereInput
+    /**
+     * Limit how many EFMigrationsHistories to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * EFMigrationsHistory upsert
+   */
+  export type EFMigrationsHistoryUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EFMigrationsHistory
+     */
+    select?: EFMigrationsHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EFMigrationsHistory
+     */
+    omit?: EFMigrationsHistoryOmit<ExtArgs> | null
+    /**
+     * The filter to search for the EFMigrationsHistory to update in case it exists.
+     */
+    where: EFMigrationsHistoryWhereUniqueInput
+    /**
+     * In case the EFMigrationsHistory found by the `where` argument doesn't exist, create a new EFMigrationsHistory with this data.
+     */
+    create: XOR<EFMigrationsHistoryCreateInput, EFMigrationsHistoryUncheckedCreateInput>
+    /**
+     * In case the EFMigrationsHistory was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<EFMigrationsHistoryUpdateInput, EFMigrationsHistoryUncheckedUpdateInput>
+  }
+
+  /**
+   * EFMigrationsHistory delete
+   */
+  export type EFMigrationsHistoryDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EFMigrationsHistory
+     */
+    select?: EFMigrationsHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EFMigrationsHistory
+     */
+    omit?: EFMigrationsHistoryOmit<ExtArgs> | null
+    /**
+     * Filter which EFMigrationsHistory to delete.
+     */
+    where: EFMigrationsHistoryWhereUniqueInput
+  }
+
+  /**
+   * EFMigrationsHistory deleteMany
+   */
+  export type EFMigrationsHistoryDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which EFMigrationsHistories to delete
+     */
+    where?: EFMigrationsHistoryWhereInput
+    /**
+     * Limit how many EFMigrationsHistories to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * EFMigrationsHistory without action
+   */
+  export type EFMigrationsHistoryDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EFMigrationsHistory
+     */
+    select?: EFMigrationsHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EFMigrationsHistory
+     */
+    omit?: EFMigrationsHistoryOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -12136,37 +10665,12 @@ export namespace Prisma {
   export type LocationScalarFieldEnum = (typeof LocationScalarFieldEnum)[keyof typeof LocationScalarFieldEnum]
 
 
-  export const PeakHourScalarFieldEnum: {
-    id: 'id',
-    day: 'day',
-    startTime: 'startTime',
-    endTime: 'endTime',
-    note: 'note',
-    locationId: 'locationId'
-  };
-
-  export type PeakHourScalarFieldEnum = (typeof PeakHourScalarFieldEnum)[keyof typeof PeakHourScalarFieldEnum]
-
-
   export const BeneficiaryScalarFieldEnum: {
     id: 'id',
-    userId: 'userId',
-    foundationId: 'foundationId'
+    userId: 'userId'
   };
 
   export type BeneficiaryScalarFieldEnum = (typeof BeneficiaryScalarFieldEnum)[keyof typeof BeneficiaryScalarFieldEnum]
-
-
-  export const FoundationScalarFieldEnum: {
-    id: 'id',
-    name: 'name',
-    mainStreet: 'mainStreet',
-    secondaryStreet: 'secondaryStreet',
-    reference: 'reference',
-    cityCode: 'cityCode'
-  };
-
-  export type FoundationScalarFieldEnum = (typeof FoundationScalarFieldEnum)[keyof typeof FoundationScalarFieldEnum]
 
 
   export const DonationScalarFieldEnum: {
@@ -12175,13 +10679,13 @@ export namespace Prisma {
     quantity: 'quantity',
     unit: 'unit',
     status: 'status',
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt',
-    donorConfirmed: 'donorConfirmed',
-    beneficiaryConfirmed: 'beneficiaryConfirmed',
     donorId: 'donorId',
     locationId: 'locationId',
-    beneficiaryId: 'beneficiaryId'
+    beneficiaryId: 'beneficiaryId',
+    donorConfirmed: 'donorConfirmed',
+    beneficiaryConfirmed: 'beneficiaryConfirmed',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
   export type DonationScalarFieldEnum = (typeof DonationScalarFieldEnum)[keyof typeof DonationScalarFieldEnum]
@@ -12192,12 +10696,20 @@ export namespace Prisma {
     message: 'message',
     type: 'type',
     isRead: 'isRead',
-    createdAt: 'createdAt',
     userId: 'userId',
-    donationId: 'donationId'
+    donationId: 'donationId',
+    createdAt: 'createdAt'
   };
 
   export type NotificationScalarFieldEnum = (typeof NotificationScalarFieldEnum)[keyof typeof NotificationScalarFieldEnum]
+
+
+  export const EFMigrationsHistoryScalarFieldEnum: {
+    MigrationId: 'MigrationId',
+    ProductVersion: 'ProductVersion'
+  };
+
+  export type EFMigrationsHistoryScalarFieldEnum = (typeof EFMigrationsHistoryScalarFieldEnum)[keyof typeof EFMigrationsHistoryScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -12272,20 +10784,6 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Days[]'
-   */
-  export type ListEnumDaysFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Days[]'>
-    
-
-
-  /**
-   * Reference to a field of type 'Days'
-   */
-  export type EnumDaysFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Days'>
-    
-
-
-  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -12330,14 +10828,12 @@ export namespace Prisma {
     code?: StringFilter<"City"> | string
     name?: StringFilter<"City"> | string
     locations?: LocationListRelationFilter
-    foundations?: FoundationListRelationFilter
   }
 
   export type CityOrderByWithRelationInput = {
     code?: SortOrder
     name?: SortOrder
     locations?: LocationOrderByRelationAggregateInput
-    foundations?: FoundationOrderByRelationAggregateInput
   }
 
   export type CityWhereUniqueInput = Prisma.AtLeast<{
@@ -12347,8 +10843,7 @@ export namespace Prisma {
     NOT?: CityWhereInput | CityWhereInput[]
     name?: StringFilter<"City"> | string
     locations?: LocationListRelationFilter
-    foundations?: FoundationListRelationFilter
-  }, "code" | "code">
+  }, "code">
 
   export type CityOrderByWithAggregationInput = {
     code?: SortOrder
@@ -12378,10 +10873,10 @@ export namespace Prisma {
     userType?: StringFilter<"User"> | string
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
-    donor?: XOR<DonorNullableScalarRelationFilter, DonorWhereInput> | null
     beneficiary?: XOR<BeneficiaryNullableScalarRelationFilter, BeneficiaryWhereInput> | null
+    donor?: XOR<DonorNullableScalarRelationFilter, DonorWhereInput> | null
     notifications?: NotificationListRelationFilter
-    beneficiaryDonations?: DonationListRelationFilter
+    claimedDonations?: DonationListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -12393,10 +10888,10 @@ export namespace Prisma {
     userType?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    donor?: DonorOrderByWithRelationInput
     beneficiary?: BeneficiaryOrderByWithRelationInput
+    donor?: DonorOrderByWithRelationInput
     notifications?: NotificationOrderByRelationAggregateInput
-    beneficiaryDonations?: DonationOrderByRelationAggregateInput
+    claimedDonations?: DonationOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -12411,10 +10906,10 @@ export namespace Prisma {
     userType?: StringFilter<"User"> | string
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
-    donor?: XOR<DonorNullableScalarRelationFilter, DonorWhereInput> | null
     beneficiary?: XOR<BeneficiaryNullableScalarRelationFilter, BeneficiaryWhereInput> | null
+    donor?: XOR<DonorNullableScalarRelationFilter, DonorWhereInput> | null
     notifications?: NotificationListRelationFilter
-    beneficiaryDonations?: DonationListRelationFilter
+    claimedDonations?: DonationListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -12504,9 +10999,8 @@ export namespace Prisma {
     reference?: StringFilter<"Location"> | string
     donorId?: IntFilter<"Location"> | number
     cityCode?: StringFilter<"Location"> | string
-    donor?: XOR<DonorScalarRelationFilter, DonorWhereInput>
     city?: XOR<CityScalarRelationFilter, CityWhereInput>
-    peakHours?: PeakHourListRelationFilter
+    donor?: XOR<DonorScalarRelationFilter, DonorWhereInput>
     donations?: DonationListRelationFilter
   }
 
@@ -12518,9 +11012,8 @@ export namespace Prisma {
     reference?: SortOrder
     donorId?: SortOrder
     cityCode?: SortOrder
-    donor?: DonorOrderByWithRelationInput
     city?: CityOrderByWithRelationInput
-    peakHours?: PeakHourOrderByRelationAggregateInput
+    donor?: DonorOrderByWithRelationInput
     donations?: DonationOrderByRelationAggregateInput
   }
 
@@ -12535,9 +11028,8 @@ export namespace Prisma {
     reference?: StringFilter<"Location"> | string
     donorId?: IntFilter<"Location"> | number
     cityCode?: StringFilter<"Location"> | string
-    donor?: XOR<DonorScalarRelationFilter, DonorWhereInput>
     city?: XOR<CityScalarRelationFilter, CityWhereInput>
-    peakHours?: PeakHourListRelationFilter
+    donor?: XOR<DonorScalarRelationFilter, DonorWhereInput>
     donations?: DonationListRelationFilter
   }, "id">
 
@@ -12569,102 +11061,33 @@ export namespace Prisma {
     cityCode?: StringWithAggregatesFilter<"Location"> | string
   }
 
-  export type PeakHourWhereInput = {
-    AND?: PeakHourWhereInput | PeakHourWhereInput[]
-    OR?: PeakHourWhereInput[]
-    NOT?: PeakHourWhereInput | PeakHourWhereInput[]
-    id?: IntFilter<"PeakHour"> | number
-    day?: EnumDaysNullableListFilter<"PeakHour">
-    startTime?: StringFilter<"PeakHour"> | string
-    endTime?: StringFilter<"PeakHour"> | string
-    note?: StringNullableFilter<"PeakHour"> | string | null
-    locationId?: IntFilter<"PeakHour"> | number
-    location?: XOR<LocationScalarRelationFilter, LocationWhereInput>
-  }
-
-  export type PeakHourOrderByWithRelationInput = {
-    id?: SortOrder
-    day?: SortOrder
-    startTime?: SortOrder
-    endTime?: SortOrder
-    note?: SortOrderInput | SortOrder
-    locationId?: SortOrder
-    location?: LocationOrderByWithRelationInput
-  }
-
-  export type PeakHourWhereUniqueInput = Prisma.AtLeast<{
-    id?: number
-    AND?: PeakHourWhereInput | PeakHourWhereInput[]
-    OR?: PeakHourWhereInput[]
-    NOT?: PeakHourWhereInput | PeakHourWhereInput[]
-    day?: EnumDaysNullableListFilter<"PeakHour">
-    startTime?: StringFilter<"PeakHour"> | string
-    endTime?: StringFilter<"PeakHour"> | string
-    note?: StringNullableFilter<"PeakHour"> | string | null
-    locationId?: IntFilter<"PeakHour"> | number
-    location?: XOR<LocationScalarRelationFilter, LocationWhereInput>
-  }, "id">
-
-  export type PeakHourOrderByWithAggregationInput = {
-    id?: SortOrder
-    day?: SortOrder
-    startTime?: SortOrder
-    endTime?: SortOrder
-    note?: SortOrderInput | SortOrder
-    locationId?: SortOrder
-    _count?: PeakHourCountOrderByAggregateInput
-    _avg?: PeakHourAvgOrderByAggregateInput
-    _max?: PeakHourMaxOrderByAggregateInput
-    _min?: PeakHourMinOrderByAggregateInput
-    _sum?: PeakHourSumOrderByAggregateInput
-  }
-
-  export type PeakHourScalarWhereWithAggregatesInput = {
-    AND?: PeakHourScalarWhereWithAggregatesInput | PeakHourScalarWhereWithAggregatesInput[]
-    OR?: PeakHourScalarWhereWithAggregatesInput[]
-    NOT?: PeakHourScalarWhereWithAggregatesInput | PeakHourScalarWhereWithAggregatesInput[]
-    id?: IntWithAggregatesFilter<"PeakHour"> | number
-    day?: EnumDaysNullableListFilter<"PeakHour">
-    startTime?: StringWithAggregatesFilter<"PeakHour"> | string
-    endTime?: StringWithAggregatesFilter<"PeakHour"> | string
-    note?: StringNullableWithAggregatesFilter<"PeakHour"> | string | null
-    locationId?: IntWithAggregatesFilter<"PeakHour"> | number
-  }
-
   export type BeneficiaryWhereInput = {
     AND?: BeneficiaryWhereInput | BeneficiaryWhereInput[]
     OR?: BeneficiaryWhereInput[]
     NOT?: BeneficiaryWhereInput | BeneficiaryWhereInput[]
     id?: IntFilter<"Beneficiary"> | number
     userId?: StringFilter<"Beneficiary"> | string
-    foundationId?: IntFilter<"Beneficiary"> | number
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
-    foundation?: XOR<FoundationScalarRelationFilter, FoundationWhereInput>
   }
 
   export type BeneficiaryOrderByWithRelationInput = {
     id?: SortOrder
     userId?: SortOrder
-    foundationId?: SortOrder
     user?: UserOrderByWithRelationInput
-    foundation?: FoundationOrderByWithRelationInput
   }
 
   export type BeneficiaryWhereUniqueInput = Prisma.AtLeast<{
     id?: number
     userId?: string
-    foundationId?: number
     AND?: BeneficiaryWhereInput | BeneficiaryWhereInput[]
     OR?: BeneficiaryWhereInput[]
     NOT?: BeneficiaryWhereInput | BeneficiaryWhereInput[]
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
-    foundation?: XOR<FoundationScalarRelationFilter, FoundationWhereInput>
-  }, "id" | "userId" | "foundationId">
+  }, "id" | "userId">
 
   export type BeneficiaryOrderByWithAggregationInput = {
     id?: SortOrder
     userId?: SortOrder
-    foundationId?: SortOrder
     _count?: BeneficiaryCountOrderByAggregateInput
     _avg?: BeneficiaryAvgOrderByAggregateInput
     _max?: BeneficiaryMaxOrderByAggregateInput
@@ -12678,90 +11101,24 @@ export namespace Prisma {
     NOT?: BeneficiaryScalarWhereWithAggregatesInput | BeneficiaryScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"Beneficiary"> | number
     userId?: StringWithAggregatesFilter<"Beneficiary"> | string
-    foundationId?: IntWithAggregatesFilter<"Beneficiary"> | number
-  }
-
-  export type FoundationWhereInput = {
-    AND?: FoundationWhereInput | FoundationWhereInput[]
-    OR?: FoundationWhereInput[]
-    NOT?: FoundationWhereInput | FoundationWhereInput[]
-    id?: IntFilter<"Foundation"> | number
-    name?: StringFilter<"Foundation"> | string
-    mainStreet?: StringFilter<"Foundation"> | string
-    secondaryStreet?: StringFilter<"Foundation"> | string
-    reference?: StringFilter<"Foundation"> | string
-    cityCode?: StringFilter<"Foundation"> | string
-    city?: XOR<CityScalarRelationFilter, CityWhereInput>
-    beneficiary?: XOR<BeneficiaryNullableScalarRelationFilter, BeneficiaryWhereInput> | null
-  }
-
-  export type FoundationOrderByWithRelationInput = {
-    id?: SortOrder
-    name?: SortOrder
-    mainStreet?: SortOrder
-    secondaryStreet?: SortOrder
-    reference?: SortOrder
-    cityCode?: SortOrder
-    city?: CityOrderByWithRelationInput
-    beneficiary?: BeneficiaryOrderByWithRelationInput
-  }
-
-  export type FoundationWhereUniqueInput = Prisma.AtLeast<{
-    id?: number
-    AND?: FoundationWhereInput | FoundationWhereInput[]
-    OR?: FoundationWhereInput[]
-    NOT?: FoundationWhereInput | FoundationWhereInput[]
-    name?: StringFilter<"Foundation"> | string
-    mainStreet?: StringFilter<"Foundation"> | string
-    secondaryStreet?: StringFilter<"Foundation"> | string
-    reference?: StringFilter<"Foundation"> | string
-    cityCode?: StringFilter<"Foundation"> | string
-    city?: XOR<CityScalarRelationFilter, CityWhereInput>
-    beneficiary?: XOR<BeneficiaryNullableScalarRelationFilter, BeneficiaryWhereInput> | null
-  }, "id">
-
-  export type FoundationOrderByWithAggregationInput = {
-    id?: SortOrder
-    name?: SortOrder
-    mainStreet?: SortOrder
-    secondaryStreet?: SortOrder
-    reference?: SortOrder
-    cityCode?: SortOrder
-    _count?: FoundationCountOrderByAggregateInput
-    _avg?: FoundationAvgOrderByAggregateInput
-    _max?: FoundationMaxOrderByAggregateInput
-    _min?: FoundationMinOrderByAggregateInput
-    _sum?: FoundationSumOrderByAggregateInput
-  }
-
-  export type FoundationScalarWhereWithAggregatesInput = {
-    AND?: FoundationScalarWhereWithAggregatesInput | FoundationScalarWhereWithAggregatesInput[]
-    OR?: FoundationScalarWhereWithAggregatesInput[]
-    NOT?: FoundationScalarWhereWithAggregatesInput | FoundationScalarWhereWithAggregatesInput[]
-    id?: IntWithAggregatesFilter<"Foundation"> | number
-    name?: StringWithAggregatesFilter<"Foundation"> | string
-    mainStreet?: StringWithAggregatesFilter<"Foundation"> | string
-    secondaryStreet?: StringWithAggregatesFilter<"Foundation"> | string
-    reference?: StringWithAggregatesFilter<"Foundation"> | string
-    cityCode?: StringWithAggregatesFilter<"Foundation"> | string
   }
 
   export type DonationWhereInput = {
     AND?: DonationWhereInput | DonationWhereInput[]
     OR?: DonationWhereInput[]
     NOT?: DonationWhereInput | DonationWhereInput[]
-    id?: StringFilter<"Donation"> | string
+    id?: IntFilter<"Donation"> | number
     productName?: StringFilter<"Donation"> | string
     quantity?: FloatFilter<"Donation"> | number
     unit?: StringFilter<"Donation"> | string
     status?: EnumDonationStatusFilter<"Donation"> | $Enums.DonationStatus
-    createdAt?: DateTimeFilter<"Donation"> | Date | string
-    updatedAt?: DateTimeFilter<"Donation"> | Date | string
-    donorConfirmed?: BoolFilter<"Donation"> | boolean
-    beneficiaryConfirmed?: BoolFilter<"Donation"> | boolean
     donorId?: IntFilter<"Donation"> | number
     locationId?: IntFilter<"Donation"> | number
     beneficiaryId?: StringNullableFilter<"Donation"> | string | null
+    donorConfirmed?: BoolFilter<"Donation"> | boolean
+    beneficiaryConfirmed?: BoolFilter<"Donation"> | boolean
+    createdAt?: DateTimeFilter<"Donation"> | Date | string
+    updatedAt?: DateTimeFilter<"Donation"> | Date | string
     donor?: XOR<DonorScalarRelationFilter, DonorWhereInput>
     location?: XOR<LocationScalarRelationFilter, LocationWhereInput>
     beneficiary?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
@@ -12774,13 +11131,13 @@ export namespace Prisma {
     quantity?: SortOrder
     unit?: SortOrder
     status?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    donorConfirmed?: SortOrder
-    beneficiaryConfirmed?: SortOrder
     donorId?: SortOrder
     locationId?: SortOrder
     beneficiaryId?: SortOrderInput | SortOrder
+    donorConfirmed?: SortOrder
+    beneficiaryConfirmed?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     donor?: DonorOrderByWithRelationInput
     location?: LocationOrderByWithRelationInput
     beneficiary?: UserOrderByWithRelationInput
@@ -12788,7 +11145,7 @@ export namespace Prisma {
   }
 
   export type DonationWhereUniqueInput = Prisma.AtLeast<{
-    id?: string
+    id?: number
     AND?: DonationWhereInput | DonationWhereInput[]
     OR?: DonationWhereInput[]
     NOT?: DonationWhereInput | DonationWhereInput[]
@@ -12796,13 +11153,13 @@ export namespace Prisma {
     quantity?: FloatFilter<"Donation"> | number
     unit?: StringFilter<"Donation"> | string
     status?: EnumDonationStatusFilter<"Donation"> | $Enums.DonationStatus
-    createdAt?: DateTimeFilter<"Donation"> | Date | string
-    updatedAt?: DateTimeFilter<"Donation"> | Date | string
-    donorConfirmed?: BoolFilter<"Donation"> | boolean
-    beneficiaryConfirmed?: BoolFilter<"Donation"> | boolean
     donorId?: IntFilter<"Donation"> | number
     locationId?: IntFilter<"Donation"> | number
     beneficiaryId?: StringNullableFilter<"Donation"> | string | null
+    donorConfirmed?: BoolFilter<"Donation"> | boolean
+    beneficiaryConfirmed?: BoolFilter<"Donation"> | boolean
+    createdAt?: DateTimeFilter<"Donation"> | Date | string
+    updatedAt?: DateTimeFilter<"Donation"> | Date | string
     donor?: XOR<DonorScalarRelationFilter, DonorWhereInput>
     location?: XOR<LocationScalarRelationFilter, LocationWhereInput>
     beneficiary?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
@@ -12815,13 +11172,13 @@ export namespace Prisma {
     quantity?: SortOrder
     unit?: SortOrder
     status?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    donorConfirmed?: SortOrder
-    beneficiaryConfirmed?: SortOrder
     donorId?: SortOrder
     locationId?: SortOrder
     beneficiaryId?: SortOrderInput | SortOrder
+    donorConfirmed?: SortOrder
+    beneficiaryConfirmed?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     _count?: DonationCountOrderByAggregateInput
     _avg?: DonationAvgOrderByAggregateInput
     _max?: DonationMaxOrderByAggregateInput
@@ -12833,18 +11190,18 @@ export namespace Prisma {
     AND?: DonationScalarWhereWithAggregatesInput | DonationScalarWhereWithAggregatesInput[]
     OR?: DonationScalarWhereWithAggregatesInput[]
     NOT?: DonationScalarWhereWithAggregatesInput | DonationScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"Donation"> | string
+    id?: IntWithAggregatesFilter<"Donation"> | number
     productName?: StringWithAggregatesFilter<"Donation"> | string
     quantity?: FloatWithAggregatesFilter<"Donation"> | number
     unit?: StringWithAggregatesFilter<"Donation"> | string
     status?: EnumDonationStatusWithAggregatesFilter<"Donation"> | $Enums.DonationStatus
-    createdAt?: DateTimeWithAggregatesFilter<"Donation"> | Date | string
-    updatedAt?: DateTimeWithAggregatesFilter<"Donation"> | Date | string
-    donorConfirmed?: BoolWithAggregatesFilter<"Donation"> | boolean
-    beneficiaryConfirmed?: BoolWithAggregatesFilter<"Donation"> | boolean
     donorId?: IntWithAggregatesFilter<"Donation"> | number
     locationId?: IntWithAggregatesFilter<"Donation"> | number
     beneficiaryId?: StringNullableWithAggregatesFilter<"Donation"> | string | null
+    donorConfirmed?: BoolWithAggregatesFilter<"Donation"> | boolean
+    beneficiaryConfirmed?: BoolWithAggregatesFilter<"Donation"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"Donation"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Donation"> | Date | string
   }
 
   export type NotificationWhereInput = {
@@ -12855,9 +11212,9 @@ export namespace Prisma {
     message?: StringFilter<"Notification"> | string
     type?: StringFilter<"Notification"> | string
     isRead?: BoolFilter<"Notification"> | boolean
-    createdAt?: DateTimeFilter<"Notification"> | Date | string
     userId?: StringFilter<"Notification"> | string
-    donationId?: StringNullableFilter<"Notification"> | string | null
+    donationId?: IntNullableFilter<"Notification"> | number | null
+    createdAt?: DateTimeFilter<"Notification"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     donation?: XOR<DonationNullableScalarRelationFilter, DonationWhereInput> | null
   }
@@ -12867,9 +11224,9 @@ export namespace Prisma {
     message?: SortOrder
     type?: SortOrder
     isRead?: SortOrder
-    createdAt?: SortOrder
     userId?: SortOrder
     donationId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
     user?: UserOrderByWithRelationInput
     donation?: DonationOrderByWithRelationInput
   }
@@ -12882,9 +11239,9 @@ export namespace Prisma {
     message?: StringFilter<"Notification"> | string
     type?: StringFilter<"Notification"> | string
     isRead?: BoolFilter<"Notification"> | boolean
-    createdAt?: DateTimeFilter<"Notification"> | Date | string
     userId?: StringFilter<"Notification"> | string
-    donationId?: StringNullableFilter<"Notification"> | string | null
+    donationId?: IntNullableFilter<"Notification"> | number | null
+    createdAt?: DateTimeFilter<"Notification"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     donation?: XOR<DonationNullableScalarRelationFilter, DonationWhereInput> | null
   }, "id">
@@ -12894,9 +11251,9 @@ export namespace Prisma {
     message?: SortOrder
     type?: SortOrder
     isRead?: SortOrder
-    createdAt?: SortOrder
     userId?: SortOrder
     donationId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
     _count?: NotificationCountOrderByAggregateInput
     _avg?: NotificationAvgOrderByAggregateInput
     _max?: NotificationMaxOrderByAggregateInput
@@ -12912,37 +11269,70 @@ export namespace Prisma {
     message?: StringWithAggregatesFilter<"Notification"> | string
     type?: StringWithAggregatesFilter<"Notification"> | string
     isRead?: BoolWithAggregatesFilter<"Notification"> | boolean
-    createdAt?: DateTimeWithAggregatesFilter<"Notification"> | Date | string
     userId?: StringWithAggregatesFilter<"Notification"> | string
-    donationId?: StringNullableWithAggregatesFilter<"Notification"> | string | null
+    donationId?: IntNullableWithAggregatesFilter<"Notification"> | number | null
+    createdAt?: DateTimeWithAggregatesFilter<"Notification"> | Date | string
+  }
+
+  export type EFMigrationsHistoryWhereInput = {
+    AND?: EFMigrationsHistoryWhereInput | EFMigrationsHistoryWhereInput[]
+    OR?: EFMigrationsHistoryWhereInput[]
+    NOT?: EFMigrationsHistoryWhereInput | EFMigrationsHistoryWhereInput[]
+    MigrationId?: StringFilter<"EFMigrationsHistory"> | string
+    ProductVersion?: StringFilter<"EFMigrationsHistory"> | string
+  }
+
+  export type EFMigrationsHistoryOrderByWithRelationInput = {
+    MigrationId?: SortOrder
+    ProductVersion?: SortOrder
+  }
+
+  export type EFMigrationsHistoryWhereUniqueInput = Prisma.AtLeast<{
+    MigrationId?: string
+    AND?: EFMigrationsHistoryWhereInput | EFMigrationsHistoryWhereInput[]
+    OR?: EFMigrationsHistoryWhereInput[]
+    NOT?: EFMigrationsHistoryWhereInput | EFMigrationsHistoryWhereInput[]
+    ProductVersion?: StringFilter<"EFMigrationsHistory"> | string
+  }, "MigrationId">
+
+  export type EFMigrationsHistoryOrderByWithAggregationInput = {
+    MigrationId?: SortOrder
+    ProductVersion?: SortOrder
+    _count?: EFMigrationsHistoryCountOrderByAggregateInput
+    _max?: EFMigrationsHistoryMaxOrderByAggregateInput
+    _min?: EFMigrationsHistoryMinOrderByAggregateInput
+  }
+
+  export type EFMigrationsHistoryScalarWhereWithAggregatesInput = {
+    AND?: EFMigrationsHistoryScalarWhereWithAggregatesInput | EFMigrationsHistoryScalarWhereWithAggregatesInput[]
+    OR?: EFMigrationsHistoryScalarWhereWithAggregatesInput[]
+    NOT?: EFMigrationsHistoryScalarWhereWithAggregatesInput | EFMigrationsHistoryScalarWhereWithAggregatesInput[]
+    MigrationId?: StringWithAggregatesFilter<"EFMigrationsHistory"> | string
+    ProductVersion?: StringWithAggregatesFilter<"EFMigrationsHistory"> | string
   }
 
   export type CityCreateInput = {
     code: string
     name: string
     locations?: LocationCreateNestedManyWithoutCityInput
-    foundations?: FoundationCreateNestedManyWithoutCityInput
   }
 
   export type CityUncheckedCreateInput = {
     code: string
     name: string
     locations?: LocationUncheckedCreateNestedManyWithoutCityInput
-    foundations?: FoundationUncheckedCreateNestedManyWithoutCityInput
   }
 
   export type CityUpdateInput = {
     code?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     locations?: LocationUpdateManyWithoutCityNestedInput
-    foundations?: FoundationUpdateManyWithoutCityNestedInput
   }
 
   export type CityUncheckedUpdateInput = {
     code?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     locations?: LocationUncheckedUpdateManyWithoutCityNestedInput
-    foundations?: FoundationUncheckedUpdateManyWithoutCityNestedInput
   }
 
   export type CityCreateManyInput = {
@@ -12967,12 +11357,12 @@ export namespace Prisma {
     firstName: string
     lastName: string
     userType: string
-    createdAt?: Date | string
+    createdAt: Date | string
     updatedAt?: Date | string
-    donor?: DonorCreateNestedOneWithoutUserInput
     beneficiary?: BeneficiaryCreateNestedOneWithoutUserInput
+    donor?: DonorCreateNestedOneWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
-    beneficiaryDonations?: DonationCreateNestedManyWithoutBeneficiaryInput
+    claimedDonations?: DonationCreateNestedManyWithoutBeneficiaryInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -12982,12 +11372,12 @@ export namespace Prisma {
     firstName: string
     lastName: string
     userType: string
-    createdAt?: Date | string
+    createdAt: Date | string
     updatedAt?: Date | string
-    donor?: DonorUncheckedCreateNestedOneWithoutUserInput
     beneficiary?: BeneficiaryUncheckedCreateNestedOneWithoutUserInput
+    donor?: DonorUncheckedCreateNestedOneWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
-    beneficiaryDonations?: DonationUncheckedCreateNestedManyWithoutBeneficiaryInput
+    claimedDonations?: DonationUncheckedCreateNestedManyWithoutBeneficiaryInput
   }
 
   export type UserUpdateInput = {
@@ -12999,10 +11389,10 @@ export namespace Prisma {
     userType?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    donor?: DonorUpdateOneWithoutUserNestedInput
     beneficiary?: BeneficiaryUpdateOneWithoutUserNestedInput
+    donor?: DonorUpdateOneWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
-    beneficiaryDonations?: DonationUpdateManyWithoutBeneficiaryNestedInput
+    claimedDonations?: DonationUpdateManyWithoutBeneficiaryNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -13014,10 +11404,10 @@ export namespace Prisma {
     userType?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    donor?: DonorUncheckedUpdateOneWithoutUserNestedInput
     beneficiary?: BeneficiaryUncheckedUpdateOneWithoutUserNestedInput
+    donor?: DonorUncheckedUpdateOneWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
-    beneficiaryDonations?: DonationUncheckedUpdateManyWithoutBeneficiaryNestedInput
+    claimedDonations?: DonationUncheckedUpdateManyWithoutBeneficiaryNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -13027,7 +11417,7 @@ export namespace Prisma {
     firstName: string
     lastName: string
     userType: string
-    createdAt?: Date | string
+    createdAt: Date | string
     updatedAt?: Date | string
   }
 
@@ -13098,9 +11488,8 @@ export namespace Prisma {
     mainStreet: string
     secondaryStreet: string
     reference: string
-    donor: DonorCreateNestedOneWithoutLocationsInput
     city: CityCreateNestedOneWithoutLocationsInput
-    peakHours?: PeakHourCreateNestedManyWithoutLocationInput
+    donor: DonorCreateNestedOneWithoutLocationsInput
     donations?: DonationCreateNestedManyWithoutLocationInput
   }
 
@@ -13112,7 +11501,6 @@ export namespace Prisma {
     reference: string
     donorId: number
     cityCode: string
-    peakHours?: PeakHourUncheckedCreateNestedManyWithoutLocationInput
     donations?: DonationUncheckedCreateNestedManyWithoutLocationInput
   }
 
@@ -13121,9 +11509,8 @@ export namespace Prisma {
     mainStreet?: StringFieldUpdateOperationsInput | string
     secondaryStreet?: StringFieldUpdateOperationsInput | string
     reference?: StringFieldUpdateOperationsInput | string
-    donor?: DonorUpdateOneRequiredWithoutLocationsNestedInput
     city?: CityUpdateOneRequiredWithoutLocationsNestedInput
-    peakHours?: PeakHourUpdateManyWithoutLocationNestedInput
+    donor?: DonorUpdateOneRequiredWithoutLocationsNestedInput
     donations?: DonationUpdateManyWithoutLocationNestedInput
   }
 
@@ -13135,7 +11522,6 @@ export namespace Prisma {
     reference?: StringFieldUpdateOperationsInput | string
     donorId?: IntFieldUpdateOperationsInput | number
     cityCode?: StringFieldUpdateOperationsInput | string
-    peakHours?: PeakHourUncheckedUpdateManyWithoutLocationNestedInput
     donations?: DonationUncheckedUpdateManyWithoutLocationNestedInput
   }
 
@@ -13166,91 +11552,27 @@ export namespace Prisma {
     cityCode?: StringFieldUpdateOperationsInput | string
   }
 
-  export type PeakHourCreateInput = {
-    day?: PeakHourCreatedayInput | $Enums.Days[]
-    startTime: string
-    endTime: string
-    note?: string | null
-    location: LocationCreateNestedOneWithoutPeakHoursInput
-  }
-
-  export type PeakHourUncheckedCreateInput = {
-    id?: number
-    day?: PeakHourCreatedayInput | $Enums.Days[]
-    startTime: string
-    endTime: string
-    note?: string | null
-    locationId: number
-  }
-
-  export type PeakHourUpdateInput = {
-    day?: PeakHourUpdatedayInput | $Enums.Days[]
-    startTime?: StringFieldUpdateOperationsInput | string
-    endTime?: StringFieldUpdateOperationsInput | string
-    note?: NullableStringFieldUpdateOperationsInput | string | null
-    location?: LocationUpdateOneRequiredWithoutPeakHoursNestedInput
-  }
-
-  export type PeakHourUncheckedUpdateInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    day?: PeakHourUpdatedayInput | $Enums.Days[]
-    startTime?: StringFieldUpdateOperationsInput | string
-    endTime?: StringFieldUpdateOperationsInput | string
-    note?: NullableStringFieldUpdateOperationsInput | string | null
-    locationId?: IntFieldUpdateOperationsInput | number
-  }
-
-  export type PeakHourCreateManyInput = {
-    id?: number
-    day?: PeakHourCreatedayInput | $Enums.Days[]
-    startTime: string
-    endTime: string
-    note?: string | null
-    locationId: number
-  }
-
-  export type PeakHourUpdateManyMutationInput = {
-    day?: PeakHourUpdatedayInput | $Enums.Days[]
-    startTime?: StringFieldUpdateOperationsInput | string
-    endTime?: StringFieldUpdateOperationsInput | string
-    note?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type PeakHourUncheckedUpdateManyInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    day?: PeakHourUpdatedayInput | $Enums.Days[]
-    startTime?: StringFieldUpdateOperationsInput | string
-    endTime?: StringFieldUpdateOperationsInput | string
-    note?: NullableStringFieldUpdateOperationsInput | string | null
-    locationId?: IntFieldUpdateOperationsInput | number
-  }
-
   export type BeneficiaryCreateInput = {
     user: UserCreateNestedOneWithoutBeneficiaryInput
-    foundation: FoundationCreateNestedOneWithoutBeneficiaryInput
   }
 
   export type BeneficiaryUncheckedCreateInput = {
     id?: number
     userId: string
-    foundationId: number
   }
 
   export type BeneficiaryUpdateInput = {
     user?: UserUpdateOneRequiredWithoutBeneficiaryNestedInput
-    foundation?: FoundationUpdateOneRequiredWithoutBeneficiaryNestedInput
   }
 
   export type BeneficiaryUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     userId?: StringFieldUpdateOperationsInput | string
-    foundationId?: IntFieldUpdateOperationsInput | number
   }
 
   export type BeneficiaryCreateManyInput = {
     id?: number
     userId: string
-    foundationId: number
   }
 
   export type BeneficiaryUpdateManyMutationInput = {
@@ -13260,176 +11582,109 @@ export namespace Prisma {
   export type BeneficiaryUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     userId?: StringFieldUpdateOperationsInput | string
-    foundationId?: IntFieldUpdateOperationsInput | number
-  }
-
-  export type FoundationCreateInput = {
-    name: string
-    mainStreet: string
-    secondaryStreet: string
-    reference: string
-    city: CityCreateNestedOneWithoutFoundationsInput
-    beneficiary?: BeneficiaryCreateNestedOneWithoutFoundationInput
-  }
-
-  export type FoundationUncheckedCreateInput = {
-    id?: number
-    name: string
-    mainStreet: string
-    secondaryStreet: string
-    reference: string
-    cityCode: string
-    beneficiary?: BeneficiaryUncheckedCreateNestedOneWithoutFoundationInput
-  }
-
-  export type FoundationUpdateInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    mainStreet?: StringFieldUpdateOperationsInput | string
-    secondaryStreet?: StringFieldUpdateOperationsInput | string
-    reference?: StringFieldUpdateOperationsInput | string
-    city?: CityUpdateOneRequiredWithoutFoundationsNestedInput
-    beneficiary?: BeneficiaryUpdateOneWithoutFoundationNestedInput
-  }
-
-  export type FoundationUncheckedUpdateInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-    mainStreet?: StringFieldUpdateOperationsInput | string
-    secondaryStreet?: StringFieldUpdateOperationsInput | string
-    reference?: StringFieldUpdateOperationsInput | string
-    cityCode?: StringFieldUpdateOperationsInput | string
-    beneficiary?: BeneficiaryUncheckedUpdateOneWithoutFoundationNestedInput
-  }
-
-  export type FoundationCreateManyInput = {
-    id?: number
-    name: string
-    mainStreet: string
-    secondaryStreet: string
-    reference: string
-    cityCode: string
-  }
-
-  export type FoundationUpdateManyMutationInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    mainStreet?: StringFieldUpdateOperationsInput | string
-    secondaryStreet?: StringFieldUpdateOperationsInput | string
-    reference?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type FoundationUncheckedUpdateManyInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-    mainStreet?: StringFieldUpdateOperationsInput | string
-    secondaryStreet?: StringFieldUpdateOperationsInput | string
-    reference?: StringFieldUpdateOperationsInput | string
-    cityCode?: StringFieldUpdateOperationsInput | string
   }
 
   export type DonationCreateInput = {
-    id?: string
     productName: string
     quantity: number
     unit: string
     status?: $Enums.DonationStatus
-    createdAt?: Date | string
-    updatedAt?: Date | string
     donorConfirmed?: boolean
     beneficiaryConfirmed?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
     donor: DonorCreateNestedOneWithoutDonationsInput
     location: LocationCreateNestedOneWithoutDonationsInput
-    beneficiary?: UserCreateNestedOneWithoutBeneficiaryDonationsInput
+    beneficiary?: UserCreateNestedOneWithoutClaimedDonationsInput
     notifications?: NotificationCreateNestedManyWithoutDonationInput
   }
 
   export type DonationUncheckedCreateInput = {
-    id?: string
+    id?: number
     productName: string
     quantity: number
     unit: string
     status?: $Enums.DonationStatus
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    donorConfirmed?: boolean
-    beneficiaryConfirmed?: boolean
     donorId: number
     locationId: number
     beneficiaryId?: string | null
+    donorConfirmed?: boolean
+    beneficiaryConfirmed?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
     notifications?: NotificationUncheckedCreateNestedManyWithoutDonationInput
   }
 
   export type DonationUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
     productName?: StringFieldUpdateOperationsInput | string
     quantity?: FloatFieldUpdateOperationsInput | number
     unit?: StringFieldUpdateOperationsInput | string
     status?: EnumDonationStatusFieldUpdateOperationsInput | $Enums.DonationStatus
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     donorConfirmed?: BoolFieldUpdateOperationsInput | boolean
     beneficiaryConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     donor?: DonorUpdateOneRequiredWithoutDonationsNestedInput
     location?: LocationUpdateOneRequiredWithoutDonationsNestedInput
-    beneficiary?: UserUpdateOneWithoutBeneficiaryDonationsNestedInput
+    beneficiary?: UserUpdateOneWithoutClaimedDonationsNestedInput
     notifications?: NotificationUpdateManyWithoutDonationNestedInput
   }
 
   export type DonationUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
+    id?: IntFieldUpdateOperationsInput | number
     productName?: StringFieldUpdateOperationsInput | string
     quantity?: FloatFieldUpdateOperationsInput | number
     unit?: StringFieldUpdateOperationsInput | string
     status?: EnumDonationStatusFieldUpdateOperationsInput | $Enums.DonationStatus
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    donorConfirmed?: BoolFieldUpdateOperationsInput | boolean
-    beneficiaryConfirmed?: BoolFieldUpdateOperationsInput | boolean
     donorId?: IntFieldUpdateOperationsInput | number
     locationId?: IntFieldUpdateOperationsInput | number
     beneficiaryId?: NullableStringFieldUpdateOperationsInput | string | null
+    donorConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    beneficiaryConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     notifications?: NotificationUncheckedUpdateManyWithoutDonationNestedInput
   }
 
   export type DonationCreateManyInput = {
-    id?: string
+    id?: number
     productName: string
     quantity: number
     unit: string
     status?: $Enums.DonationStatus
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    donorConfirmed?: boolean
-    beneficiaryConfirmed?: boolean
     donorId: number
     locationId: number
     beneficiaryId?: string | null
+    donorConfirmed?: boolean
+    beneficiaryConfirmed?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type DonationUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
     productName?: StringFieldUpdateOperationsInput | string
     quantity?: FloatFieldUpdateOperationsInput | number
     unit?: StringFieldUpdateOperationsInput | string
     status?: EnumDonationStatusFieldUpdateOperationsInput | $Enums.DonationStatus
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     donorConfirmed?: BoolFieldUpdateOperationsInput | boolean
     beneficiaryConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type DonationUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
+    id?: IntFieldUpdateOperationsInput | number
     productName?: StringFieldUpdateOperationsInput | string
     quantity?: FloatFieldUpdateOperationsInput | number
     unit?: StringFieldUpdateOperationsInput | string
     status?: EnumDonationStatusFieldUpdateOperationsInput | $Enums.DonationStatus
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    donorConfirmed?: BoolFieldUpdateOperationsInput | boolean
-    beneficiaryConfirmed?: BoolFieldUpdateOperationsInput | boolean
     donorId?: IntFieldUpdateOperationsInput | number
     locationId?: IntFieldUpdateOperationsInput | number
     beneficiaryId?: NullableStringFieldUpdateOperationsInput | string | null
+    donorConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    beneficiaryConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type NotificationCreateInput = {
@@ -13446,9 +11701,9 @@ export namespace Prisma {
     message: string
     type: string
     isRead?: boolean
-    createdAt?: Date | string
     userId: string
-    donationId?: string | null
+    donationId?: number | null
+    createdAt?: Date | string
   }
 
   export type NotificationUpdateInput = {
@@ -13465,9 +11720,9 @@ export namespace Prisma {
     message?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     isRead?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
-    donationId?: NullableStringFieldUpdateOperationsInput | string | null
+    donationId?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type NotificationCreateManyInput = {
@@ -13475,9 +11730,9 @@ export namespace Prisma {
     message: string
     type: string
     isRead?: boolean
-    createdAt?: Date | string
     userId: string
-    donationId?: string | null
+    donationId?: number | null
+    createdAt?: Date | string
   }
 
   export type NotificationUpdateManyMutationInput = {
@@ -13492,9 +11747,44 @@ export namespace Prisma {
     message?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     isRead?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
-    donationId?: NullableStringFieldUpdateOperationsInput | string | null
+    donationId?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EFMigrationsHistoryCreateInput = {
+    MigrationId: string
+    ProductVersion: string
+  }
+
+  export type EFMigrationsHistoryUncheckedCreateInput = {
+    MigrationId: string
+    ProductVersion: string
+  }
+
+  export type EFMigrationsHistoryUpdateInput = {
+    MigrationId?: StringFieldUpdateOperationsInput | string
+    ProductVersion?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type EFMigrationsHistoryUncheckedUpdateInput = {
+    MigrationId?: StringFieldUpdateOperationsInput | string
+    ProductVersion?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type EFMigrationsHistoryCreateManyInput = {
+    MigrationId: string
+    ProductVersion: string
+  }
+
+  export type EFMigrationsHistoryUpdateManyMutationInput = {
+    MigrationId?: StringFieldUpdateOperationsInput | string
+    ProductVersion?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type EFMigrationsHistoryUncheckedUpdateManyInput = {
+    MigrationId?: StringFieldUpdateOperationsInput | string
+    ProductVersion?: StringFieldUpdateOperationsInput | string
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -13518,17 +11808,7 @@ export namespace Prisma {
     none?: LocationWhereInput
   }
 
-  export type FoundationListRelationFilter = {
-    every?: FoundationWhereInput
-    some?: FoundationWhereInput
-    none?: FoundationWhereInput
-  }
-
   export type LocationOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type FoundationOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -13576,14 +11856,14 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
-  export type DonorNullableScalarRelationFilter = {
-    is?: DonorWhereInput | null
-    isNot?: DonorWhereInput | null
-  }
-
   export type BeneficiaryNullableScalarRelationFilter = {
     is?: BeneficiaryWhereInput | null
     isNot?: BeneficiaryWhereInput | null
+  }
+
+  export type DonorNullableScalarRelationFilter = {
+    is?: DonorWhereInput | null
+    isNot?: DonorWhereInput | null
   }
 
   export type NotificationListRelationFilter = {
@@ -13708,24 +11988,14 @@ export namespace Prisma {
     _max?: NestedIntFilter<$PrismaModel>
   }
 
-  export type DonorScalarRelationFilter = {
-    is?: DonorWhereInput
-    isNot?: DonorWhereInput
-  }
-
   export type CityScalarRelationFilter = {
     is?: CityWhereInput
     isNot?: CityWhereInput
   }
 
-  export type PeakHourListRelationFilter = {
-    every?: PeakHourWhereInput
-    some?: PeakHourWhereInput
-    none?: PeakHourWhereInput
-  }
-
-  export type PeakHourOrderByRelationAggregateInput = {
-    _count?: SortOrder
+  export type DonorScalarRelationFilter = {
+    is?: DonorWhereInput
+    isNot?: DonorWhereInput
   }
 
   export type LocationCountOrderByAggregateInput = {
@@ -13768,157 +12038,26 @@ export namespace Prisma {
     donorId?: SortOrder
   }
 
-  export type EnumDaysNullableListFilter<$PrismaModel = never> = {
-    equals?: $Enums.Days[] | ListEnumDaysFieldRefInput<$PrismaModel> | null
-    has?: $Enums.Days | EnumDaysFieldRefInput<$PrismaModel> | null
-    hasEvery?: $Enums.Days[] | ListEnumDaysFieldRefInput<$PrismaModel>
-    hasSome?: $Enums.Days[] | ListEnumDaysFieldRefInput<$PrismaModel>
-    isEmpty?: boolean
-  }
-
-  export type StringNullableFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    mode?: QueryMode
-    not?: NestedStringNullableFilter<$PrismaModel> | string | null
-  }
-
-  export type LocationScalarRelationFilter = {
-    is?: LocationWhereInput
-    isNot?: LocationWhereInput
-  }
-
-  export type SortOrderInput = {
-    sort: SortOrder
-    nulls?: NullsOrder
-  }
-
-  export type PeakHourCountOrderByAggregateInput = {
-    id?: SortOrder
-    day?: SortOrder
-    startTime?: SortOrder
-    endTime?: SortOrder
-    note?: SortOrder
-    locationId?: SortOrder
-  }
-
-  export type PeakHourAvgOrderByAggregateInput = {
-    id?: SortOrder
-    locationId?: SortOrder
-  }
-
-  export type PeakHourMaxOrderByAggregateInput = {
-    id?: SortOrder
-    startTime?: SortOrder
-    endTime?: SortOrder
-    note?: SortOrder
-    locationId?: SortOrder
-  }
-
-  export type PeakHourMinOrderByAggregateInput = {
-    id?: SortOrder
-    startTime?: SortOrder
-    endTime?: SortOrder
-    note?: SortOrder
-    locationId?: SortOrder
-  }
-
-  export type PeakHourSumOrderByAggregateInput = {
-    id?: SortOrder
-    locationId?: SortOrder
-  }
-
-  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    mode?: QueryMode
-    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedStringNullableFilter<$PrismaModel>
-    _max?: NestedStringNullableFilter<$PrismaModel>
-  }
-
-  export type FoundationScalarRelationFilter = {
-    is?: FoundationWhereInput
-    isNot?: FoundationWhereInput
-  }
-
   export type BeneficiaryCountOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
-    foundationId?: SortOrder
   }
 
   export type BeneficiaryAvgOrderByAggregateInput = {
     id?: SortOrder
-    foundationId?: SortOrder
   }
 
   export type BeneficiaryMaxOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
-    foundationId?: SortOrder
   }
 
   export type BeneficiaryMinOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
-    foundationId?: SortOrder
   }
 
   export type BeneficiarySumOrderByAggregateInput = {
-    id?: SortOrder
-    foundationId?: SortOrder
-  }
-
-  export type FoundationCountOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    mainStreet?: SortOrder
-    secondaryStreet?: SortOrder
-    reference?: SortOrder
-    cityCode?: SortOrder
-  }
-
-  export type FoundationAvgOrderByAggregateInput = {
-    id?: SortOrder
-  }
-
-  export type FoundationMaxOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    mainStreet?: SortOrder
-    secondaryStreet?: SortOrder
-    reference?: SortOrder
-    cityCode?: SortOrder
-  }
-
-  export type FoundationMinOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    mainStreet?: SortOrder
-    secondaryStreet?: SortOrder
-    reference?: SortOrder
-    cityCode?: SortOrder
-  }
-
-  export type FoundationSumOrderByAggregateInput = {
     id?: SortOrder
   }
 
@@ -13940,14 +12079,39 @@ export namespace Prisma {
     not?: NestedEnumDonationStatusFilter<$PrismaModel> | $Enums.DonationStatus
   }
 
+  export type StringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
   export type BoolFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
+  export type LocationScalarRelationFilter = {
+    is?: LocationWhereInput
+    isNot?: LocationWhereInput
+  }
+
   export type UserNullableScalarRelationFilter = {
     is?: UserWhereInput | null
     isNot?: UserWhereInput | null
+  }
+
+  export type SortOrderInput = {
+    sort: SortOrder
+    nulls?: NullsOrder
   }
 
   export type DonationCountOrderByAggregateInput = {
@@ -13956,16 +12120,17 @@ export namespace Prisma {
     quantity?: SortOrder
     unit?: SortOrder
     status?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    donorConfirmed?: SortOrder
-    beneficiaryConfirmed?: SortOrder
     donorId?: SortOrder
     locationId?: SortOrder
     beneficiaryId?: SortOrder
+    donorConfirmed?: SortOrder
+    beneficiaryConfirmed?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type DonationAvgOrderByAggregateInput = {
+    id?: SortOrder
     quantity?: SortOrder
     donorId?: SortOrder
     locationId?: SortOrder
@@ -13977,13 +12142,13 @@ export namespace Prisma {
     quantity?: SortOrder
     unit?: SortOrder
     status?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    donorConfirmed?: SortOrder
-    beneficiaryConfirmed?: SortOrder
     donorId?: SortOrder
     locationId?: SortOrder
     beneficiaryId?: SortOrder
+    donorConfirmed?: SortOrder
+    beneficiaryConfirmed?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type DonationMinOrderByAggregateInput = {
@@ -13992,16 +12157,17 @@ export namespace Prisma {
     quantity?: SortOrder
     unit?: SortOrder
     status?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    donorConfirmed?: SortOrder
-    beneficiaryConfirmed?: SortOrder
     donorId?: SortOrder
     locationId?: SortOrder
     beneficiaryId?: SortOrder
+    donorConfirmed?: SortOrder
+    beneficiaryConfirmed?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type DonationSumOrderByAggregateInput = {
+    id?: SortOrder
     quantity?: SortOrder
     donorId?: SortOrder
     locationId?: SortOrder
@@ -14033,12 +12199,41 @@ export namespace Prisma {
     _max?: NestedEnumDonationStatusFilter<$PrismaModel>
   }
 
+  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
   export type BoolWithAggregatesFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
   export type DonationNullableScalarRelationFilter = {
@@ -14051,13 +12246,14 @@ export namespace Prisma {
     message?: SortOrder
     type?: SortOrder
     isRead?: SortOrder
-    createdAt?: SortOrder
     userId?: SortOrder
     donationId?: SortOrder
+    createdAt?: SortOrder
   }
 
   export type NotificationAvgOrderByAggregateInput = {
     id?: SortOrder
+    donationId?: SortOrder
   }
 
   export type NotificationMaxOrderByAggregateInput = {
@@ -14065,9 +12261,9 @@ export namespace Prisma {
     message?: SortOrder
     type?: SortOrder
     isRead?: SortOrder
-    createdAt?: SortOrder
     userId?: SortOrder
     donationId?: SortOrder
+    createdAt?: SortOrder
   }
 
   export type NotificationMinOrderByAggregateInput = {
@@ -14075,13 +12271,45 @@ export namespace Prisma {
     message?: SortOrder
     type?: SortOrder
     isRead?: SortOrder
-    createdAt?: SortOrder
     userId?: SortOrder
     donationId?: SortOrder
+    createdAt?: SortOrder
   }
 
   export type NotificationSumOrderByAggregateInput = {
     id?: SortOrder
+    donationId?: SortOrder
+  }
+
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type EFMigrationsHistoryCountOrderByAggregateInput = {
+    MigrationId?: SortOrder
+    ProductVersion?: SortOrder
+  }
+
+  export type EFMigrationsHistoryMaxOrderByAggregateInput = {
+    MigrationId?: SortOrder
+    ProductVersion?: SortOrder
+  }
+
+  export type EFMigrationsHistoryMinOrderByAggregateInput = {
+    MigrationId?: SortOrder
+    ProductVersion?: SortOrder
   }
 
   export type LocationCreateNestedManyWithoutCityInput = {
@@ -14091,25 +12319,11 @@ export namespace Prisma {
     connect?: LocationWhereUniqueInput | LocationWhereUniqueInput[]
   }
 
-  export type FoundationCreateNestedManyWithoutCityInput = {
-    create?: XOR<FoundationCreateWithoutCityInput, FoundationUncheckedCreateWithoutCityInput> | FoundationCreateWithoutCityInput[] | FoundationUncheckedCreateWithoutCityInput[]
-    connectOrCreate?: FoundationCreateOrConnectWithoutCityInput | FoundationCreateOrConnectWithoutCityInput[]
-    createMany?: FoundationCreateManyCityInputEnvelope
-    connect?: FoundationWhereUniqueInput | FoundationWhereUniqueInput[]
-  }
-
   export type LocationUncheckedCreateNestedManyWithoutCityInput = {
     create?: XOR<LocationCreateWithoutCityInput, LocationUncheckedCreateWithoutCityInput> | LocationCreateWithoutCityInput[] | LocationUncheckedCreateWithoutCityInput[]
     connectOrCreate?: LocationCreateOrConnectWithoutCityInput | LocationCreateOrConnectWithoutCityInput[]
     createMany?: LocationCreateManyCityInputEnvelope
     connect?: LocationWhereUniqueInput | LocationWhereUniqueInput[]
-  }
-
-  export type FoundationUncheckedCreateNestedManyWithoutCityInput = {
-    create?: XOR<FoundationCreateWithoutCityInput, FoundationUncheckedCreateWithoutCityInput> | FoundationCreateWithoutCityInput[] | FoundationUncheckedCreateWithoutCityInput[]
-    connectOrCreate?: FoundationCreateOrConnectWithoutCityInput | FoundationCreateOrConnectWithoutCityInput[]
-    createMany?: FoundationCreateManyCityInputEnvelope
-    connect?: FoundationWhereUniqueInput | FoundationWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -14130,20 +12344,6 @@ export namespace Prisma {
     deleteMany?: LocationScalarWhereInput | LocationScalarWhereInput[]
   }
 
-  export type FoundationUpdateManyWithoutCityNestedInput = {
-    create?: XOR<FoundationCreateWithoutCityInput, FoundationUncheckedCreateWithoutCityInput> | FoundationCreateWithoutCityInput[] | FoundationUncheckedCreateWithoutCityInput[]
-    connectOrCreate?: FoundationCreateOrConnectWithoutCityInput | FoundationCreateOrConnectWithoutCityInput[]
-    upsert?: FoundationUpsertWithWhereUniqueWithoutCityInput | FoundationUpsertWithWhereUniqueWithoutCityInput[]
-    createMany?: FoundationCreateManyCityInputEnvelope
-    set?: FoundationWhereUniqueInput | FoundationWhereUniqueInput[]
-    disconnect?: FoundationWhereUniqueInput | FoundationWhereUniqueInput[]
-    delete?: FoundationWhereUniqueInput | FoundationWhereUniqueInput[]
-    connect?: FoundationWhereUniqueInput | FoundationWhereUniqueInput[]
-    update?: FoundationUpdateWithWhereUniqueWithoutCityInput | FoundationUpdateWithWhereUniqueWithoutCityInput[]
-    updateMany?: FoundationUpdateManyWithWhereWithoutCityInput | FoundationUpdateManyWithWhereWithoutCityInput[]
-    deleteMany?: FoundationScalarWhereInput | FoundationScalarWhereInput[]
-  }
-
   export type LocationUncheckedUpdateManyWithoutCityNestedInput = {
     create?: XOR<LocationCreateWithoutCityInput, LocationUncheckedCreateWithoutCityInput> | LocationCreateWithoutCityInput[] | LocationUncheckedCreateWithoutCityInput[]
     connectOrCreate?: LocationCreateOrConnectWithoutCityInput | LocationCreateOrConnectWithoutCityInput[]
@@ -14158,30 +12358,16 @@ export namespace Prisma {
     deleteMany?: LocationScalarWhereInput | LocationScalarWhereInput[]
   }
 
-  export type FoundationUncheckedUpdateManyWithoutCityNestedInput = {
-    create?: XOR<FoundationCreateWithoutCityInput, FoundationUncheckedCreateWithoutCityInput> | FoundationCreateWithoutCityInput[] | FoundationUncheckedCreateWithoutCityInput[]
-    connectOrCreate?: FoundationCreateOrConnectWithoutCityInput | FoundationCreateOrConnectWithoutCityInput[]
-    upsert?: FoundationUpsertWithWhereUniqueWithoutCityInput | FoundationUpsertWithWhereUniqueWithoutCityInput[]
-    createMany?: FoundationCreateManyCityInputEnvelope
-    set?: FoundationWhereUniqueInput | FoundationWhereUniqueInput[]
-    disconnect?: FoundationWhereUniqueInput | FoundationWhereUniqueInput[]
-    delete?: FoundationWhereUniqueInput | FoundationWhereUniqueInput[]
-    connect?: FoundationWhereUniqueInput | FoundationWhereUniqueInput[]
-    update?: FoundationUpdateWithWhereUniqueWithoutCityInput | FoundationUpdateWithWhereUniqueWithoutCityInput[]
-    updateMany?: FoundationUpdateManyWithWhereWithoutCityInput | FoundationUpdateManyWithWhereWithoutCityInput[]
-    deleteMany?: FoundationScalarWhereInput | FoundationScalarWhereInput[]
+  export type BeneficiaryCreateNestedOneWithoutUserInput = {
+    create?: XOR<BeneficiaryCreateWithoutUserInput, BeneficiaryUncheckedCreateWithoutUserInput>
+    connectOrCreate?: BeneficiaryCreateOrConnectWithoutUserInput
+    connect?: BeneficiaryWhereUniqueInput
   }
 
   export type DonorCreateNestedOneWithoutUserInput = {
     create?: XOR<DonorCreateWithoutUserInput, DonorUncheckedCreateWithoutUserInput>
     connectOrCreate?: DonorCreateOrConnectWithoutUserInput
     connect?: DonorWhereUniqueInput
-  }
-
-  export type BeneficiaryCreateNestedOneWithoutUserInput = {
-    create?: XOR<BeneficiaryCreateWithoutUserInput, BeneficiaryUncheckedCreateWithoutUserInput>
-    connectOrCreate?: BeneficiaryCreateOrConnectWithoutUserInput
-    connect?: BeneficiaryWhereUniqueInput
   }
 
   export type NotificationCreateNestedManyWithoutUserInput = {
@@ -14198,16 +12384,16 @@ export namespace Prisma {
     connect?: DonationWhereUniqueInput | DonationWhereUniqueInput[]
   }
 
-  export type DonorUncheckedCreateNestedOneWithoutUserInput = {
-    create?: XOR<DonorCreateWithoutUserInput, DonorUncheckedCreateWithoutUserInput>
-    connectOrCreate?: DonorCreateOrConnectWithoutUserInput
-    connect?: DonorWhereUniqueInput
-  }
-
   export type BeneficiaryUncheckedCreateNestedOneWithoutUserInput = {
     create?: XOR<BeneficiaryCreateWithoutUserInput, BeneficiaryUncheckedCreateWithoutUserInput>
     connectOrCreate?: BeneficiaryCreateOrConnectWithoutUserInput
     connect?: BeneficiaryWhereUniqueInput
+  }
+
+  export type DonorUncheckedCreateNestedOneWithoutUserInput = {
+    create?: XOR<DonorCreateWithoutUserInput, DonorUncheckedCreateWithoutUserInput>
+    connectOrCreate?: DonorCreateOrConnectWithoutUserInput
+    connect?: DonorWhereUniqueInput
   }
 
   export type NotificationUncheckedCreateNestedManyWithoutUserInput = {
@@ -14228,16 +12414,6 @@ export namespace Prisma {
     set?: Date | string
   }
 
-  export type DonorUpdateOneWithoutUserNestedInput = {
-    create?: XOR<DonorCreateWithoutUserInput, DonorUncheckedCreateWithoutUserInput>
-    connectOrCreate?: DonorCreateOrConnectWithoutUserInput
-    upsert?: DonorUpsertWithoutUserInput
-    disconnect?: DonorWhereInput | boolean
-    delete?: DonorWhereInput | boolean
-    connect?: DonorWhereUniqueInput
-    update?: XOR<XOR<DonorUpdateToOneWithWhereWithoutUserInput, DonorUpdateWithoutUserInput>, DonorUncheckedUpdateWithoutUserInput>
-  }
-
   export type BeneficiaryUpdateOneWithoutUserNestedInput = {
     create?: XOR<BeneficiaryCreateWithoutUserInput, BeneficiaryUncheckedCreateWithoutUserInput>
     connectOrCreate?: BeneficiaryCreateOrConnectWithoutUserInput
@@ -14246,6 +12422,16 @@ export namespace Prisma {
     delete?: BeneficiaryWhereInput | boolean
     connect?: BeneficiaryWhereUniqueInput
     update?: XOR<XOR<BeneficiaryUpdateToOneWithWhereWithoutUserInput, BeneficiaryUpdateWithoutUserInput>, BeneficiaryUncheckedUpdateWithoutUserInput>
+  }
+
+  export type DonorUpdateOneWithoutUserNestedInput = {
+    create?: XOR<DonorCreateWithoutUserInput, DonorUncheckedCreateWithoutUserInput>
+    connectOrCreate?: DonorCreateOrConnectWithoutUserInput
+    upsert?: DonorUpsertWithoutUserInput
+    disconnect?: DonorWhereInput | boolean
+    delete?: DonorWhereInput | boolean
+    connect?: DonorWhereUniqueInput
+    update?: XOR<XOR<DonorUpdateToOneWithWhereWithoutUserInput, DonorUpdateWithoutUserInput>, DonorUncheckedUpdateWithoutUserInput>
   }
 
   export type NotificationUpdateManyWithoutUserNestedInput = {
@@ -14276,16 +12462,6 @@ export namespace Prisma {
     deleteMany?: DonationScalarWhereInput | DonationScalarWhereInput[]
   }
 
-  export type DonorUncheckedUpdateOneWithoutUserNestedInput = {
-    create?: XOR<DonorCreateWithoutUserInput, DonorUncheckedCreateWithoutUserInput>
-    connectOrCreate?: DonorCreateOrConnectWithoutUserInput
-    upsert?: DonorUpsertWithoutUserInput
-    disconnect?: DonorWhereInput | boolean
-    delete?: DonorWhereInput | boolean
-    connect?: DonorWhereUniqueInput
-    update?: XOR<XOR<DonorUpdateToOneWithWhereWithoutUserInput, DonorUpdateWithoutUserInput>, DonorUncheckedUpdateWithoutUserInput>
-  }
-
   export type BeneficiaryUncheckedUpdateOneWithoutUserNestedInput = {
     create?: XOR<BeneficiaryCreateWithoutUserInput, BeneficiaryUncheckedCreateWithoutUserInput>
     connectOrCreate?: BeneficiaryCreateOrConnectWithoutUserInput
@@ -14294,6 +12470,16 @@ export namespace Prisma {
     delete?: BeneficiaryWhereInput | boolean
     connect?: BeneficiaryWhereUniqueInput
     update?: XOR<XOR<BeneficiaryUpdateToOneWithWhereWithoutUserInput, BeneficiaryUpdateWithoutUserInput>, BeneficiaryUncheckedUpdateWithoutUserInput>
+  }
+
+  export type DonorUncheckedUpdateOneWithoutUserNestedInput = {
+    create?: XOR<DonorCreateWithoutUserInput, DonorUncheckedCreateWithoutUserInput>
+    connectOrCreate?: DonorCreateOrConnectWithoutUserInput
+    upsert?: DonorUpsertWithoutUserInput
+    disconnect?: DonorWhereInput | boolean
+    delete?: DonorWhereInput | boolean
+    connect?: DonorWhereUniqueInput
+    update?: XOR<XOR<DonorUpdateToOneWithWhereWithoutUserInput, DonorUpdateWithoutUserInput>, DonorUncheckedUpdateWithoutUserInput>
   }
 
   export type NotificationUncheckedUpdateManyWithoutUserNestedInput = {
@@ -14430,23 +12616,16 @@ export namespace Prisma {
     deleteMany?: DonationScalarWhereInput | DonationScalarWhereInput[]
   }
 
-  export type DonorCreateNestedOneWithoutLocationsInput = {
-    create?: XOR<DonorCreateWithoutLocationsInput, DonorUncheckedCreateWithoutLocationsInput>
-    connectOrCreate?: DonorCreateOrConnectWithoutLocationsInput
-    connect?: DonorWhereUniqueInput
-  }
-
   export type CityCreateNestedOneWithoutLocationsInput = {
     create?: XOR<CityCreateWithoutLocationsInput, CityUncheckedCreateWithoutLocationsInput>
     connectOrCreate?: CityCreateOrConnectWithoutLocationsInput
     connect?: CityWhereUniqueInput
   }
 
-  export type PeakHourCreateNestedManyWithoutLocationInput = {
-    create?: XOR<PeakHourCreateWithoutLocationInput, PeakHourUncheckedCreateWithoutLocationInput> | PeakHourCreateWithoutLocationInput[] | PeakHourUncheckedCreateWithoutLocationInput[]
-    connectOrCreate?: PeakHourCreateOrConnectWithoutLocationInput | PeakHourCreateOrConnectWithoutLocationInput[]
-    createMany?: PeakHourCreateManyLocationInputEnvelope
-    connect?: PeakHourWhereUniqueInput | PeakHourWhereUniqueInput[]
+  export type DonorCreateNestedOneWithoutLocationsInput = {
+    create?: XOR<DonorCreateWithoutLocationsInput, DonorUncheckedCreateWithoutLocationsInput>
+    connectOrCreate?: DonorCreateOrConnectWithoutLocationsInput
+    connect?: DonorWhereUniqueInput
   }
 
   export type DonationCreateNestedManyWithoutLocationInput = {
@@ -14456,26 +12635,11 @@ export namespace Prisma {
     connect?: DonationWhereUniqueInput | DonationWhereUniqueInput[]
   }
 
-  export type PeakHourUncheckedCreateNestedManyWithoutLocationInput = {
-    create?: XOR<PeakHourCreateWithoutLocationInput, PeakHourUncheckedCreateWithoutLocationInput> | PeakHourCreateWithoutLocationInput[] | PeakHourUncheckedCreateWithoutLocationInput[]
-    connectOrCreate?: PeakHourCreateOrConnectWithoutLocationInput | PeakHourCreateOrConnectWithoutLocationInput[]
-    createMany?: PeakHourCreateManyLocationInputEnvelope
-    connect?: PeakHourWhereUniqueInput | PeakHourWhereUniqueInput[]
-  }
-
   export type DonationUncheckedCreateNestedManyWithoutLocationInput = {
     create?: XOR<DonationCreateWithoutLocationInput, DonationUncheckedCreateWithoutLocationInput> | DonationCreateWithoutLocationInput[] | DonationUncheckedCreateWithoutLocationInput[]
     connectOrCreate?: DonationCreateOrConnectWithoutLocationInput | DonationCreateOrConnectWithoutLocationInput[]
     createMany?: DonationCreateManyLocationInputEnvelope
     connect?: DonationWhereUniqueInput | DonationWhereUniqueInput[]
-  }
-
-  export type DonorUpdateOneRequiredWithoutLocationsNestedInput = {
-    create?: XOR<DonorCreateWithoutLocationsInput, DonorUncheckedCreateWithoutLocationsInput>
-    connectOrCreate?: DonorCreateOrConnectWithoutLocationsInput
-    upsert?: DonorUpsertWithoutLocationsInput
-    connect?: DonorWhereUniqueInput
-    update?: XOR<XOR<DonorUpdateToOneWithWhereWithoutLocationsInput, DonorUpdateWithoutLocationsInput>, DonorUncheckedUpdateWithoutLocationsInput>
   }
 
   export type CityUpdateOneRequiredWithoutLocationsNestedInput = {
@@ -14486,18 +12650,12 @@ export namespace Prisma {
     update?: XOR<XOR<CityUpdateToOneWithWhereWithoutLocationsInput, CityUpdateWithoutLocationsInput>, CityUncheckedUpdateWithoutLocationsInput>
   }
 
-  export type PeakHourUpdateManyWithoutLocationNestedInput = {
-    create?: XOR<PeakHourCreateWithoutLocationInput, PeakHourUncheckedCreateWithoutLocationInput> | PeakHourCreateWithoutLocationInput[] | PeakHourUncheckedCreateWithoutLocationInput[]
-    connectOrCreate?: PeakHourCreateOrConnectWithoutLocationInput | PeakHourCreateOrConnectWithoutLocationInput[]
-    upsert?: PeakHourUpsertWithWhereUniqueWithoutLocationInput | PeakHourUpsertWithWhereUniqueWithoutLocationInput[]
-    createMany?: PeakHourCreateManyLocationInputEnvelope
-    set?: PeakHourWhereUniqueInput | PeakHourWhereUniqueInput[]
-    disconnect?: PeakHourWhereUniqueInput | PeakHourWhereUniqueInput[]
-    delete?: PeakHourWhereUniqueInput | PeakHourWhereUniqueInput[]
-    connect?: PeakHourWhereUniqueInput | PeakHourWhereUniqueInput[]
-    update?: PeakHourUpdateWithWhereUniqueWithoutLocationInput | PeakHourUpdateWithWhereUniqueWithoutLocationInput[]
-    updateMany?: PeakHourUpdateManyWithWhereWithoutLocationInput | PeakHourUpdateManyWithWhereWithoutLocationInput[]
-    deleteMany?: PeakHourScalarWhereInput | PeakHourScalarWhereInput[]
+  export type DonorUpdateOneRequiredWithoutLocationsNestedInput = {
+    create?: XOR<DonorCreateWithoutLocationsInput, DonorUncheckedCreateWithoutLocationsInput>
+    connectOrCreate?: DonorCreateOrConnectWithoutLocationsInput
+    upsert?: DonorUpsertWithoutLocationsInput
+    connect?: DonorWhereUniqueInput
+    update?: XOR<XOR<DonorUpdateToOneWithWhereWithoutLocationsInput, DonorUpdateWithoutLocationsInput>, DonorUncheckedUpdateWithoutLocationsInput>
   }
 
   export type DonationUpdateManyWithoutLocationNestedInput = {
@@ -14514,20 +12672,6 @@ export namespace Prisma {
     deleteMany?: DonationScalarWhereInput | DonationScalarWhereInput[]
   }
 
-  export type PeakHourUncheckedUpdateManyWithoutLocationNestedInput = {
-    create?: XOR<PeakHourCreateWithoutLocationInput, PeakHourUncheckedCreateWithoutLocationInput> | PeakHourCreateWithoutLocationInput[] | PeakHourUncheckedCreateWithoutLocationInput[]
-    connectOrCreate?: PeakHourCreateOrConnectWithoutLocationInput | PeakHourCreateOrConnectWithoutLocationInput[]
-    upsert?: PeakHourUpsertWithWhereUniqueWithoutLocationInput | PeakHourUpsertWithWhereUniqueWithoutLocationInput[]
-    createMany?: PeakHourCreateManyLocationInputEnvelope
-    set?: PeakHourWhereUniqueInput | PeakHourWhereUniqueInput[]
-    disconnect?: PeakHourWhereUniqueInput | PeakHourWhereUniqueInput[]
-    delete?: PeakHourWhereUniqueInput | PeakHourWhereUniqueInput[]
-    connect?: PeakHourWhereUniqueInput | PeakHourWhereUniqueInput[]
-    update?: PeakHourUpdateWithWhereUniqueWithoutLocationInput | PeakHourUpdateWithWhereUniqueWithoutLocationInput[]
-    updateMany?: PeakHourUpdateManyWithWhereWithoutLocationInput | PeakHourUpdateManyWithWhereWithoutLocationInput[]
-    deleteMany?: PeakHourScalarWhereInput | PeakHourScalarWhereInput[]
-  }
-
   export type DonationUncheckedUpdateManyWithoutLocationNestedInput = {
     create?: XOR<DonationCreateWithoutLocationInput, DonationUncheckedCreateWithoutLocationInput> | DonationCreateWithoutLocationInput[] | DonationUncheckedCreateWithoutLocationInput[]
     connectOrCreate?: DonationCreateOrConnectWithoutLocationInput | DonationCreateOrConnectWithoutLocationInput[]
@@ -14542,43 +12686,10 @@ export namespace Prisma {
     deleteMany?: DonationScalarWhereInput | DonationScalarWhereInput[]
   }
 
-  export type PeakHourCreatedayInput = {
-    set: $Enums.Days[]
-  }
-
-  export type LocationCreateNestedOneWithoutPeakHoursInput = {
-    create?: XOR<LocationCreateWithoutPeakHoursInput, LocationUncheckedCreateWithoutPeakHoursInput>
-    connectOrCreate?: LocationCreateOrConnectWithoutPeakHoursInput
-    connect?: LocationWhereUniqueInput
-  }
-
-  export type PeakHourUpdatedayInput = {
-    set?: $Enums.Days[]
-    push?: $Enums.Days | $Enums.Days[]
-  }
-
-  export type NullableStringFieldUpdateOperationsInput = {
-    set?: string | null
-  }
-
-  export type LocationUpdateOneRequiredWithoutPeakHoursNestedInput = {
-    create?: XOR<LocationCreateWithoutPeakHoursInput, LocationUncheckedCreateWithoutPeakHoursInput>
-    connectOrCreate?: LocationCreateOrConnectWithoutPeakHoursInput
-    upsert?: LocationUpsertWithoutPeakHoursInput
-    connect?: LocationWhereUniqueInput
-    update?: XOR<XOR<LocationUpdateToOneWithWhereWithoutPeakHoursInput, LocationUpdateWithoutPeakHoursInput>, LocationUncheckedUpdateWithoutPeakHoursInput>
-  }
-
   export type UserCreateNestedOneWithoutBeneficiaryInput = {
     create?: XOR<UserCreateWithoutBeneficiaryInput, UserUncheckedCreateWithoutBeneficiaryInput>
     connectOrCreate?: UserCreateOrConnectWithoutBeneficiaryInput
     connect?: UserWhereUniqueInput
-  }
-
-  export type FoundationCreateNestedOneWithoutBeneficiaryInput = {
-    create?: XOR<FoundationCreateWithoutBeneficiaryInput, FoundationUncheckedCreateWithoutBeneficiaryInput>
-    connectOrCreate?: FoundationCreateOrConnectWithoutBeneficiaryInput
-    connect?: FoundationWhereUniqueInput
   }
 
   export type UserUpdateOneRequiredWithoutBeneficiaryNestedInput = {
@@ -14587,60 +12698,6 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutBeneficiaryInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutBeneficiaryInput, UserUpdateWithoutBeneficiaryInput>, UserUncheckedUpdateWithoutBeneficiaryInput>
-  }
-
-  export type FoundationUpdateOneRequiredWithoutBeneficiaryNestedInput = {
-    create?: XOR<FoundationCreateWithoutBeneficiaryInput, FoundationUncheckedCreateWithoutBeneficiaryInput>
-    connectOrCreate?: FoundationCreateOrConnectWithoutBeneficiaryInput
-    upsert?: FoundationUpsertWithoutBeneficiaryInput
-    connect?: FoundationWhereUniqueInput
-    update?: XOR<XOR<FoundationUpdateToOneWithWhereWithoutBeneficiaryInput, FoundationUpdateWithoutBeneficiaryInput>, FoundationUncheckedUpdateWithoutBeneficiaryInput>
-  }
-
-  export type CityCreateNestedOneWithoutFoundationsInput = {
-    create?: XOR<CityCreateWithoutFoundationsInput, CityUncheckedCreateWithoutFoundationsInput>
-    connectOrCreate?: CityCreateOrConnectWithoutFoundationsInput
-    connect?: CityWhereUniqueInput
-  }
-
-  export type BeneficiaryCreateNestedOneWithoutFoundationInput = {
-    create?: XOR<BeneficiaryCreateWithoutFoundationInput, BeneficiaryUncheckedCreateWithoutFoundationInput>
-    connectOrCreate?: BeneficiaryCreateOrConnectWithoutFoundationInput
-    connect?: BeneficiaryWhereUniqueInput
-  }
-
-  export type BeneficiaryUncheckedCreateNestedOneWithoutFoundationInput = {
-    create?: XOR<BeneficiaryCreateWithoutFoundationInput, BeneficiaryUncheckedCreateWithoutFoundationInput>
-    connectOrCreate?: BeneficiaryCreateOrConnectWithoutFoundationInput
-    connect?: BeneficiaryWhereUniqueInput
-  }
-
-  export type CityUpdateOneRequiredWithoutFoundationsNestedInput = {
-    create?: XOR<CityCreateWithoutFoundationsInput, CityUncheckedCreateWithoutFoundationsInput>
-    connectOrCreate?: CityCreateOrConnectWithoutFoundationsInput
-    upsert?: CityUpsertWithoutFoundationsInput
-    connect?: CityWhereUniqueInput
-    update?: XOR<XOR<CityUpdateToOneWithWhereWithoutFoundationsInput, CityUpdateWithoutFoundationsInput>, CityUncheckedUpdateWithoutFoundationsInput>
-  }
-
-  export type BeneficiaryUpdateOneWithoutFoundationNestedInput = {
-    create?: XOR<BeneficiaryCreateWithoutFoundationInput, BeneficiaryUncheckedCreateWithoutFoundationInput>
-    connectOrCreate?: BeneficiaryCreateOrConnectWithoutFoundationInput
-    upsert?: BeneficiaryUpsertWithoutFoundationInput
-    disconnect?: BeneficiaryWhereInput | boolean
-    delete?: BeneficiaryWhereInput | boolean
-    connect?: BeneficiaryWhereUniqueInput
-    update?: XOR<XOR<BeneficiaryUpdateToOneWithWhereWithoutFoundationInput, BeneficiaryUpdateWithoutFoundationInput>, BeneficiaryUncheckedUpdateWithoutFoundationInput>
-  }
-
-  export type BeneficiaryUncheckedUpdateOneWithoutFoundationNestedInput = {
-    create?: XOR<BeneficiaryCreateWithoutFoundationInput, BeneficiaryUncheckedCreateWithoutFoundationInput>
-    connectOrCreate?: BeneficiaryCreateOrConnectWithoutFoundationInput
-    upsert?: BeneficiaryUpsertWithoutFoundationInput
-    disconnect?: BeneficiaryWhereInput | boolean
-    delete?: BeneficiaryWhereInput | boolean
-    connect?: BeneficiaryWhereUniqueInput
-    update?: XOR<XOR<BeneficiaryUpdateToOneWithWhereWithoutFoundationInput, BeneficiaryUpdateWithoutFoundationInput>, BeneficiaryUncheckedUpdateWithoutFoundationInput>
   }
 
   export type DonorCreateNestedOneWithoutDonationsInput = {
@@ -14655,9 +12712,9 @@ export namespace Prisma {
     connect?: LocationWhereUniqueInput
   }
 
-  export type UserCreateNestedOneWithoutBeneficiaryDonationsInput = {
-    create?: XOR<UserCreateWithoutBeneficiaryDonationsInput, UserUncheckedCreateWithoutBeneficiaryDonationsInput>
-    connectOrCreate?: UserCreateOrConnectWithoutBeneficiaryDonationsInput
+  export type UserCreateNestedOneWithoutClaimedDonationsInput = {
+    create?: XOR<UserCreateWithoutClaimedDonationsInput, UserUncheckedCreateWithoutClaimedDonationsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutClaimedDonationsInput
     connect?: UserWhereUniqueInput
   }
 
@@ -14707,14 +12764,14 @@ export namespace Prisma {
     update?: XOR<XOR<LocationUpdateToOneWithWhereWithoutDonationsInput, LocationUpdateWithoutDonationsInput>, LocationUncheckedUpdateWithoutDonationsInput>
   }
 
-  export type UserUpdateOneWithoutBeneficiaryDonationsNestedInput = {
-    create?: XOR<UserCreateWithoutBeneficiaryDonationsInput, UserUncheckedCreateWithoutBeneficiaryDonationsInput>
-    connectOrCreate?: UserCreateOrConnectWithoutBeneficiaryDonationsInput
-    upsert?: UserUpsertWithoutBeneficiaryDonationsInput
+  export type UserUpdateOneWithoutClaimedDonationsNestedInput = {
+    create?: XOR<UserCreateWithoutClaimedDonationsInput, UserUncheckedCreateWithoutClaimedDonationsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutClaimedDonationsInput
+    upsert?: UserUpsertWithoutClaimedDonationsInput
     disconnect?: UserWhereInput | boolean
     delete?: UserWhereInput | boolean
     connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutBeneficiaryDonationsInput, UserUpdateWithoutBeneficiaryDonationsInput>, UserUncheckedUpdateWithoutBeneficiaryDonationsInput>
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutClaimedDonationsInput, UserUpdateWithoutClaimedDonationsInput>, UserUncheckedUpdateWithoutClaimedDonationsInput>
   }
 
   export type NotificationUpdateManyWithoutDonationNestedInput = {
@@ -14729,6 +12786,10 @@ export namespace Prisma {
     update?: NotificationUpdateWithWhereUniqueWithoutDonationInput | NotificationUpdateWithWhereUniqueWithoutDonationInput[]
     updateMany?: NotificationUpdateManyWithWhereWithoutDonationInput | NotificationUpdateManyWithWhereWithoutDonationInput[]
     deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
+  }
+
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
   }
 
   export type NotificationUncheckedUpdateManyWithoutDonationNestedInput = {
@@ -14773,6 +12834,14 @@ export namespace Prisma {
     delete?: DonationWhereInput | boolean
     connect?: DonationWhereUniqueInput
     update?: XOR<XOR<DonationUpdateToOneWithWhereWithoutNotificationsInput, DonationUpdateWithoutNotificationsInput>, DonationUncheckedUpdateWithoutNotificationsInput>
+  }
+
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -14869,6 +12938,13 @@ export namespace Prisma {
     not?: NestedFloatFilter<$PrismaModel> | number
   }
 
+  export type NestedEnumDonationStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.DonationStatus | EnumDonationStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.DonationStatus[] | ListEnumDonationStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DonationStatus[] | ListEnumDonationStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumDonationStatusFilter<$PrismaModel> | $Enums.DonationStatus
+  }
+
   export type NestedStringNullableFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -14881,41 +12957,6 @@ export namespace Prisma {
     startsWith?: string | StringFieldRefInput<$PrismaModel>
     endsWith?: string | StringFieldRefInput<$PrismaModel>
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
-  }
-
-  export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedStringNullableFilter<$PrismaModel>
-    _max?: NestedStringNullableFilter<$PrismaModel>
-  }
-
-  export type NestedIntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
-  }
-
-  export type NestedEnumDonationStatusFilter<$PrismaModel = never> = {
-    equals?: $Enums.DonationStatus | EnumDonationStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.DonationStatus[] | ListEnumDonationStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.DonationStatus[] | ListEnumDonationStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumDonationStatusFilter<$PrismaModel> | $Enums.DonationStatus
   }
 
   export type NestedBoolFilter<$PrismaModel = never> = {
@@ -14949,6 +12990,34 @@ export namespace Prisma {
     _max?: NestedEnumDonationStatusFilter<$PrismaModel>
   }
 
+  export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
   export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
@@ -14957,13 +13026,39 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>
   }
 
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
   export type LocationCreateWithoutCityInput = {
     name: string
     mainStreet: string
     secondaryStreet: string
     reference: string
     donor: DonorCreateNestedOneWithoutLocationsInput
-    peakHours?: PeakHourCreateNestedManyWithoutLocationInput
     donations?: DonationCreateNestedManyWithoutLocationInput
   }
 
@@ -14974,7 +13069,6 @@ export namespace Prisma {
     secondaryStreet: string
     reference: string
     donorId: number
-    peakHours?: PeakHourUncheckedCreateNestedManyWithoutLocationInput
     donations?: DonationUncheckedCreateNestedManyWithoutLocationInput
   }
 
@@ -14985,33 +13079,6 @@ export namespace Prisma {
 
   export type LocationCreateManyCityInputEnvelope = {
     data: LocationCreateManyCityInput | LocationCreateManyCityInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type FoundationCreateWithoutCityInput = {
-    name: string
-    mainStreet: string
-    secondaryStreet: string
-    reference: string
-    beneficiary?: BeneficiaryCreateNestedOneWithoutFoundationInput
-  }
-
-  export type FoundationUncheckedCreateWithoutCityInput = {
-    id?: number
-    name: string
-    mainStreet: string
-    secondaryStreet: string
-    reference: string
-    beneficiary?: BeneficiaryUncheckedCreateNestedOneWithoutFoundationInput
-  }
-
-  export type FoundationCreateOrConnectWithoutCityInput = {
-    where: FoundationWhereUniqueInput
-    create: XOR<FoundationCreateWithoutCityInput, FoundationUncheckedCreateWithoutCityInput>
-  }
-
-  export type FoundationCreateManyCityInputEnvelope = {
-    data: FoundationCreateManyCityInput | FoundationCreateManyCityInput[]
     skipDuplicates?: boolean
   }
 
@@ -15044,32 +13111,17 @@ export namespace Prisma {
     cityCode?: StringFilter<"Location"> | string
   }
 
-  export type FoundationUpsertWithWhereUniqueWithoutCityInput = {
-    where: FoundationWhereUniqueInput
-    update: XOR<FoundationUpdateWithoutCityInput, FoundationUncheckedUpdateWithoutCityInput>
-    create: XOR<FoundationCreateWithoutCityInput, FoundationUncheckedCreateWithoutCityInput>
+  export type BeneficiaryCreateWithoutUserInput = {
+
   }
 
-  export type FoundationUpdateWithWhereUniqueWithoutCityInput = {
-    where: FoundationWhereUniqueInput
-    data: XOR<FoundationUpdateWithoutCityInput, FoundationUncheckedUpdateWithoutCityInput>
+  export type BeneficiaryUncheckedCreateWithoutUserInput = {
+    id?: number
   }
 
-  export type FoundationUpdateManyWithWhereWithoutCityInput = {
-    where: FoundationScalarWhereInput
-    data: XOR<FoundationUpdateManyMutationInput, FoundationUncheckedUpdateManyWithoutCityInput>
-  }
-
-  export type FoundationScalarWhereInput = {
-    AND?: FoundationScalarWhereInput | FoundationScalarWhereInput[]
-    OR?: FoundationScalarWhereInput[]
-    NOT?: FoundationScalarWhereInput | FoundationScalarWhereInput[]
-    id?: IntFilter<"Foundation"> | number
-    name?: StringFilter<"Foundation"> | string
-    mainStreet?: StringFilter<"Foundation"> | string
-    secondaryStreet?: StringFilter<"Foundation"> | string
-    reference?: StringFilter<"Foundation"> | string
-    cityCode?: StringFilter<"Foundation"> | string
+  export type BeneficiaryCreateOrConnectWithoutUserInput = {
+    where: BeneficiaryWhereUniqueInput
+    create: XOR<BeneficiaryCreateWithoutUserInput, BeneficiaryUncheckedCreateWithoutUserInput>
   }
 
   export type DonorCreateWithoutUserInput = {
@@ -15088,20 +13140,6 @@ export namespace Prisma {
     create: XOR<DonorCreateWithoutUserInput, DonorUncheckedCreateWithoutUserInput>
   }
 
-  export type BeneficiaryCreateWithoutUserInput = {
-    foundation: FoundationCreateNestedOneWithoutBeneficiaryInput
-  }
-
-  export type BeneficiaryUncheckedCreateWithoutUserInput = {
-    id?: number
-    foundationId: number
-  }
-
-  export type BeneficiaryCreateOrConnectWithoutUserInput = {
-    where: BeneficiaryWhereUniqueInput
-    create: XOR<BeneficiaryCreateWithoutUserInput, BeneficiaryUncheckedCreateWithoutUserInput>
-  }
-
   export type NotificationCreateWithoutUserInput = {
     message: string
     type: string
@@ -15115,8 +13153,8 @@ export namespace Prisma {
     message: string
     type: string
     isRead?: boolean
+    donationId?: number | null
     createdAt?: Date | string
-    donationId?: string | null
   }
 
   export type NotificationCreateOrConnectWithoutUserInput = {
@@ -15130,32 +13168,31 @@ export namespace Prisma {
   }
 
   export type DonationCreateWithoutBeneficiaryInput = {
-    id?: string
     productName: string
     quantity: number
     unit: string
     status?: $Enums.DonationStatus
-    createdAt?: Date | string
-    updatedAt?: Date | string
     donorConfirmed?: boolean
     beneficiaryConfirmed?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
     donor: DonorCreateNestedOneWithoutDonationsInput
     location: LocationCreateNestedOneWithoutDonationsInput
     notifications?: NotificationCreateNestedManyWithoutDonationInput
   }
 
   export type DonationUncheckedCreateWithoutBeneficiaryInput = {
-    id?: string
+    id?: number
     productName: string
     quantity: number
     unit: string
     status?: $Enums.DonationStatus
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    donorConfirmed?: boolean
-    beneficiaryConfirmed?: boolean
     donorId: number
     locationId: number
+    donorConfirmed?: boolean
+    beneficiaryConfirmed?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
     notifications?: NotificationUncheckedCreateNestedManyWithoutDonationInput
   }
 
@@ -15167,6 +13204,25 @@ export namespace Prisma {
   export type DonationCreateManyBeneficiaryInputEnvelope = {
     data: DonationCreateManyBeneficiaryInput | DonationCreateManyBeneficiaryInput[]
     skipDuplicates?: boolean
+  }
+
+  export type BeneficiaryUpsertWithoutUserInput = {
+    update: XOR<BeneficiaryUpdateWithoutUserInput, BeneficiaryUncheckedUpdateWithoutUserInput>
+    create: XOR<BeneficiaryCreateWithoutUserInput, BeneficiaryUncheckedCreateWithoutUserInput>
+    where?: BeneficiaryWhereInput
+  }
+
+  export type BeneficiaryUpdateToOneWithWhereWithoutUserInput = {
+    where?: BeneficiaryWhereInput
+    data: XOR<BeneficiaryUpdateWithoutUserInput, BeneficiaryUncheckedUpdateWithoutUserInput>
+  }
+
+  export type BeneficiaryUpdateWithoutUserInput = {
+
+  }
+
+  export type BeneficiaryUncheckedUpdateWithoutUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
   }
 
   export type DonorUpsertWithoutUserInput = {
@@ -15189,26 +13245,6 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     locations?: LocationUncheckedUpdateManyWithoutDonorNestedInput
     donations?: DonationUncheckedUpdateManyWithoutDonorNestedInput
-  }
-
-  export type BeneficiaryUpsertWithoutUserInput = {
-    update: XOR<BeneficiaryUpdateWithoutUserInput, BeneficiaryUncheckedUpdateWithoutUserInput>
-    create: XOR<BeneficiaryCreateWithoutUserInput, BeneficiaryUncheckedCreateWithoutUserInput>
-    where?: BeneficiaryWhereInput
-  }
-
-  export type BeneficiaryUpdateToOneWithWhereWithoutUserInput = {
-    where?: BeneficiaryWhereInput
-    data: XOR<BeneficiaryUpdateWithoutUserInput, BeneficiaryUncheckedUpdateWithoutUserInput>
-  }
-
-  export type BeneficiaryUpdateWithoutUserInput = {
-    foundation?: FoundationUpdateOneRequiredWithoutBeneficiaryNestedInput
-  }
-
-  export type BeneficiaryUncheckedUpdateWithoutUserInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    foundationId?: IntFieldUpdateOperationsInput | number
   }
 
   export type NotificationUpsertWithWhereUniqueWithoutUserInput = {
@@ -15235,9 +13271,9 @@ export namespace Prisma {
     message?: StringFilter<"Notification"> | string
     type?: StringFilter<"Notification"> | string
     isRead?: BoolFilter<"Notification"> | boolean
-    createdAt?: DateTimeFilter<"Notification"> | Date | string
     userId?: StringFilter<"Notification"> | string
-    donationId?: StringNullableFilter<"Notification"> | string | null
+    donationId?: IntNullableFilter<"Notification"> | number | null
+    createdAt?: DateTimeFilter<"Notification"> | Date | string
   }
 
   export type DonationUpsertWithWhereUniqueWithoutBeneficiaryInput = {
@@ -15260,18 +13296,18 @@ export namespace Prisma {
     AND?: DonationScalarWhereInput | DonationScalarWhereInput[]
     OR?: DonationScalarWhereInput[]
     NOT?: DonationScalarWhereInput | DonationScalarWhereInput[]
-    id?: StringFilter<"Donation"> | string
+    id?: IntFilter<"Donation"> | number
     productName?: StringFilter<"Donation"> | string
     quantity?: FloatFilter<"Donation"> | number
     unit?: StringFilter<"Donation"> | string
     status?: EnumDonationStatusFilter<"Donation"> | $Enums.DonationStatus
-    createdAt?: DateTimeFilter<"Donation"> | Date | string
-    updatedAt?: DateTimeFilter<"Donation"> | Date | string
-    donorConfirmed?: BoolFilter<"Donation"> | boolean
-    beneficiaryConfirmed?: BoolFilter<"Donation"> | boolean
     donorId?: IntFilter<"Donation"> | number
     locationId?: IntFilter<"Donation"> | number
     beneficiaryId?: StringNullableFilter<"Donation"> | string | null
+    donorConfirmed?: BoolFilter<"Donation"> | boolean
+    beneficiaryConfirmed?: BoolFilter<"Donation"> | boolean
+    createdAt?: DateTimeFilter<"Donation"> | Date | string
+    updatedAt?: DateTimeFilter<"Donation"> | Date | string
   }
 
   export type UserCreateWithoutDonorInput = {
@@ -15281,11 +13317,11 @@ export namespace Prisma {
     firstName: string
     lastName: string
     userType: string
-    createdAt?: Date | string
+    createdAt: Date | string
     updatedAt?: Date | string
     beneficiary?: BeneficiaryCreateNestedOneWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
-    beneficiaryDonations?: DonationCreateNestedManyWithoutBeneficiaryInput
+    claimedDonations?: DonationCreateNestedManyWithoutBeneficiaryInput
   }
 
   export type UserUncheckedCreateWithoutDonorInput = {
@@ -15295,11 +13331,11 @@ export namespace Prisma {
     firstName: string
     lastName: string
     userType: string
-    createdAt?: Date | string
+    createdAt: Date | string
     updatedAt?: Date | string
     beneficiary?: BeneficiaryUncheckedCreateNestedOneWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
-    beneficiaryDonations?: DonationUncheckedCreateNestedManyWithoutBeneficiaryInput
+    claimedDonations?: DonationUncheckedCreateNestedManyWithoutBeneficiaryInput
   }
 
   export type UserCreateOrConnectWithoutDonorInput = {
@@ -15313,7 +13349,6 @@ export namespace Prisma {
     secondaryStreet: string
     reference: string
     city: CityCreateNestedOneWithoutLocationsInput
-    peakHours?: PeakHourCreateNestedManyWithoutLocationInput
     donations?: DonationCreateNestedManyWithoutLocationInput
   }
 
@@ -15324,7 +13359,6 @@ export namespace Prisma {
     secondaryStreet: string
     reference: string
     cityCode: string
-    peakHours?: PeakHourUncheckedCreateNestedManyWithoutLocationInput
     donations?: DonationUncheckedCreateNestedManyWithoutLocationInput
   }
 
@@ -15339,32 +13373,31 @@ export namespace Prisma {
   }
 
   export type DonationCreateWithoutDonorInput = {
-    id?: string
     productName: string
     quantity: number
     unit: string
     status?: $Enums.DonationStatus
-    createdAt?: Date | string
-    updatedAt?: Date | string
     donorConfirmed?: boolean
     beneficiaryConfirmed?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
     location: LocationCreateNestedOneWithoutDonationsInput
-    beneficiary?: UserCreateNestedOneWithoutBeneficiaryDonationsInput
+    beneficiary?: UserCreateNestedOneWithoutClaimedDonationsInput
     notifications?: NotificationCreateNestedManyWithoutDonationInput
   }
 
   export type DonationUncheckedCreateWithoutDonorInput = {
-    id?: string
+    id?: number
     productName: string
     quantity: number
     unit: string
     status?: $Enums.DonationStatus
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    donorConfirmed?: boolean
-    beneficiaryConfirmed?: boolean
     locationId: number
     beneficiaryId?: string | null
+    donorConfirmed?: boolean
+    beneficiaryConfirmed?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
     notifications?: NotificationUncheckedCreateNestedManyWithoutDonationInput
   }
 
@@ -15400,7 +13433,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     beneficiary?: BeneficiaryUpdateOneWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
-    beneficiaryDonations?: DonationUpdateManyWithoutBeneficiaryNestedInput
+    claimedDonations?: DonationUpdateManyWithoutBeneficiaryNestedInput
   }
 
   export type UserUncheckedUpdateWithoutDonorInput = {
@@ -15414,7 +13447,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     beneficiary?: BeneficiaryUncheckedUpdateOneWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
-    beneficiaryDonations?: DonationUncheckedUpdateManyWithoutBeneficiaryNestedInput
+    claimedDonations?: DonationUncheckedUpdateManyWithoutBeneficiaryNestedInput
   }
 
   export type LocationUpsertWithWhereUniqueWithoutDonorInput = {
@@ -15449,6 +13482,21 @@ export namespace Prisma {
     data: XOR<DonationUpdateManyMutationInput, DonationUncheckedUpdateManyWithoutDonorInput>
   }
 
+  export type CityCreateWithoutLocationsInput = {
+    code: string
+    name: string
+  }
+
+  export type CityUncheckedCreateWithoutLocationsInput = {
+    code: string
+    name: string
+  }
+
+  export type CityCreateOrConnectWithoutLocationsInput = {
+    where: CityWhereUniqueInput
+    create: XOR<CityCreateWithoutLocationsInput, CityUncheckedCreateWithoutLocationsInput>
+  }
+
   export type DonorCreateWithoutLocationsInput = {
     user: UserCreateNestedOneWithoutDonorInput
     donations?: DonationCreateNestedManyWithoutDonorInput
@@ -15465,75 +13513,32 @@ export namespace Prisma {
     create: XOR<DonorCreateWithoutLocationsInput, DonorUncheckedCreateWithoutLocationsInput>
   }
 
-  export type CityCreateWithoutLocationsInput = {
-    code: string
-    name: string
-    foundations?: FoundationCreateNestedManyWithoutCityInput
-  }
-
-  export type CityUncheckedCreateWithoutLocationsInput = {
-    code: string
-    name: string
-    foundations?: FoundationUncheckedCreateNestedManyWithoutCityInput
-  }
-
-  export type CityCreateOrConnectWithoutLocationsInput = {
-    where: CityWhereUniqueInput
-    create: XOR<CityCreateWithoutLocationsInput, CityUncheckedCreateWithoutLocationsInput>
-  }
-
-  export type PeakHourCreateWithoutLocationInput = {
-    day?: PeakHourCreatedayInput | $Enums.Days[]
-    startTime: string
-    endTime: string
-    note?: string | null
-  }
-
-  export type PeakHourUncheckedCreateWithoutLocationInput = {
-    id?: number
-    day?: PeakHourCreatedayInput | $Enums.Days[]
-    startTime: string
-    endTime: string
-    note?: string | null
-  }
-
-  export type PeakHourCreateOrConnectWithoutLocationInput = {
-    where: PeakHourWhereUniqueInput
-    create: XOR<PeakHourCreateWithoutLocationInput, PeakHourUncheckedCreateWithoutLocationInput>
-  }
-
-  export type PeakHourCreateManyLocationInputEnvelope = {
-    data: PeakHourCreateManyLocationInput | PeakHourCreateManyLocationInput[]
-    skipDuplicates?: boolean
-  }
-
   export type DonationCreateWithoutLocationInput = {
-    id?: string
     productName: string
     quantity: number
     unit: string
     status?: $Enums.DonationStatus
-    createdAt?: Date | string
-    updatedAt?: Date | string
     donorConfirmed?: boolean
     beneficiaryConfirmed?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
     donor: DonorCreateNestedOneWithoutDonationsInput
-    beneficiary?: UserCreateNestedOneWithoutBeneficiaryDonationsInput
+    beneficiary?: UserCreateNestedOneWithoutClaimedDonationsInput
     notifications?: NotificationCreateNestedManyWithoutDonationInput
   }
 
   export type DonationUncheckedCreateWithoutLocationInput = {
-    id?: string
+    id?: number
     productName: string
     quantity: number
     unit: string
     status?: $Enums.DonationStatus
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    donorConfirmed?: boolean
-    beneficiaryConfirmed?: boolean
     donorId: number
     beneficiaryId?: string | null
+    donorConfirmed?: boolean
+    beneficiaryConfirmed?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
     notifications?: NotificationUncheckedCreateNestedManyWithoutDonationInput
   }
 
@@ -15545,6 +13550,27 @@ export namespace Prisma {
   export type DonationCreateManyLocationInputEnvelope = {
     data: DonationCreateManyLocationInput | DonationCreateManyLocationInput[]
     skipDuplicates?: boolean
+  }
+
+  export type CityUpsertWithoutLocationsInput = {
+    update: XOR<CityUpdateWithoutLocationsInput, CityUncheckedUpdateWithoutLocationsInput>
+    create: XOR<CityCreateWithoutLocationsInput, CityUncheckedCreateWithoutLocationsInput>
+    where?: CityWhereInput
+  }
+
+  export type CityUpdateToOneWithWhereWithoutLocationsInput = {
+    where?: CityWhereInput
+    data: XOR<CityUpdateWithoutLocationsInput, CityUncheckedUpdateWithoutLocationsInput>
+  }
+
+  export type CityUpdateWithoutLocationsInput = {
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type CityUncheckedUpdateWithoutLocationsInput = {
+    code?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
   }
 
   export type DonorUpsertWithoutLocationsInput = {
@@ -15569,57 +13595,6 @@ export namespace Prisma {
     donations?: DonationUncheckedUpdateManyWithoutDonorNestedInput
   }
 
-  export type CityUpsertWithoutLocationsInput = {
-    update: XOR<CityUpdateWithoutLocationsInput, CityUncheckedUpdateWithoutLocationsInput>
-    create: XOR<CityCreateWithoutLocationsInput, CityUncheckedCreateWithoutLocationsInput>
-    where?: CityWhereInput
-  }
-
-  export type CityUpdateToOneWithWhereWithoutLocationsInput = {
-    where?: CityWhereInput
-    data: XOR<CityUpdateWithoutLocationsInput, CityUncheckedUpdateWithoutLocationsInput>
-  }
-
-  export type CityUpdateWithoutLocationsInput = {
-    code?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    foundations?: FoundationUpdateManyWithoutCityNestedInput
-  }
-
-  export type CityUncheckedUpdateWithoutLocationsInput = {
-    code?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    foundations?: FoundationUncheckedUpdateManyWithoutCityNestedInput
-  }
-
-  export type PeakHourUpsertWithWhereUniqueWithoutLocationInput = {
-    where: PeakHourWhereUniqueInput
-    update: XOR<PeakHourUpdateWithoutLocationInput, PeakHourUncheckedUpdateWithoutLocationInput>
-    create: XOR<PeakHourCreateWithoutLocationInput, PeakHourUncheckedCreateWithoutLocationInput>
-  }
-
-  export type PeakHourUpdateWithWhereUniqueWithoutLocationInput = {
-    where: PeakHourWhereUniqueInput
-    data: XOR<PeakHourUpdateWithoutLocationInput, PeakHourUncheckedUpdateWithoutLocationInput>
-  }
-
-  export type PeakHourUpdateManyWithWhereWithoutLocationInput = {
-    where: PeakHourScalarWhereInput
-    data: XOR<PeakHourUpdateManyMutationInput, PeakHourUncheckedUpdateManyWithoutLocationInput>
-  }
-
-  export type PeakHourScalarWhereInput = {
-    AND?: PeakHourScalarWhereInput | PeakHourScalarWhereInput[]
-    OR?: PeakHourScalarWhereInput[]
-    NOT?: PeakHourScalarWhereInput | PeakHourScalarWhereInput[]
-    id?: IntFilter<"PeakHour"> | number
-    day?: EnumDaysNullableListFilter<"PeakHour">
-    startTime?: StringFilter<"PeakHour"> | string
-    endTime?: StringFilter<"PeakHour"> | string
-    note?: StringNullableFilter<"PeakHour"> | string | null
-    locationId?: IntFilter<"PeakHour"> | number
-  }
-
   export type DonationUpsertWithWhereUniqueWithoutLocationInput = {
     where: DonationWhereUniqueInput
     update: XOR<DonationUpdateWithoutLocationInput, DonationUncheckedUpdateWithoutLocationInput>
@@ -15636,64 +13611,6 @@ export namespace Prisma {
     data: XOR<DonationUpdateManyMutationInput, DonationUncheckedUpdateManyWithoutLocationInput>
   }
 
-  export type LocationCreateWithoutPeakHoursInput = {
-    name: string
-    mainStreet: string
-    secondaryStreet: string
-    reference: string
-    donor: DonorCreateNestedOneWithoutLocationsInput
-    city: CityCreateNestedOneWithoutLocationsInput
-    donations?: DonationCreateNestedManyWithoutLocationInput
-  }
-
-  export type LocationUncheckedCreateWithoutPeakHoursInput = {
-    id?: number
-    name: string
-    mainStreet: string
-    secondaryStreet: string
-    reference: string
-    donorId: number
-    cityCode: string
-    donations?: DonationUncheckedCreateNestedManyWithoutLocationInput
-  }
-
-  export type LocationCreateOrConnectWithoutPeakHoursInput = {
-    where: LocationWhereUniqueInput
-    create: XOR<LocationCreateWithoutPeakHoursInput, LocationUncheckedCreateWithoutPeakHoursInput>
-  }
-
-  export type LocationUpsertWithoutPeakHoursInput = {
-    update: XOR<LocationUpdateWithoutPeakHoursInput, LocationUncheckedUpdateWithoutPeakHoursInput>
-    create: XOR<LocationCreateWithoutPeakHoursInput, LocationUncheckedCreateWithoutPeakHoursInput>
-    where?: LocationWhereInput
-  }
-
-  export type LocationUpdateToOneWithWhereWithoutPeakHoursInput = {
-    where?: LocationWhereInput
-    data: XOR<LocationUpdateWithoutPeakHoursInput, LocationUncheckedUpdateWithoutPeakHoursInput>
-  }
-
-  export type LocationUpdateWithoutPeakHoursInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    mainStreet?: StringFieldUpdateOperationsInput | string
-    secondaryStreet?: StringFieldUpdateOperationsInput | string
-    reference?: StringFieldUpdateOperationsInput | string
-    donor?: DonorUpdateOneRequiredWithoutLocationsNestedInput
-    city?: CityUpdateOneRequiredWithoutLocationsNestedInput
-    donations?: DonationUpdateManyWithoutLocationNestedInput
-  }
-
-  export type LocationUncheckedUpdateWithoutPeakHoursInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-    mainStreet?: StringFieldUpdateOperationsInput | string
-    secondaryStreet?: StringFieldUpdateOperationsInput | string
-    reference?: StringFieldUpdateOperationsInput | string
-    donorId?: IntFieldUpdateOperationsInput | number
-    cityCode?: StringFieldUpdateOperationsInput | string
-    donations?: DonationUncheckedUpdateManyWithoutLocationNestedInput
-  }
-
   export type UserCreateWithoutBeneficiaryInput = {
     id?: string
     email: string
@@ -15701,11 +13618,11 @@ export namespace Prisma {
     firstName: string
     lastName: string
     userType: string
-    createdAt?: Date | string
+    createdAt: Date | string
     updatedAt?: Date | string
     donor?: DonorCreateNestedOneWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
-    beneficiaryDonations?: DonationCreateNestedManyWithoutBeneficiaryInput
+    claimedDonations?: DonationCreateNestedManyWithoutBeneficiaryInput
   }
 
   export type UserUncheckedCreateWithoutBeneficiaryInput = {
@@ -15715,38 +13632,16 @@ export namespace Prisma {
     firstName: string
     lastName: string
     userType: string
-    createdAt?: Date | string
+    createdAt: Date | string
     updatedAt?: Date | string
     donor?: DonorUncheckedCreateNestedOneWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
-    beneficiaryDonations?: DonationUncheckedCreateNestedManyWithoutBeneficiaryInput
+    claimedDonations?: DonationUncheckedCreateNestedManyWithoutBeneficiaryInput
   }
 
   export type UserCreateOrConnectWithoutBeneficiaryInput = {
     where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutBeneficiaryInput, UserUncheckedCreateWithoutBeneficiaryInput>
-  }
-
-  export type FoundationCreateWithoutBeneficiaryInput = {
-    name: string
-    mainStreet: string
-    secondaryStreet: string
-    reference: string
-    city: CityCreateNestedOneWithoutFoundationsInput
-  }
-
-  export type FoundationUncheckedCreateWithoutBeneficiaryInput = {
-    id?: number
-    name: string
-    mainStreet: string
-    secondaryStreet: string
-    reference: string
-    cityCode: string
-  }
-
-  export type FoundationCreateOrConnectWithoutBeneficiaryInput = {
-    where: FoundationWhereUniqueInput
-    create: XOR<FoundationCreateWithoutBeneficiaryInput, FoundationUncheckedCreateWithoutBeneficiaryInput>
   }
 
   export type UserUpsertWithoutBeneficiaryInput = {
@@ -15771,7 +13666,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     donor?: DonorUpdateOneWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
-    beneficiaryDonations?: DonationUpdateManyWithoutBeneficiaryNestedInput
+    claimedDonations?: DonationUpdateManyWithoutBeneficiaryNestedInput
   }
 
   export type UserUncheckedUpdateWithoutBeneficiaryInput = {
@@ -15785,109 +13680,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     donor?: DonorUncheckedUpdateOneWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
-    beneficiaryDonations?: DonationUncheckedUpdateManyWithoutBeneficiaryNestedInput
-  }
-
-  export type FoundationUpsertWithoutBeneficiaryInput = {
-    update: XOR<FoundationUpdateWithoutBeneficiaryInput, FoundationUncheckedUpdateWithoutBeneficiaryInput>
-    create: XOR<FoundationCreateWithoutBeneficiaryInput, FoundationUncheckedCreateWithoutBeneficiaryInput>
-    where?: FoundationWhereInput
-  }
-
-  export type FoundationUpdateToOneWithWhereWithoutBeneficiaryInput = {
-    where?: FoundationWhereInput
-    data: XOR<FoundationUpdateWithoutBeneficiaryInput, FoundationUncheckedUpdateWithoutBeneficiaryInput>
-  }
-
-  export type FoundationUpdateWithoutBeneficiaryInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    mainStreet?: StringFieldUpdateOperationsInput | string
-    secondaryStreet?: StringFieldUpdateOperationsInput | string
-    reference?: StringFieldUpdateOperationsInput | string
-    city?: CityUpdateOneRequiredWithoutFoundationsNestedInput
-  }
-
-  export type FoundationUncheckedUpdateWithoutBeneficiaryInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-    mainStreet?: StringFieldUpdateOperationsInput | string
-    secondaryStreet?: StringFieldUpdateOperationsInput | string
-    reference?: StringFieldUpdateOperationsInput | string
-    cityCode?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type CityCreateWithoutFoundationsInput = {
-    code: string
-    name: string
-    locations?: LocationCreateNestedManyWithoutCityInput
-  }
-
-  export type CityUncheckedCreateWithoutFoundationsInput = {
-    code: string
-    name: string
-    locations?: LocationUncheckedCreateNestedManyWithoutCityInput
-  }
-
-  export type CityCreateOrConnectWithoutFoundationsInput = {
-    where: CityWhereUniqueInput
-    create: XOR<CityCreateWithoutFoundationsInput, CityUncheckedCreateWithoutFoundationsInput>
-  }
-
-  export type BeneficiaryCreateWithoutFoundationInput = {
-    user: UserCreateNestedOneWithoutBeneficiaryInput
-  }
-
-  export type BeneficiaryUncheckedCreateWithoutFoundationInput = {
-    id?: number
-    userId: string
-  }
-
-  export type BeneficiaryCreateOrConnectWithoutFoundationInput = {
-    where: BeneficiaryWhereUniqueInput
-    create: XOR<BeneficiaryCreateWithoutFoundationInput, BeneficiaryUncheckedCreateWithoutFoundationInput>
-  }
-
-  export type CityUpsertWithoutFoundationsInput = {
-    update: XOR<CityUpdateWithoutFoundationsInput, CityUncheckedUpdateWithoutFoundationsInput>
-    create: XOR<CityCreateWithoutFoundationsInput, CityUncheckedCreateWithoutFoundationsInput>
-    where?: CityWhereInput
-  }
-
-  export type CityUpdateToOneWithWhereWithoutFoundationsInput = {
-    where?: CityWhereInput
-    data: XOR<CityUpdateWithoutFoundationsInput, CityUncheckedUpdateWithoutFoundationsInput>
-  }
-
-  export type CityUpdateWithoutFoundationsInput = {
-    code?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    locations?: LocationUpdateManyWithoutCityNestedInput
-  }
-
-  export type CityUncheckedUpdateWithoutFoundationsInput = {
-    code?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    locations?: LocationUncheckedUpdateManyWithoutCityNestedInput
-  }
-
-  export type BeneficiaryUpsertWithoutFoundationInput = {
-    update: XOR<BeneficiaryUpdateWithoutFoundationInput, BeneficiaryUncheckedUpdateWithoutFoundationInput>
-    create: XOR<BeneficiaryCreateWithoutFoundationInput, BeneficiaryUncheckedCreateWithoutFoundationInput>
-    where?: BeneficiaryWhereInput
-  }
-
-  export type BeneficiaryUpdateToOneWithWhereWithoutFoundationInput = {
-    where?: BeneficiaryWhereInput
-    data: XOR<BeneficiaryUpdateWithoutFoundationInput, BeneficiaryUncheckedUpdateWithoutFoundationInput>
-  }
-
-  export type BeneficiaryUpdateWithoutFoundationInput = {
-    user?: UserUpdateOneRequiredWithoutBeneficiaryNestedInput
-  }
-
-  export type BeneficiaryUncheckedUpdateWithoutFoundationInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    userId?: StringFieldUpdateOperationsInput | string
+    claimedDonations?: DonationUncheckedUpdateManyWithoutBeneficiaryNestedInput
   }
 
   export type DonorCreateWithoutDonationsInput = {
@@ -15911,9 +13704,8 @@ export namespace Prisma {
     mainStreet: string
     secondaryStreet: string
     reference: string
-    donor: DonorCreateNestedOneWithoutLocationsInput
     city: CityCreateNestedOneWithoutLocationsInput
-    peakHours?: PeakHourCreateNestedManyWithoutLocationInput
+    donor: DonorCreateNestedOneWithoutLocationsInput
   }
 
   export type LocationUncheckedCreateWithoutDonationsInput = {
@@ -15924,7 +13716,6 @@ export namespace Prisma {
     reference: string
     donorId: number
     cityCode: string
-    peakHours?: PeakHourUncheckedCreateNestedManyWithoutLocationInput
   }
 
   export type LocationCreateOrConnectWithoutDonationsInput = {
@@ -15932,37 +13723,37 @@ export namespace Prisma {
     create: XOR<LocationCreateWithoutDonationsInput, LocationUncheckedCreateWithoutDonationsInput>
   }
 
-  export type UserCreateWithoutBeneficiaryDonationsInput = {
+  export type UserCreateWithoutClaimedDonationsInput = {
     id?: string
     email: string
     password: string
     firstName: string
     lastName: string
     userType: string
-    createdAt?: Date | string
+    createdAt: Date | string
     updatedAt?: Date | string
-    donor?: DonorCreateNestedOneWithoutUserInput
     beneficiary?: BeneficiaryCreateNestedOneWithoutUserInput
+    donor?: DonorCreateNestedOneWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
   }
 
-  export type UserUncheckedCreateWithoutBeneficiaryDonationsInput = {
+  export type UserUncheckedCreateWithoutClaimedDonationsInput = {
     id?: string
     email: string
     password: string
     firstName: string
     lastName: string
     userType: string
-    createdAt?: Date | string
+    createdAt: Date | string
     updatedAt?: Date | string
-    donor?: DonorUncheckedCreateNestedOneWithoutUserInput
     beneficiary?: BeneficiaryUncheckedCreateNestedOneWithoutUserInput
+    donor?: DonorUncheckedCreateNestedOneWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
   }
 
-  export type UserCreateOrConnectWithoutBeneficiaryDonationsInput = {
+  export type UserCreateOrConnectWithoutClaimedDonationsInput = {
     where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutBeneficiaryDonationsInput, UserUncheckedCreateWithoutBeneficiaryDonationsInput>
+    create: XOR<UserCreateWithoutClaimedDonationsInput, UserUncheckedCreateWithoutClaimedDonationsInput>
   }
 
   export type NotificationCreateWithoutDonationInput = {
@@ -15978,8 +13769,8 @@ export namespace Prisma {
     message: string
     type: string
     isRead?: boolean
-    createdAt?: Date | string
     userId: string
+    createdAt?: Date | string
   }
 
   export type NotificationCreateOrConnectWithoutDonationInput = {
@@ -16030,9 +13821,8 @@ export namespace Prisma {
     mainStreet?: StringFieldUpdateOperationsInput | string
     secondaryStreet?: StringFieldUpdateOperationsInput | string
     reference?: StringFieldUpdateOperationsInput | string
-    donor?: DonorUpdateOneRequiredWithoutLocationsNestedInput
     city?: CityUpdateOneRequiredWithoutLocationsNestedInput
-    peakHours?: PeakHourUpdateManyWithoutLocationNestedInput
+    donor?: DonorUpdateOneRequiredWithoutLocationsNestedInput
   }
 
   export type LocationUncheckedUpdateWithoutDonationsInput = {
@@ -16043,21 +13833,20 @@ export namespace Prisma {
     reference?: StringFieldUpdateOperationsInput | string
     donorId?: IntFieldUpdateOperationsInput | number
     cityCode?: StringFieldUpdateOperationsInput | string
-    peakHours?: PeakHourUncheckedUpdateManyWithoutLocationNestedInput
   }
 
-  export type UserUpsertWithoutBeneficiaryDonationsInput = {
-    update: XOR<UserUpdateWithoutBeneficiaryDonationsInput, UserUncheckedUpdateWithoutBeneficiaryDonationsInput>
-    create: XOR<UserCreateWithoutBeneficiaryDonationsInput, UserUncheckedCreateWithoutBeneficiaryDonationsInput>
+  export type UserUpsertWithoutClaimedDonationsInput = {
+    update: XOR<UserUpdateWithoutClaimedDonationsInput, UserUncheckedUpdateWithoutClaimedDonationsInput>
+    create: XOR<UserCreateWithoutClaimedDonationsInput, UserUncheckedCreateWithoutClaimedDonationsInput>
     where?: UserWhereInput
   }
 
-  export type UserUpdateToOneWithWhereWithoutBeneficiaryDonationsInput = {
+  export type UserUpdateToOneWithWhereWithoutClaimedDonationsInput = {
     where?: UserWhereInput
-    data: XOR<UserUpdateWithoutBeneficiaryDonationsInput, UserUncheckedUpdateWithoutBeneficiaryDonationsInput>
+    data: XOR<UserUpdateWithoutClaimedDonationsInput, UserUncheckedUpdateWithoutClaimedDonationsInput>
   }
 
-  export type UserUpdateWithoutBeneficiaryDonationsInput = {
+  export type UserUpdateWithoutClaimedDonationsInput = {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
@@ -16066,12 +13855,12 @@ export namespace Prisma {
     userType?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    donor?: DonorUpdateOneWithoutUserNestedInput
     beneficiary?: BeneficiaryUpdateOneWithoutUserNestedInput
+    donor?: DonorUpdateOneWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
   }
 
-  export type UserUncheckedUpdateWithoutBeneficiaryDonationsInput = {
+  export type UserUncheckedUpdateWithoutClaimedDonationsInput = {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
@@ -16080,8 +13869,8 @@ export namespace Prisma {
     userType?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    donor?: DonorUncheckedUpdateOneWithoutUserNestedInput
     beneficiary?: BeneficiaryUncheckedUpdateOneWithoutUserNestedInput
+    donor?: DonorUncheckedUpdateOneWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -16108,11 +13897,11 @@ export namespace Prisma {
     firstName: string
     lastName: string
     userType: string
-    createdAt?: Date | string
+    createdAt: Date | string
     updatedAt?: Date | string
-    donor?: DonorCreateNestedOneWithoutUserInput
     beneficiary?: BeneficiaryCreateNestedOneWithoutUserInput
-    beneficiaryDonations?: DonationCreateNestedManyWithoutBeneficiaryInput
+    donor?: DonorCreateNestedOneWithoutUserInput
+    claimedDonations?: DonationCreateNestedManyWithoutBeneficiaryInput
   }
 
   export type UserUncheckedCreateWithoutNotificationsInput = {
@@ -16122,11 +13911,11 @@ export namespace Prisma {
     firstName: string
     lastName: string
     userType: string
-    createdAt?: Date | string
+    createdAt: Date | string
     updatedAt?: Date | string
-    donor?: DonorUncheckedCreateNestedOneWithoutUserInput
     beneficiary?: BeneficiaryUncheckedCreateNestedOneWithoutUserInput
-    beneficiaryDonations?: DonationUncheckedCreateNestedManyWithoutBeneficiaryInput
+    donor?: DonorUncheckedCreateNestedOneWithoutUserInput
+    claimedDonations?: DonationUncheckedCreateNestedManyWithoutBeneficiaryInput
   }
 
   export type UserCreateOrConnectWithoutNotificationsInput = {
@@ -16135,33 +13924,32 @@ export namespace Prisma {
   }
 
   export type DonationCreateWithoutNotificationsInput = {
-    id?: string
     productName: string
     quantity: number
     unit: string
     status?: $Enums.DonationStatus
-    createdAt?: Date | string
-    updatedAt?: Date | string
     donorConfirmed?: boolean
     beneficiaryConfirmed?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
     donor: DonorCreateNestedOneWithoutDonationsInput
     location: LocationCreateNestedOneWithoutDonationsInput
-    beneficiary?: UserCreateNestedOneWithoutBeneficiaryDonationsInput
+    beneficiary?: UserCreateNestedOneWithoutClaimedDonationsInput
   }
 
   export type DonationUncheckedCreateWithoutNotificationsInput = {
-    id?: string
+    id?: number
     productName: string
     quantity: number
     unit: string
     status?: $Enums.DonationStatus
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    donorConfirmed?: boolean
-    beneficiaryConfirmed?: boolean
     donorId: number
     locationId: number
     beneficiaryId?: string | null
+    donorConfirmed?: boolean
+    beneficiaryConfirmed?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type DonationCreateOrConnectWithoutNotificationsInput = {
@@ -16189,9 +13977,9 @@ export namespace Prisma {
     userType?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    donor?: DonorUpdateOneWithoutUserNestedInput
     beneficiary?: BeneficiaryUpdateOneWithoutUserNestedInput
-    beneficiaryDonations?: DonationUpdateManyWithoutBeneficiaryNestedInput
+    donor?: DonorUpdateOneWithoutUserNestedInput
+    claimedDonations?: DonationUpdateManyWithoutBeneficiaryNestedInput
   }
 
   export type UserUncheckedUpdateWithoutNotificationsInput = {
@@ -16203,9 +13991,9 @@ export namespace Prisma {
     userType?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    donor?: DonorUncheckedUpdateOneWithoutUserNestedInput
     beneficiary?: BeneficiaryUncheckedUpdateOneWithoutUserNestedInput
-    beneficiaryDonations?: DonationUncheckedUpdateManyWithoutBeneficiaryNestedInput
+    donor?: DonorUncheckedUpdateOneWithoutUserNestedInput
+    claimedDonations?: DonationUncheckedUpdateManyWithoutBeneficiaryNestedInput
   }
 
   export type DonationUpsertWithoutNotificationsInput = {
@@ -16220,33 +14008,32 @@ export namespace Prisma {
   }
 
   export type DonationUpdateWithoutNotificationsInput = {
-    id?: StringFieldUpdateOperationsInput | string
     productName?: StringFieldUpdateOperationsInput | string
     quantity?: FloatFieldUpdateOperationsInput | number
     unit?: StringFieldUpdateOperationsInput | string
     status?: EnumDonationStatusFieldUpdateOperationsInput | $Enums.DonationStatus
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     donorConfirmed?: BoolFieldUpdateOperationsInput | boolean
     beneficiaryConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     donor?: DonorUpdateOneRequiredWithoutDonationsNestedInput
     location?: LocationUpdateOneRequiredWithoutDonationsNestedInput
-    beneficiary?: UserUpdateOneWithoutBeneficiaryDonationsNestedInput
+    beneficiary?: UserUpdateOneWithoutClaimedDonationsNestedInput
   }
 
   export type DonationUncheckedUpdateWithoutNotificationsInput = {
-    id?: StringFieldUpdateOperationsInput | string
+    id?: IntFieldUpdateOperationsInput | number
     productName?: StringFieldUpdateOperationsInput | string
     quantity?: FloatFieldUpdateOperationsInput | number
     unit?: StringFieldUpdateOperationsInput | string
     status?: EnumDonationStatusFieldUpdateOperationsInput | $Enums.DonationStatus
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    donorConfirmed?: BoolFieldUpdateOperationsInput | boolean
-    beneficiaryConfirmed?: BoolFieldUpdateOperationsInput | boolean
     donorId?: IntFieldUpdateOperationsInput | number
     locationId?: IntFieldUpdateOperationsInput | number
     beneficiaryId?: NullableStringFieldUpdateOperationsInput | string | null
+    donorConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    beneficiaryConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type LocationCreateManyCityInput = {
@@ -16258,21 +14045,12 @@ export namespace Prisma {
     donorId: number
   }
 
-  export type FoundationCreateManyCityInput = {
-    id?: number
-    name: string
-    mainStreet: string
-    secondaryStreet: string
-    reference: string
-  }
-
   export type LocationUpdateWithoutCityInput = {
     name?: StringFieldUpdateOperationsInput | string
     mainStreet?: StringFieldUpdateOperationsInput | string
     secondaryStreet?: StringFieldUpdateOperationsInput | string
     reference?: StringFieldUpdateOperationsInput | string
     donor?: DonorUpdateOneRequiredWithoutLocationsNestedInput
-    peakHours?: PeakHourUpdateManyWithoutLocationNestedInput
     donations?: DonationUpdateManyWithoutLocationNestedInput
   }
 
@@ -16283,7 +14061,6 @@ export namespace Prisma {
     secondaryStreet?: StringFieldUpdateOperationsInput | string
     reference?: StringFieldUpdateOperationsInput | string
     donorId?: IntFieldUpdateOperationsInput | number
-    peakHours?: PeakHourUncheckedUpdateManyWithoutLocationNestedInput
     donations?: DonationUncheckedUpdateManyWithoutLocationNestedInput
   }
 
@@ -16296,52 +14073,27 @@ export namespace Prisma {
     donorId?: IntFieldUpdateOperationsInput | number
   }
 
-  export type FoundationUpdateWithoutCityInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    mainStreet?: StringFieldUpdateOperationsInput | string
-    secondaryStreet?: StringFieldUpdateOperationsInput | string
-    reference?: StringFieldUpdateOperationsInput | string
-    beneficiary?: BeneficiaryUpdateOneWithoutFoundationNestedInput
-  }
-
-  export type FoundationUncheckedUpdateWithoutCityInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-    mainStreet?: StringFieldUpdateOperationsInput | string
-    secondaryStreet?: StringFieldUpdateOperationsInput | string
-    reference?: StringFieldUpdateOperationsInput | string
-    beneficiary?: BeneficiaryUncheckedUpdateOneWithoutFoundationNestedInput
-  }
-
-  export type FoundationUncheckedUpdateManyWithoutCityInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-    mainStreet?: StringFieldUpdateOperationsInput | string
-    secondaryStreet?: StringFieldUpdateOperationsInput | string
-    reference?: StringFieldUpdateOperationsInput | string
-  }
-
   export type NotificationCreateManyUserInput = {
     id?: number
     message: string
     type: string
     isRead?: boolean
+    donationId?: number | null
     createdAt?: Date | string
-    donationId?: string | null
   }
 
   export type DonationCreateManyBeneficiaryInput = {
-    id?: string
+    id?: number
     productName: string
     quantity: number
     unit: string
     status?: $Enums.DonationStatus
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    donorConfirmed?: boolean
-    beneficiaryConfirmed?: boolean
     donorId: number
     locationId: number
+    donorConfirmed?: boolean
+    beneficiaryConfirmed?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type NotificationUpdateWithoutUserInput = {
@@ -16357,8 +14109,8 @@ export namespace Prisma {
     message?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     isRead?: BoolFieldUpdateOperationsInput | boolean
+    donationId?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    donationId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type NotificationUncheckedUpdateManyWithoutUserInput = {
@@ -16366,52 +14118,51 @@ export namespace Prisma {
     message?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     isRead?: BoolFieldUpdateOperationsInput | boolean
+    donationId?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    donationId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type DonationUpdateWithoutBeneficiaryInput = {
-    id?: StringFieldUpdateOperationsInput | string
     productName?: StringFieldUpdateOperationsInput | string
     quantity?: FloatFieldUpdateOperationsInput | number
     unit?: StringFieldUpdateOperationsInput | string
     status?: EnumDonationStatusFieldUpdateOperationsInput | $Enums.DonationStatus
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     donorConfirmed?: BoolFieldUpdateOperationsInput | boolean
     beneficiaryConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     donor?: DonorUpdateOneRequiredWithoutDonationsNestedInput
     location?: LocationUpdateOneRequiredWithoutDonationsNestedInput
     notifications?: NotificationUpdateManyWithoutDonationNestedInput
   }
 
   export type DonationUncheckedUpdateWithoutBeneficiaryInput = {
-    id?: StringFieldUpdateOperationsInput | string
+    id?: IntFieldUpdateOperationsInput | number
     productName?: StringFieldUpdateOperationsInput | string
     quantity?: FloatFieldUpdateOperationsInput | number
     unit?: StringFieldUpdateOperationsInput | string
     status?: EnumDonationStatusFieldUpdateOperationsInput | $Enums.DonationStatus
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    donorConfirmed?: BoolFieldUpdateOperationsInput | boolean
-    beneficiaryConfirmed?: BoolFieldUpdateOperationsInput | boolean
     donorId?: IntFieldUpdateOperationsInput | number
     locationId?: IntFieldUpdateOperationsInput | number
+    donorConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    beneficiaryConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     notifications?: NotificationUncheckedUpdateManyWithoutDonationNestedInput
   }
 
   export type DonationUncheckedUpdateManyWithoutBeneficiaryInput = {
-    id?: StringFieldUpdateOperationsInput | string
+    id?: IntFieldUpdateOperationsInput | number
     productName?: StringFieldUpdateOperationsInput | string
     quantity?: FloatFieldUpdateOperationsInput | number
     unit?: StringFieldUpdateOperationsInput | string
     status?: EnumDonationStatusFieldUpdateOperationsInput | $Enums.DonationStatus
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    donorConfirmed?: BoolFieldUpdateOperationsInput | boolean
-    beneficiaryConfirmed?: BoolFieldUpdateOperationsInput | boolean
     donorId?: IntFieldUpdateOperationsInput | number
     locationId?: IntFieldUpdateOperationsInput | number
+    donorConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    beneficiaryConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type LocationCreateManyDonorInput = {
@@ -16424,17 +14175,17 @@ export namespace Prisma {
   }
 
   export type DonationCreateManyDonorInput = {
-    id?: string
+    id?: number
     productName: string
     quantity: number
     unit: string
     status?: $Enums.DonationStatus
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    donorConfirmed?: boolean
-    beneficiaryConfirmed?: boolean
     locationId: number
     beneficiaryId?: string | null
+    donorConfirmed?: boolean
+    beneficiaryConfirmed?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type LocationUpdateWithoutDonorInput = {
@@ -16443,7 +14194,6 @@ export namespace Prisma {
     secondaryStreet?: StringFieldUpdateOperationsInput | string
     reference?: StringFieldUpdateOperationsInput | string
     city?: CityUpdateOneRequiredWithoutLocationsNestedInput
-    peakHours?: PeakHourUpdateManyWithoutLocationNestedInput
     donations?: DonationUpdateManyWithoutLocationNestedInput
   }
 
@@ -16454,7 +14204,6 @@ export namespace Prisma {
     secondaryStreet?: StringFieldUpdateOperationsInput | string
     reference?: StringFieldUpdateOperationsInput | string
     cityCode?: StringFieldUpdateOperationsInput | string
-    peakHours?: PeakHourUncheckedUpdateManyWithoutLocationNestedInput
     donations?: DonationUncheckedUpdateManyWithoutLocationNestedInput
   }
 
@@ -16468,136 +14217,103 @@ export namespace Prisma {
   }
 
   export type DonationUpdateWithoutDonorInput = {
-    id?: StringFieldUpdateOperationsInput | string
     productName?: StringFieldUpdateOperationsInput | string
     quantity?: FloatFieldUpdateOperationsInput | number
     unit?: StringFieldUpdateOperationsInput | string
     status?: EnumDonationStatusFieldUpdateOperationsInput | $Enums.DonationStatus
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     donorConfirmed?: BoolFieldUpdateOperationsInput | boolean
     beneficiaryConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     location?: LocationUpdateOneRequiredWithoutDonationsNestedInput
-    beneficiary?: UserUpdateOneWithoutBeneficiaryDonationsNestedInput
+    beneficiary?: UserUpdateOneWithoutClaimedDonationsNestedInput
     notifications?: NotificationUpdateManyWithoutDonationNestedInput
   }
 
   export type DonationUncheckedUpdateWithoutDonorInput = {
-    id?: StringFieldUpdateOperationsInput | string
+    id?: IntFieldUpdateOperationsInput | number
     productName?: StringFieldUpdateOperationsInput | string
     quantity?: FloatFieldUpdateOperationsInput | number
     unit?: StringFieldUpdateOperationsInput | string
     status?: EnumDonationStatusFieldUpdateOperationsInput | $Enums.DonationStatus
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    donorConfirmed?: BoolFieldUpdateOperationsInput | boolean
-    beneficiaryConfirmed?: BoolFieldUpdateOperationsInput | boolean
     locationId?: IntFieldUpdateOperationsInput | number
     beneficiaryId?: NullableStringFieldUpdateOperationsInput | string | null
+    donorConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    beneficiaryConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     notifications?: NotificationUncheckedUpdateManyWithoutDonationNestedInput
   }
 
   export type DonationUncheckedUpdateManyWithoutDonorInput = {
-    id?: StringFieldUpdateOperationsInput | string
+    id?: IntFieldUpdateOperationsInput | number
     productName?: StringFieldUpdateOperationsInput | string
     quantity?: FloatFieldUpdateOperationsInput | number
     unit?: StringFieldUpdateOperationsInput | string
     status?: EnumDonationStatusFieldUpdateOperationsInput | $Enums.DonationStatus
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    donorConfirmed?: BoolFieldUpdateOperationsInput | boolean
-    beneficiaryConfirmed?: BoolFieldUpdateOperationsInput | boolean
     locationId?: IntFieldUpdateOperationsInput | number
     beneficiaryId?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type PeakHourCreateManyLocationInput = {
-    id?: number
-    day?: PeakHourCreatedayInput | $Enums.Days[]
-    startTime: string
-    endTime: string
-    note?: string | null
+    donorConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    beneficiaryConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type DonationCreateManyLocationInput = {
-    id?: string
+    id?: number
     productName: string
     quantity: number
     unit: string
     status?: $Enums.DonationStatus
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    donorConfirmed?: boolean
-    beneficiaryConfirmed?: boolean
     donorId: number
     beneficiaryId?: string | null
-  }
-
-  export type PeakHourUpdateWithoutLocationInput = {
-    day?: PeakHourUpdatedayInput | $Enums.Days[]
-    startTime?: StringFieldUpdateOperationsInput | string
-    endTime?: StringFieldUpdateOperationsInput | string
-    note?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type PeakHourUncheckedUpdateWithoutLocationInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    day?: PeakHourUpdatedayInput | $Enums.Days[]
-    startTime?: StringFieldUpdateOperationsInput | string
-    endTime?: StringFieldUpdateOperationsInput | string
-    note?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type PeakHourUncheckedUpdateManyWithoutLocationInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    day?: PeakHourUpdatedayInput | $Enums.Days[]
-    startTime?: StringFieldUpdateOperationsInput | string
-    endTime?: StringFieldUpdateOperationsInput | string
-    note?: NullableStringFieldUpdateOperationsInput | string | null
+    donorConfirmed?: boolean
+    beneficiaryConfirmed?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type DonationUpdateWithoutLocationInput = {
-    id?: StringFieldUpdateOperationsInput | string
     productName?: StringFieldUpdateOperationsInput | string
     quantity?: FloatFieldUpdateOperationsInput | number
     unit?: StringFieldUpdateOperationsInput | string
     status?: EnumDonationStatusFieldUpdateOperationsInput | $Enums.DonationStatus
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     donorConfirmed?: BoolFieldUpdateOperationsInput | boolean
     beneficiaryConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     donor?: DonorUpdateOneRequiredWithoutDonationsNestedInput
-    beneficiary?: UserUpdateOneWithoutBeneficiaryDonationsNestedInput
+    beneficiary?: UserUpdateOneWithoutClaimedDonationsNestedInput
     notifications?: NotificationUpdateManyWithoutDonationNestedInput
   }
 
   export type DonationUncheckedUpdateWithoutLocationInput = {
-    id?: StringFieldUpdateOperationsInput | string
+    id?: IntFieldUpdateOperationsInput | number
     productName?: StringFieldUpdateOperationsInput | string
     quantity?: FloatFieldUpdateOperationsInput | number
     unit?: StringFieldUpdateOperationsInput | string
     status?: EnumDonationStatusFieldUpdateOperationsInput | $Enums.DonationStatus
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    donorConfirmed?: BoolFieldUpdateOperationsInput | boolean
-    beneficiaryConfirmed?: BoolFieldUpdateOperationsInput | boolean
     donorId?: IntFieldUpdateOperationsInput | number
     beneficiaryId?: NullableStringFieldUpdateOperationsInput | string | null
+    donorConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    beneficiaryConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     notifications?: NotificationUncheckedUpdateManyWithoutDonationNestedInput
   }
 
   export type DonationUncheckedUpdateManyWithoutLocationInput = {
-    id?: StringFieldUpdateOperationsInput | string
+    id?: IntFieldUpdateOperationsInput | number
     productName?: StringFieldUpdateOperationsInput | string
     quantity?: FloatFieldUpdateOperationsInput | number
     unit?: StringFieldUpdateOperationsInput | string
     status?: EnumDonationStatusFieldUpdateOperationsInput | $Enums.DonationStatus
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    donorConfirmed?: BoolFieldUpdateOperationsInput | boolean
-    beneficiaryConfirmed?: BoolFieldUpdateOperationsInput | boolean
     donorId?: IntFieldUpdateOperationsInput | number
     beneficiaryId?: NullableStringFieldUpdateOperationsInput | string | null
+    donorConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    beneficiaryConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type NotificationCreateManyDonationInput = {
@@ -16605,8 +14321,8 @@ export namespace Prisma {
     message: string
     type: string
     isRead?: boolean
-    createdAt?: Date | string
     userId: string
+    createdAt?: Date | string
   }
 
   export type NotificationUpdateWithoutDonationInput = {
@@ -16622,8 +14338,8 @@ export namespace Prisma {
     message?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     isRead?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type NotificationUncheckedUpdateManyWithoutDonationInput = {
@@ -16631,8 +14347,8 @@ export namespace Prisma {
     message?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     isRead?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 

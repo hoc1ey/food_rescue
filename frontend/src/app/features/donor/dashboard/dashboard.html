@@ -61,11 +61,32 @@
 
       <!-- Lista de donaciones -->
       <div *ngIf="!isLoading && !errorMessage" class="donations-grid">
-        <app-card-donation 
-          *ngFor="let donation of filteredDonations" 
-          [donation]="donation"
-          [theme]="'donor'">
-        </app-card-donation>
+        
+        <div *ngFor="let donation of filteredDonations" class="donation-wrapper">
+          <app-card-donation 
+            [donation]="donation"
+            [theme]="'donor'">
+          </app-card-donation>
+
+          <div class="donation-actions">
+            <!-- Botón de Confirmar Entrega (Solo si está ASIGNADA y el donante NO ha confirmado) -->
+            <app-button 
+              *ngIf="donation.status === 'ASSIGNED' && !donation.donorConfirmed"
+              (click)="onConfirmDonation(donation.id)" 
+              theme="donor"
+              [disabled]="isLoading"
+              class="confirm-button">
+              <lucide-icon [img]="icons.checkCircle" class="button-icon"></lucide-icon>
+              Confirmar Entrega
+            </app-button>
+
+            <!-- Mensaje de espera (Si YA confirmó pero el beneficiario no) -->
+            <div *ngIf="donation.status === 'ASSIGNED' && donation.donorConfirmed" class="waiting-status" style="display: flex; align-items: center; gap: 0.5rem; color: #f59e0b; font-weight: 500; font-size: 0.9rem;">
+              <lucide-icon [img]="icons.clock" style="width: 18px; height: 18px;"></lucide-icon>
+              <span>Esperando confirmación del beneficiario</span>
+            </div>
+          </div>
+        </div>
 
         <!-- Mensaje cuando no hay donaciones -->
         <div *ngIf="filteredDonations.length === 0" class="empty-state">

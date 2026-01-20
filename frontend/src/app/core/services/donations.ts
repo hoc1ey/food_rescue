@@ -1,6 +1,7 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, inject, PLATFORM_ID } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { isPlatformBrowser } from '@angular/common';
 
 // Interfaces para tipar las peticiones y respuestas
 export interface CreateDonationDto {
@@ -17,10 +18,15 @@ export interface DonationResponse {
     status: 'AVAILABLE' | 'ASSIGNED' | 'DELIVERED';
     donorId: string;
     beneficiaryId: string | null;
+    donorConfirmed?: boolean;      // <-- Nuevo
+    beneficiaryConfirmed?: boolean; // <-- Nuevo
     createdAt: string;
     updatedAt: string;
     location?: {
-        address: string;
+        name: string;
+        mainStreet: string;
+        secondaryStreet: string;
+        reference: string;
         city: {
             name: string;
         };
@@ -50,6 +56,7 @@ export interface ApiResponse<T> {
 })
 export class DonationsService {
     private http = inject(HttpClient);
+    private platformId = inject(PLATFORM_ID);
     private apiUrl = 'http://localhost:3000/api/donations';
 
     /**
@@ -65,6 +72,9 @@ export class DonationsService {
      * - Para BENEFICIARY: retorna donaciones disponibles
      */
     getDonations(): Observable<ApiResponse<DonationResponse[]>> {
+        if (!isPlatformBrowser(this.platformId)) {
+            return of({ success: true, message: 'SSR skipped', data: [] });
+        }
         return this.http.get<ApiResponse<DonationResponse[]>>(this.apiUrl);
     }
 

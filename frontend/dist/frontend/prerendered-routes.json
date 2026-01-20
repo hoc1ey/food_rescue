@@ -1,9 +1,0 @@
-{
-  "routes": {
-    "/": {},
-    "/beneficiary/dashboard": {},
-    "/donor/dashboard": {},
-    "/login": {},
-    "/register": {}
-  }
-}

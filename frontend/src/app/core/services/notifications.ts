@@ -1,6 +1,7 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, inject, PLATFORM_ID } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { isPlatformBrowser } from '@angular/common';
 
 export interface NotificationResponse {
     id: number;
@@ -22,12 +23,17 @@ export interface ApiResponse<T> {
 })
 export class NotificationsService {
     private http = inject(HttpClient);
+    private platformId = inject(PLATFORM_ID);
     private apiUrl = 'http://localhost:3000/api/notifications';
 
     /**
      * Obtener todas las notificaciones del usuario autenticado
      */
     getNotifications(): Observable<ApiResponse<NotificationResponse[]>> {
+        // Si estamos en el servidor (SSR), no hacemos la petición
+        if (!isPlatformBrowser(this.platformId)) {
+            return of({ success: true, message: 'SSR skipped', data: [] });
+        }
         return this.http.get<ApiResponse<NotificationResponse[]>>(this.apiUrl);
     }
 
@@ -55,6 +61,10 @@ export class NotificationsService {
      * Obtener el contador de notificaciones no leídas
      */
     getUnreadCount(): Observable<ApiResponse<{ count: number }>> {
+        // Si estamos en el servidor (SSR), devolvemos 0 para evitar error 401
+        if (!isPlatformBrowser(this.platformId)) {
+            return of({ success: true, message: 'SSR skipped', data: { count: 0 } });
+        }
         return this.http.get<ApiResponse<{ count: number }>>(
             `${this.apiUrl}/unread-count`
         );

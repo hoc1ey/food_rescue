@@ -1,24 +1,26 @@
 import { HttpInterceptorFn } from '@angular/common/http';
-import { inject } from '@angular/core';
-import { AuthService } from '../services/auth';
+import { inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 
-/**
- * Interceptor funcional para agregar el token JWT a todas las peticiones HTTP
- */
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
-    const authService = inject(AuthService);
-    const token = authService.getToken();
+  const platformId = inject(PLATFORM_ID);
 
-    // Si existe un token, agregarlo al header Authorization
+  // Solo ejecutamos lógica de token en el navegador
+  if (isPlatformBrowser(platformId)) {
+    const token = localStorage.getItem('auth_token'); // <-- Corregido para coincidir con AuthService
+
+    // 🔍 DEBUG: Descomenta esto para ver en la consola si el interceptor corre
+    console.log(`[Interceptor] URL: ${req.url} | Token encontrado: ${!!token}`);
+
     if (token) {
-        const clonedRequest = req.clone({
-            setHeaders: {
-                Authorization: `Bearer ${token}`
-            }
-        });
-        return next(clonedRequest);
+      const cloned = req.clone({
+        setHeaders: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      return next(cloned);
     }
+  }
 
-    // Si no hay token, enviar la petición sin modificar
-    return next(req);
+  return next(req);
 };

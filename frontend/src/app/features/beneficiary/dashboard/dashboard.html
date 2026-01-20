@@ -37,7 +37,7 @@
     <div class="card-body">
       <!-- Mensaje de error -->
       <div *ngIf="errorMessage" class="error-message">
-        <lucide-icon name="info" class="error-icon"></lucide-icon>
+        <lucide-icon [img]="icons.info" class="error-icon"></lucide-icon>
         <p>{{ errorMessage }}</p>
       </div>
 
@@ -48,7 +48,7 @@
 
       <!-- Contador de donaciones filtradas -->
       <div *ngIf="!isLoading && !errorMessage" class="filter-counter">
-        <lucide-icon name="filter" class="filter-icon"></lucide-icon>
+        <lucide-icon [img]="icons.filter" class="filter-icon"></lucide-icon>
         <span>{{ filteredCount }} donación{{ filteredCount !== 1 ? 'es' : '' }}</span>
       </div>
 
@@ -67,15 +67,23 @@
               class="claim-button">
               ¡Reclamar Donación!
             </app-button>
+            
+            <!-- Botón de Confirmar (Solo si NO ha confirmado aún) -->
             <app-button 
-              *ngIf="donation.status === 'ASSIGNED'"
+              *ngIf="donation.status === 'ASSIGNED' && !donation.beneficiaryConfirmed"
               (click)="onConfirmDonation(donation.id)" 
               theme="beneficiary"
               [disabled]="isLoading"
               class="confirm-button">
-              <lucide-icon name="check-circle" class="button-icon"></lucide-icon>
+              <lucide-icon [img]="icons.checkCircle" class="button-icon"></lucide-icon>
               Confirmar Recepción
             </app-button>
+
+            <!-- Mensaje de espera (Si YA confirmó pero el donante no) -->
+            <div *ngIf="donation.status === 'ASSIGNED' && donation.beneficiaryConfirmed" class="waiting-status" style="display: flex; align-items: center; gap: 0.5rem; color: #f59e0b; font-weight: 500; font-size: 0.9rem;">
+              <lucide-icon [img]="icons.clock" style="width: 18px; height: 18px;"></lucide-icon>
+              <span>Esperando confirmación del donante</span>
+            </div>
           </div>
         </div>
 
@@ -90,4 +98,3 @@
     </div>
   </div>
 </main>
-

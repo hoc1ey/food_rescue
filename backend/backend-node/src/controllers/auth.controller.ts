@@ -3,8 +3,13 @@ import bcrypt from 'bcryptjs';
 import { prisma } from '../lib/prisma.js';
 import { sendSuccess, sendError } from '../utils/response.js';
 import { generateToken } from '../utils/jwt.js';
-import { UserType } from '../generated/prisma//index.js';
 import logger from '../utils/logger.js';
+
+// Definimos UserType manualmente ya que se eliminó del schema de Prisma para usar String
+const UserType = {
+  DONOR: 'DONOR',
+  BENEFICIARY: 'BENEFICIARY'
+} as const;
 
 export const register = async (req: Request, res: Response) => {
   try {
@@ -22,41 +27,44 @@ export const register = async (req: Request, res: Response) => {
       locationCityCode
     } = req.body;
 
-    logger.info('User registration attempt', { email, userType });
+    // Normalizar email para coincidir con el comportamiento de .NET
+    const normalizedEmail = email.trim().toLowerCase();
+
+    logger.info('User registration attempt', { email: normalizedEmail, userType });
 
     // Validations
     if (password !== confirmPassword) {
-      logger.warn('Registration failed: Passwords do not match', { email });
+      logger.warn('Registration failed: Passwords do not match', { email: normalizedEmail });
       return sendError(res, 'Passwords do not match', null, 400);
     }
 
     if (!Object.values(UserType).includes(userType)) {
-      logger.warn('Registration failed: Invalid user type', { email, userType });
+      logger.warn('Registration failed: Invalid user type', { email: normalizedEmail, userType });
       return sendError(res, 'Invalid user type', null, 400);
     }
 
     const existingUser = await prisma.user.findUnique({
-      where: { email }
+      where: { email: normalizedEmail }
     });
 
     if (existingUser) {
-      logger.warn('Registration failed: Email already exists', { email });
+      logger.warn('Registration failed: Email already exists', { email: normalizedEmail });
       return sendError(res, 'Email already registered', null, 400);
     }
 
     // Validate location fields
     if (!locationName || !locationMainStreet || !locationSecondaryStreet || !locationReference || !locationCityCode) {
-      logger.warn('Registration failed: Missing location fields', { email });
+      logger.warn('Registration failed: Missing location fields', { email: normalizedEmail });
       return sendError(res, 'All location fields are required', null, 400);
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    logger.database('CREATE', 'User', { email, userType });
+    logger.database('CREATE', 'User', { email: normalizedEmail, userType });
 
     const user = await prisma.user.create({
       data: {
-        email,
+        email: normalizedEmail,
         password: hashedPassword,
         firstName,
         lastName,
@@ -79,15 +87,7 @@ export const register = async (req: Request, res: Response) => {
         ...(userType === UserType.BENEFICIARY && {
           beneficiary: {
             create: {
-              foundation: {
-                create: {
-                  name: locationName,
-                  mainStreet: locationMainStreet,
-                  secondaryStreet: locationSecondaryStreet,
-                  reference: locationReference,
-                  cityCode: locationCityCode
-                }
-              }
+              // Beneficiary no tiene ubicación en el esquema actual
             }
           }
         })
@@ -100,7 +100,7 @@ export const register = async (req: Request, res: Response) => {
         },
         beneficiary: {
           include: {
-            foundation: true
+            // foundation: true <-- Eliminado porque no existe
           }
         }
       }
@@ -128,11 +128,14 @@ export const register = async (req: Request, res: Response) => {
 export const login = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
+    
+    // Normalizar email para coincidir con el registro de .NET (minúsculas y sin espacios)
+    const normalizedEmail = email.trim().toLowerCase();
 
-    logger.info('Login attempt', { email });
+    logger.info('Login attempt', { email: normalizedEmail });
 
     const user = await prisma.user.findUnique({
-      where: { email },
+      where: { email: normalizedEmail },
       include: {
         donor: {
           include: {
@@ -141,21 +144,21 @@ export const login = async (req: Request, res: Response) => {
         },
         beneficiary: {
           include: {
-            foundation: true
+            // foundation: true <-- Eliminado porque no existe
           }
         }
       }
     });
 
     if (!user) {
-      logger.warn('Login failed: User not found', { email });
+      logger.warn('Login failed: User not found', { email: normalizedEmail });
       return sendError(res, 'Invalid credentials', null, 401);
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password.replace('$2y$', '$2b$'));
 
     if (!isPasswordValid) {
-      logger.warn('Login failed: Invalid password', { email });
+      logger.warn('Login failed: Invalid password', { email: normalizedEmail });
       return sendError(res, 'Invalid credentials', null, 401);
     }
 

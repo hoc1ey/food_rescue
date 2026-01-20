@@ -27,6 +27,7 @@ export class AuthService {
   saveToken(token: string): void {
     if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
       localStorage.setItem(this.TOKEN_KEY, token);
+      console.log('✅ Token guardado correctamente:', this.TOKEN_KEY);
     }
   }
 

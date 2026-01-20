@@ -17,8 +17,7 @@ namespace backend_dotnet.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasPostgresEnum<UserType>();
-            modelBuilder.HasPostgresEnum<Days>();
+            modelBuilder.HasPostgresEnum<Days>(name: "Days");
 
             modelBuilder.Entity<User>().ToTable("User");
             modelBuilder.Entity<User>().Property(u => u.Id).HasColumnName("id");
@@ -28,7 +27,7 @@ namespace backend_dotnet.Data
             modelBuilder.Entity<User>().Property(u => u.LastName).HasColumnName("lastName");
             modelBuilder.Entity<User>().Property(u => u.UserType)
                 .HasColumnName("userType")
-                .HasColumnType("text");
+                .HasConversion<string>(); // Convierte Enum <-> String automáticamente
             modelBuilder.Entity<User>().Property(u => u.CreatedAt).HasColumnName("createdAt");
             modelBuilder.Entity<User>().Property(u => u.UpdatedAt).HasColumnName("updatedAt");
 

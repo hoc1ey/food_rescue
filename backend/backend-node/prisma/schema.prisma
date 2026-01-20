@@ -8,9 +8,95 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum UserType {
-  DONOR
-  BENEFICIARY
+model City {
+  code      String     @id(map: "PK_City")
+  name      String
+  locations Location[]
+}
+
+model User {
+  id          String       @id(map: "PK_User") @default(uuid())
+  email       String       @unique
+  password    String
+  firstName   String
+  lastName    String
+  userType    String   // Cambiado a String para máxima compatibilidad
+  createdAt   DateTime     @db.Timestamptz(6)
+  updatedAt   DateTime     @updatedAt @db.Timestamptz(6)
+  beneficiary Beneficiary?
+  donor       Donor?
+  notifications Notification[]
+  claimedDonations Donation[] @relation("BeneficiaryDonations")
+}
+
+model Donor {
+  id        Int        @id(map: "PK_Donor") @default(autoincrement())
+  userId    String     @unique(map: "IX_Donor_userId")
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "FK_Donor_User_userId")
+  locations Location[]
+  donations Donation[]
+}
+
+model Location {
+  id              Int    @id(map: "PK_Location") @default(autoincrement())
+  name            String
+  mainStreet      String
+  secondaryStreet String
+  reference       String
+  donorId         Int
+  cityCode        String
+  city            City   @relation(fields: [cityCode], references: [code], onDelete: Cascade, onUpdate: NoAction, map: "FK_Location_City_cityCode")
+  donor           Donor  @relation(fields: [donorId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "FK_Location_Donor_donorId")
+
+  donations       Donation[]
+  @@index([cityCode], map: "IX_Location_cityCode")
+  @@index([donorId], map: "IX_Location_donorId")
+}
+
+model Beneficiary {
+  id     Int    @id(map: "PK_Beneficiary") @default(autoincrement())
+  userId String @unique(map: "IX_Beneficiary_userId")
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "FK_Beneficiary_User_userId")
+}
+
+model Donation {
+  id                   Int            @id @default(autoincrement())
+  productName          String
+  quantity             Float
+  unit                 String
+  status               DonationStatus @default(AVAILABLE)
+  donorId              Int
+  locationId           Int
+  beneficiaryId        String?
+  donorConfirmed       Boolean        @default(false)
+  beneficiaryConfirmed Boolean        @default(false)
+  createdAt            DateTime       @default(now()) @db.Timestamptz(6)
+  updatedAt            DateTime       @updatedAt @db.Timestamptz(6)
+
+  donor       Donor    @relation(fields: [donorId], references: [id], onDelete: Cascade)
+  location    Location @relation(fields: [locationId], references: [id], onDelete: Cascade)
+  beneficiary User?    @relation("BeneficiaryDonations", fields: [beneficiaryId], references: [id])
+  notifications Notification[]
+}
+
+model Notification {
+  id         Int      @id @default(autoincrement())
+  message    String
+  type       String
+  isRead     Boolean  @default(false)
+  userId     String
+  donationId Int?
+  createdAt  DateTime @default(now()) @db.Timestamptz(6)
+
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  donation Donation? @relation(fields: [donationId], references: [id], onDelete: Cascade)
+}
+
+model EFMigrationsHistory {
+  MigrationId    String @id(map: "PK___EFMigrationsHistory") @db.VarChar(150)
+  ProductVersion String @db.VarChar(32)
+
+  @@map("__EFMigrationsHistory")
 }
 
 enum Days {
@@ -27,125 +113,4 @@ enum DonationStatus {
   AVAILABLE
   ASSIGNED
   DELIVERED
-}
-
-model City {
-  code String @id @unique
-  name String
-
-  locations   Location[]
-  foundations Foundation[]
-}
-
-model User {
-  id        String   @id @default(uuid())
-  email     String   @unique
-  password  String
-  firstName String
-  lastName  String
-  userType  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  donor                Donor?
-  beneficiary          Beneficiary?
-  notifications        Notification[]
-  beneficiaryDonations Donation[]     @relation("BeneficiaryDonations")
-}
-
-model Donor {
-  id Int @id @default(autoincrement())
-
-  userId String @unique
-  user   User   @relation(fields: [userId], references: [id])
-
-  locations Location[]
-  donations Donation[]
-}
-
-model Location {
-  id              Int    @id @default(autoincrement())
-  name            String
-  mainStreet      String
-  secondaryStreet String
-  reference       String
-
-  donorId Int
-  donor   Donor @relation(fields: [donorId], references: [id])
-
-  cityCode  String
-  city      City       @relation(fields: [cityCode], references: [code])
-  peakHours PeakHour[]
-  donations Donation[]
-}
-
-model PeakHour {
-  id        Int     @id @default(autoincrement())
-  day       Days[]
-  startTime String
-  endTime   String
-  note      String? @db.VarChar(100)
-
-  locationId Int
-  location   Location @relation(fields: [locationId], references: [id])
-}
-
-model Beneficiary {
-  id     Int    @id @default(autoincrement())
-  userId String @unique
-  user   User   @relation(fields: [userId], references: [id])
-
-  foundationId Int        @unique
-  foundation   Foundation @relation(fields: [foundationId], references: [id])
-}
-
-model Foundation {
-  id              Int    @id @default(autoincrement())
-  name            String
-  mainStreet      String
-  secondaryStreet String
-  reference       String
-
-  cityCode String
-  city     City   @relation(fields: [cityCode], references: [code])
-
-  beneficiary Beneficiary?
-}
-
-model Donation {
-  id          String         @id @default(uuid())
-  productName String
-  quantity    Float
-  unit        String
-  status      DonationStatus @default(AVAILABLE)
-  createdAt   DateTime       @default(now())
-  updatedAt   DateTime       @updatedAt
-
-  donorConfirmed       Boolean @default(false)
-  beneficiaryConfirmed Boolean @default(false)
-
-  donorId Int
-  donor   Donor @relation(fields: [donorId], references: [id])
-
-  locationId Int
-  location   Location @relation(fields: [locationId], references: [id])
-
-  beneficiaryId String?
-  beneficiary   User?   @relation("BeneficiaryDonations", fields: [beneficiaryId], references: [id])
-
-  notifications Notification[]
-}
-
-model Notification {
-  id        Int      @id @default(autoincrement())
-  message   String
-  type      String
-  isRead    Boolean  @default(false)
-  createdAt DateTime @default(now())
-
-  userId String
-  user   User   @relation(fields: [userId], references: [id])
-
-  donationId String?
-  donation   Donation? @relation(fields: [donationId], references: [id])
 }

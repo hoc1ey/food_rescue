@@ -6,7 +6,11 @@ import {
   confirmDonation
 } from '../controllers/donation.controller.js';
 import { protectRoute, restrictTo } from '../middlewares/auth.middleware.js';
-import { UserType } from '../generated/prisma/index.js';
+
+const UserType = {
+  DONOR: 'DONOR',
+  BENEFICIARY: 'BENEFICIARY'
+} as const;
 
 const donationRouter = Router();
 

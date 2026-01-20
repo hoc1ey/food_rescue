@@ -1,10 +1,14 @@
 import { Router } from 'express';
-import { getNotifications, markAsRead } from '../controllers/notification.controller.js';
+import { getNotifications, markAsRead, getUnreadCount, markAllAsRead, deleteNotification } from '../controllers/notification.controller.js';
 import { protectRoute } from '../middlewares/auth.middleware.js';
 
 const notificationRouter = Router();
 
 notificationRouter.use(protectRoute);
+
+// Rutas específicas (Deben ir ANTES de las rutas con :id)
+notificationRouter.get('/unread-count', getUnreadCount);
+notificationRouter.patch('/all/read', markAllAsRead);
 
 /**
  * @swagger
@@ -53,5 +57,6 @@ notificationRouter.get('/', getNotifications);
  *         description: Notification not found
  */
 notificationRouter.patch('/:id/read', markAsRead);
+notificationRouter.delete('/:id', deleteNotification);
 
 export default notificationRouter;

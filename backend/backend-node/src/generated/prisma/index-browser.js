@@ -152,28 +152,9 @@ exports.Prisma.LocationScalarFieldEnum = {
   cityCode: 'cityCode'
 };
 
-exports.Prisma.PeakHourScalarFieldEnum = {
-  id: 'id',
-  day: 'day',
-  startTime: 'startTime',
-  endTime: 'endTime',
-  note: 'note',
-  locationId: 'locationId'
-};
-
 exports.Prisma.BeneficiaryScalarFieldEnum = {
   id: 'id',
-  userId: 'userId',
-  foundationId: 'foundationId'
-};
-
-exports.Prisma.FoundationScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  mainStreet: 'mainStreet',
-  secondaryStreet: 'secondaryStreet',
-  reference: 'reference',
-  cityCode: 'cityCode'
+  userId: 'userId'
 };
 
 exports.Prisma.DonationScalarFieldEnum = {
@@ -182,13 +163,13 @@ exports.Prisma.DonationScalarFieldEnum = {
   quantity: 'quantity',
   unit: 'unit',
   status: 'status',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  donorConfirmed: 'donorConfirmed',
-  beneficiaryConfirmed: 'beneficiaryConfirmed',
   donorId: 'donorId',
   locationId: 'locationId',
-  beneficiaryId: 'beneficiaryId'
+  beneficiaryId: 'beneficiaryId',
+  donorConfirmed: 'donorConfirmed',
+  beneficiaryConfirmed: 'beneficiaryConfirmed',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.NotificationScalarFieldEnum = {
@@ -196,9 +177,14 @@ exports.Prisma.NotificationScalarFieldEnum = {
   message: 'message',
   type: 'type',
   isRead: 'isRead',
-  createdAt: 'createdAt',
   userId: 'userId',
-  donationId: 'donationId'
+  donationId: 'donationId',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.EFMigrationsHistoryScalarFieldEnum = {
+  MigrationId: 'MigrationId',
+  ProductVersion: 'ProductVersion'
 };
 
 exports.Prisma.SortOrder = {
@@ -215,16 +201,6 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
-exports.Days = exports.$Enums.Days = {
-  MONDAY: 'MONDAY',
-  TUESDAY: 'TUESDAY',
-  WEDNESDAY: 'WEDNESDAY',
-  THURSDAY: 'THURSDAY',
-  FRIDAY: 'FRIDAY',
-  SATURDAY: 'SATURDAY',
-  SUNDAY: 'SUNDAY'
-};
-
 exports.DonationStatus = exports.$Enums.DonationStatus = {
   AVAILABLE: 'AVAILABLE',
   ASSIGNED: 'ASSIGNED',
@@ -236,11 +212,10 @@ exports.Prisma.ModelName = {
   User: 'User',
   Donor: 'Donor',
   Location: 'Location',
-  PeakHour: 'PeakHour',
   Beneficiary: 'Beneficiary',
-  Foundation: 'Foundation',
   Donation: 'Donation',
-  Notification: 'Notification'
+  Notification: 'Notification',
+  EFMigrationsHistory: 'EFMigrationsHistory'
 };
 
 /**

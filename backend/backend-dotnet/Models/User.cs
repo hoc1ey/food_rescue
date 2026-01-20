@@ -1,45 +1,43 @@
-using System.Runtime.Serialization;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace backend_dotnet.Models
 {
+    [Table("User")]
+    public class User
+    {
+        [Key]
+        [Column("id")]
+        public string Id { get; set; } = null!;
 
-[DataContract]
-public class User
-{
-    [Key]
-    [DataMember]
-    [Column("id")]
-    public string Id { get; set; } = null!;
+        [Required]
+        [Column("email")]
+        public string Email { get; set; } = null!;
 
-    [DataMember]
-    [Column("email")]
-    public string Email { get; set; } = null!;
+        [Required]
+        [Column("password")]
+        public string Password { get; set; } = null!;
 
-    [DataMember]
-    [Column("password")]
-    public string Password { get; set; } = null!;
+        [Required]
+        [Column("firstName")]
+        public string FirstName { get; set; } = null!;
 
-    [DataMember]
-    [Column("firstName")]
-    public string FirstName { get; set; } = null!;
+        [Required]
+        [Column("lastName")]
+        public string LastName { get; set; } = null!;
 
-    [DataMember]
-    [Column("lastName")]
-    public string LastName { get; set; } = null!;
+        [Required]
+        [Column("userType")]
+        public UserType UserType { get; set; } // <-- CAMBIO: Ahora es un Enum, no string
 
-    [DataMember]
-    [Column("userType")]
-    public string UserType { get; set; } = null!;
+        [Column("createdAt")]
+        public DateTime CreatedAt { get; set; }
 
-    [Column("createdAt")]
-    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-    
-    [Column("updatedAt")]
-    public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+        [Column("updatedAt")]
+        public DateTime UpdatedAt { get; set; }
 
-    public Donor? Donor { get; set; }
-    public Beneficiary? Beneficiary { get; set; }
-}
+        // Propiedades de navegación para Entity Framework
+        public virtual Donor? Donor { get; set; }
+        public virtual Beneficiary? Beneficiary { get; set; }
+    }
 }

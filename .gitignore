@@ -5,78 +5,55 @@
 .DS_Store
 Thumbs.db
 
+# IDEs y Editores
+.vscode/
+.idea/
+*.suo
+*.user
+
 # Logs
 logs
 *.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+pnpm-debug.log*
 
-# Entorno
+# Entorno (Secretos)
 .env
-.env.development
-.env.production
+.env.*
+!.env.example
+
+# Dependencias de Node (Global para front y back)
+node_modules/
 
 # ------------------------------------------------------------------
-# BACKEND (Node.js / Express)
+# BACKEND - NODE.JS (backend/backend-node)
 # ------------------------------------------------------------------
-/backend/node_modules
-/backend/dist        # Carpeta de salida si compilas TypeScript a JS
-/backend/build
-/backend/tmp
+backend/backend-node/dist/
+backend/backend-node/build/
+backend/backend-node/coverage/
 
-# Directorio de datos persistentes de la base de datos de desarrollo
-/backend/postgres/
-
-# Archivos de lock
-/backend/package-lock.json
-/backend/yarn.lock
-
-# Ignorar si usas WebStorm/IDE
-/backend/.idea
-
-# Environment variables
-.env
-.env.local
-.env.*.local
-
-# Build output
-backend/dist/
-backend/build/
-
-# Logs
-backend/logs/
-backend/*.log
-backend/npm-debug.log*
-backend/yarn-debug.log*
-backend/yarn-error.log*
-backend/lerna-debug.log*
-backend/pnpm-debug.log*
-
-# Prisma
-# Mantener el schema pero ignorar lo generado
-backend/src/generated/
+# Prisma: Ignorar cliente generado si está dentro del src
+backend/backend-node/src/generated/
 
 # ------------------------------------------------------------------
-# FRONTEND (Angular)
+# BACKEND - .NET (backend/backend-dotnet)
 # ------------------------------------------------------------------
-/frontend/node_modules
-/frontend/dist/          # Carpeta de producción generada por 'ng build'
-/frontend/out/
+# Directorios de compilación (Basura)
+backend/backend-dotnet/bin/
+backend/backend-dotnet/obj/
 
-# IDE y caché
-/frontend/.vscode/
-/frontend/.idea/
-/frontend/.angular/cache
+# Configuración de usuario y caché de VS
+backend/backend-dotnet/.vs/
 
-# Archivos de lock
-/frontend/package-lock.json
-/frontend/yarn.lock
+# Configuración de desarrollo local (opcional, por seguridad)
+backend/backend-dotnet/appsettings.Development.json
 
-# Entornos de desarrollo
-/frontend/src/environments/*.ts.local
-
-# Cobertura de pruebas (Karma/Jest)
-/frontend/coverage
-# Snyk Security Extension - AI Rules (auto-generated)
-.github/instructions/snyk_rules.instructions.md
+# ------------------------------------------------------------------
+# FRONTEND - ANGULAR (frontend)
+# ------------------------------------------------------------------
+frontend/dist/
+frontend/.angular/
+frontend/coverage/
+frontend/.vscode/

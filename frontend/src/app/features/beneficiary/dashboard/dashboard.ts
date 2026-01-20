@@ -9,6 +9,7 @@ import { ButtonComponent } from '../../../shared/ui/atoms/button/button';
 import { TabGroupComponent } from '../../../shared/ui/molecules/tab-group/tab-group';
 import { ToastContainerComponent } from '../../../shared/ui/atoms/toast/toast-container';
 import { LucideIconsModule } from '../../../shared/lucide-icons.module';
+import { LucideAngularModule, CheckCircle, Info, Filter, Clock } from 'lucide-angular';
 import { DonationsService, type DonationResponse } from '../../../core/services/donations';
 import { NotificationsService, type NotificationResponse } from '../../../core/services/notifications';
 import { AuthService } from '../../../core/services/auth';
@@ -16,6 +17,12 @@ import { WebSocketService } from '../../../core/services/websocket.service';
 import { ToastService } from '../../../core/services/toast.service';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
+
+// Extendemos el tipo Donation para incluir el estado de confirmación en la UI
+type DashboardDonation = Donation & {
+  beneficiaryConfirmed?: boolean;
+  donorConfirmed?: boolean;
+};
 
 @Component({
   selector: 'app-beneficiary-dashboard',
@@ -29,7 +36,8 @@ import { filter } from 'rxjs/operators';
     ButtonComponent,
     TabGroupComponent,
     ToastContainerComponent,
-    LucideIconsModule
+    LucideIconsModule,
+    LucideAngularModule
   ],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css'
@@ -50,6 +58,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
   isLoading = false;
   errorMessage: string | null = null;
 
+  // Iconos para la UI
+  readonly icons = {
+    checkCircle: CheckCircle,
+    info: Info,
+    filter: Filter,
+    clock: Clock
+  };
+
   // Notificaciones
   notifications: NotificationResponse[] = [];
   loadingNotifications = false;
@@ -58,14 +74,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
   isWebSocketConnected = false;
 
   // Todas las donaciones del beneficiario (disponibles y reclamadas)
-  allDonations: Donation[] = [];
+  allDonations: DashboardDonation[] = [];
 
   // Control de filtros
   donationFilterTab: 'available' | 'pending' | 'delivered' = 'available';
   donationFilterTabs = ['Disponibles', 'Pendientes', 'Entregadas'];
 
   // Donaciones filtradas según el tab activo
-  get filteredDonations(): Donation[] {
+  get filteredDonations(): DashboardDonation[] {
     switch (this.donationFilterTab) {
       case 'available':
         return this.allDonations.filter(d => d.status === 'AVAILABLE');
@@ -237,10 +253,25 @@ export class DashboardComponent implements OnInit, OnDestroy {
     });
   }
 
-  private mapDonationResponse(donation: DonationResponse): Donation {
+  private mapDonationResponse(donation: DonationResponse): DashboardDonation {
     const donorName = donation.donor?.user
       ? `${donation.donor.user.firstName} ${donation.donor.user.lastName}`
       : 'Donador no disponible';
+
+    // Construir dirección con validación
+    const addressParts = [];
+
+    if (donation.location?.mainStreet) {
+      addressParts.push(donation.location.mainStreet);
+    }
+    if (donation.location?.secondaryStreet) {
+      addressParts.push('y ' + donation.location.secondaryStreet);
+    }
+    if (donation.location?.reference) {
+      addressParts.push(', ' + donation.location.reference);
+    }
+
+    const address = addressParts.length > 0 ? addressParts.join(' ') : 'Dirección no disponible';
 
     return {
       id: donation.id,
@@ -249,9 +280,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
       unit: donation.unit,
       status: donation.status,
       location: {
-        name: donorName,
-        address: donation.location?.address || 'Dirección no disponible'
+        name: donorName,           // ✅ Nombre del donador (para beneficiarios)
+        address: address           // ✅ Dirección completa validada
       },
+      beneficiaryConfirmed: donation.beneficiaryConfirmed, // ✅ Mapeamos el estado
+      donorConfirmed: donation.donorConfirmed,             // ✅ Mapeamos el estado
       pickupTime: new Date(donation.createdAt).toLocaleTimeString('es-ES', {
         hour: '2-digit',
         minute: '2-digit'

@@ -1,9 +1,19 @@
 import { Request, Response } from 'express';
 import { prisma } from '../lib/prisma.js';
 import { sendSuccess, sendError } from '../utils/response.js';
-import { DonationStatus, UserType } from '../generated/prisma/index.js';
 import { getIO } from '../sockets/socket.js';
 import logger from '../utils/logger.js';
+
+const UserType = {
+  DONOR: 'DONOR',
+  BENEFICIARY: 'BENEFICIARY'
+} as const;
+
+const DonationStatus = {
+  AVAILABLE: 'AVAILABLE',
+  ASSIGNED: 'ASSIGNED',
+  DELIVERED: 'DELIVERED'
+} as const;
 
 export const createDonation = async (req: Request, res: Response) => {
   try {
@@ -11,6 +21,16 @@ export const createDonation = async (req: Request, res: Response) => {
     const userId = req.user!.userId;
 
     logger.info('Creating donation', { userId, productName, quantity, unit });
+
+    // Validación de entrada para evitar errores de Prisma
+    if (!productName || quantity === undefined || quantity === null || !unit) {
+      return sendError(res, 'Faltan campos requeridos: productName, quantity, unit', null, 400);
+    }
+
+    const quantityNum = Number(quantity);
+    if (isNaN(quantityNum)) {
+      return sendError(res, 'La cantidad debe ser un número válido', null, 400);
+    }
 
     const donor = await prisma.donor.findUnique({
       where: { userId },
@@ -25,13 +45,13 @@ export const createDonation = async (req: Request, res: Response) => {
     logger.database('CREATE', 'Donation', {
       donorId: donor.id,
       productName,
-      quantity
+      quantity: quantityNum
     });
 
     const donation = await prisma.donation.create({
       data: {
         productName,
-        quantity: parseFloat(quantity),
+        quantity: quantityNum,
         unit,
         donorId: donor.id,
         locationId: donor.locations[0].id
@@ -199,12 +219,18 @@ export const getDonations = async (req: Request, res: Response) => {
 export const claimDonation = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
+    const donationId = parseInt(id);
+
+    if (isNaN(donationId)) {
+      return sendError(res, 'Invalid donation ID', null, 400);
+    }
+
     const userId = req.user!.userId;
 
-    logger.info('Claiming donation', { donationId: id, userId });
+    logger.info('Claiming donation', { donationId, userId });
 
     const donation = await prisma.donation.findUnique({
-      where: { id },
+      where: { id: donationId },
       include: {
         donor: {
           include: { user: true }
@@ -213,26 +239,26 @@ export const claimDonation = async (req: Request, res: Response) => {
     });
 
     if (!donation) {
-      logger.warn('Donation claim failed: Donation not found', { donationId: id });
+      logger.warn('Donation claim failed: Donation not found', { donationId });
       return sendError(res, 'Donation not found', null, 404);
     }
 
     if (donation.status !== DonationStatus.AVAILABLE) {
       logger.warn('Donation claim failed: Donation not available', {
-        donationId: id,
+        donationId,
         status: donation.status
       });
       return sendError(res, 'Donation is not available', null, 400);
     }
 
     logger.database('UPDATE', 'Donation', {
-      donationId: id,
+      donationId,
       action: 'claim',
       beneficiaryId: userId
     });
 
     const updatedDonation = await prisma.donation.update({
-      where: { id },
+      where: { id: donationId },
       data: {
         beneficiaryId: userId,
         status: DonationStatus.ASSIGNED
@@ -262,7 +288,7 @@ export const claimDonation = async (req: Request, res: Response) => {
     });
 
     logger.info('Donation claimed successfully', {
-      donationId: id,
+      donationId,
       beneficiaryId: userId
     });
 
@@ -279,7 +305,7 @@ export const claimDonation = async (req: Request, res: Response) => {
     // Emit WebSocket events
     logger.info('Emitting donation:claimed event', {
       target: 'broadcast',
-      donationId: id
+      donationId
     });
 
     const io = getIO();
@@ -295,13 +321,19 @@ export const claimDonation = async (req: Request, res: Response) => {
 export const confirmDonation = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
+    const donationId = parseInt(id);
+
+    if (isNaN(donationId)) {
+      return sendError(res, 'Invalid donation ID', null, 400);
+    }
+
     const userId = req.user!.userId;
     const userType = req.user!.userType;
 
-    logger.info('Confirming donation', { donationId: id, userId, userType });
+    logger.info('Confirming donation', { donationId, userId, userType });
 
     const donation = await prisma.donation.findUnique({
-      where: { id },
+      where: { id: donationId },
       include: {
         donor: true,
         beneficiary: true
@@ -310,14 +342,14 @@ export const confirmDonation = async (req: Request, res: Response) => {
 
     if (!donation) {
       logger.warn('Donation confirmation failed: Donation not found', {
-        donationId: id
+        donationId
       });
       return sendError(res, 'Donation not found', null, 404);
     }
 
     if (donation.status !== DonationStatus.ASSIGNED) {
       logger.warn('Donation confirmation failed: Invalid status', {
-        donationId: id,
+        donationId,
         status: donation.status
       });
       return sendError(res, 'Donation is not in assigned status', null, 400);
@@ -327,26 +359,26 @@ export const confirmDonation = async (req: Request, res: Response) => {
 
     if (userType === UserType.DONOR && donation.donor.userId === userId) {
       updateData.donorConfirmed = true;
-      logger.info('Donor confirmed donation', { donationId: id, userId });
+      logger.info('Donor confirmed donation', { donationId, userId });
     } else if (userType === UserType.BENEFICIARY && donation.beneficiaryId === userId) {
       updateData.beneficiaryConfirmed = true;
-      logger.info('Beneficiary confirmed donation', { donationId: id, userId });
+      logger.info('Beneficiary confirmed donation', { donationId, userId });
     } else {
       logger.warn('Donation confirmation failed: Unauthorized', {
-        donationId: id,
+        donationId,
         userId
       });
       return sendError(res, 'Unauthorized to confirm this donation', null, 403);
     }
 
     logger.database('UPDATE', 'Donation', {
-      donationId: id,
+      donationId,
       action: 'confirm',
       ...updateData
     });
 
     const updatedDonation = await prisma.donation.update({
-      where: { id },
+      where: { id: donationId },
       data: updateData
     });
 
@@ -357,16 +389,16 @@ export const confirmDonation = async (req: Request, res: Response) => {
       (donation.donorConfirmed && updateData.beneficiaryConfirmed)
     ) {
       logger.info('Both parties confirmed, marking as delivered', {
-        donationId: id
+        donationId
       });
 
       logger.database('UPDATE', 'Donation', {
-        donationId: id,
+        donationId,
         status: 'DELIVERED'
       });
 
       const finalDonation = await prisma.donation.update({
-        where: { id },
+        where: { id: donationId },
         data: { status: DonationStatus.DELIVERED },
         include: {
           location: {
@@ -411,12 +443,12 @@ export const confirmDonation = async (req: Request, res: Response) => {
         }
       });
 
-      logger.info('Donation delivered successfully', { donationId: id });
+      logger.info('Donation delivered successfully', { donationId });
 
       // Emit WebSocket event
       logger.info('Emitting donation:delivered event', {
         target: 'broadcast',
-        donationId: id
+        donationId
       });
 
       const io = getIO();
@@ -426,7 +458,7 @@ export const confirmDonation = async (req: Request, res: Response) => {
     }
 
     logger.info('Donation confirmation recorded', {
-      donationId: id,
+      donationId,
       ...updateData
     });
 

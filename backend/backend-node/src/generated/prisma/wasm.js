@@ -124,28 +124,9 @@ exports.Prisma.LocationScalarFieldEnum = {
   cityCode: 'cityCode'
 };
 
-exports.Prisma.PeakHourScalarFieldEnum = {
-  id: 'id',
-  day: 'day',
-  startTime: 'startTime',
-  endTime: 'endTime',
-  note: 'note',
-  locationId: 'locationId'
-};
-
 exports.Prisma.BeneficiaryScalarFieldEnum = {
   id: 'id',
-  userId: 'userId',
-  foundationId: 'foundationId'
-};
-
-exports.Prisma.FoundationScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  mainStreet: 'mainStreet',
-  secondaryStreet: 'secondaryStreet',
-  reference: 'reference',
-  cityCode: 'cityCode'
+  userId: 'userId'
 };
 
 exports.Prisma.DonationScalarFieldEnum = {
@@ -154,13 +135,13 @@ exports.Prisma.DonationScalarFieldEnum = {
   quantity: 'quantity',
   unit: 'unit',
   status: 'status',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  donorConfirmed: 'donorConfirmed',
-  beneficiaryConfirmed: 'beneficiaryConfirmed',
   donorId: 'donorId',
   locationId: 'locationId',
-  beneficiaryId: 'beneficiaryId'
+  beneficiaryId: 'beneficiaryId',
+  donorConfirmed: 'donorConfirmed',
+  beneficiaryConfirmed: 'beneficiaryConfirmed',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.NotificationScalarFieldEnum = {
@@ -168,9 +149,14 @@ exports.Prisma.NotificationScalarFieldEnum = {
   message: 'message',
   type: 'type',
   isRead: 'isRead',
-  createdAt: 'createdAt',
   userId: 'userId',
-  donationId: 'donationId'
+  donationId: 'donationId',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.EFMigrationsHistoryScalarFieldEnum = {
+  MigrationId: 'MigrationId',
+  ProductVersion: 'ProductVersion'
 };
 
 exports.Prisma.SortOrder = {
@@ -187,11 +173,6 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
-exports.UserType = exports.$Enums.UserType = {
-  DONOR: 'DONOR',
-  BENEFICIARY: 'BENEFICIARY'
-};
-
 exports.Days = exports.$Enums.Days = {
   MONDAY: 'MONDAY',
   TUESDAY: 'TUESDAY',
@@ -213,11 +194,10 @@ exports.Prisma.ModelName = {
   User: 'User',
   Donor: 'Donor',
   Location: 'Location',
-  PeakHour: 'PeakHour',
   Beneficiary: 'Beneficiary',
-  Foundation: 'Foundation',
   Donation: 'Donation',
-  Notification: 'Notification'
+  Notification: 'Notification',
+  EFMigrationsHistory: 'EFMigrationsHistory'
 };
 /**
  * Create the Client
@@ -230,7 +210,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Users\\Public\\Documents\\Codes\\2025-B_Aplicaciones Web Avanzadas\\food_rescue\\backend\\backend-node\\src\\generated\\prisma",
+      "value": "C:\\Users\\Mateo\\VSCodeProjects\\awa\\food_rescue\\backend\\backend-node\\src\\generated\\prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -244,7 +224,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Users\\Public\\Documents\\Codes\\2025-B_Aplicaciones Web Avanzadas\\food_rescue\\backend\\backend-node\\prisma\\schema.prisma",
+    "sourceFilePath": "C:\\Users\\Mateo\\VSCodeProjects\\awa\\food_rescue\\backend\\backend-node\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -258,6 +238,7 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
@@ -266,13 +247,13 @@ const config = {
       }
     }
   },
-  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nenum UserType {\n  DONOR\n  BENEFICIARY\n}\n\nenum Days {\n  MONDAY\n  TUESDAY\n  WEDNESDAY\n  THURSDAY\n  FRIDAY\n  SATURDAY\n  SUNDAY\n}\n\nenum DonationStatus {\n  AVAILABLE\n  ASSIGNED\n  DELIVERED\n}\n\nmodel City {\n  code String @id @unique\n  name String\n\n  locations   Location[]\n  foundations Foundation[]\n}\n\nmodel User {\n  id        String   @id @default(uuid())\n  email     String   @unique\n  password  String\n  firstName String\n  lastName  String\n  userType  String\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  donor                Donor?\n  beneficiary          Beneficiary?\n  notifications        Notification[]\n  beneficiaryDonations Donation[]     @relation(\"BeneficiaryDonations\")\n}\n\nmodel Donor {\n  id Int @id @default(autoincrement())\n\n  userId String @unique\n  user   User   @relation(fields: [userId], references: [id])\n\n  locations Location[]\n  donations Donation[]\n}\n\nmodel Location {\n  id              Int    @id @default(autoincrement())\n  name            String\n  mainStreet      String\n  secondaryStreet String\n  reference       String\n\n  donorId Int\n  donor   Donor @relation(fields: [donorId], references: [id])\n\n  cityCode  String\n  city      City       @relation(fields: [cityCode], references: [code])\n  peakHours PeakHour[]\n  donations Donation[]\n}\n\nmodel PeakHour {\n  id        Int     @id @default(autoincrement())\n  day       Days[]\n  startTime String\n  endTime   String\n  note      String? @db.VarChar(100)\n\n  locationId Int\n  location   Location @relation(fields: [locationId], references: [id])\n}\n\nmodel Beneficiary {\n  id     Int    @id @default(autoincrement())\n  userId String @unique\n  user   User   @relation(fields: [userId], references: [id])\n\n  foundationId Int        @unique\n  foundation   Foundation @relation(fields: [foundationId], references: [id])\n}\n\nmodel Foundation {\n  id              Int    @id @default(autoincrement())\n  name            String\n  mainStreet      String\n  secondaryStreet String\n  reference       String\n\n  cityCode String\n  city     City   @relation(fields: [cityCode], references: [code])\n\n  beneficiary Beneficiary?\n}\n\nmodel Donation {\n  id          String         @id @default(uuid())\n  productName String\n  quantity    Float\n  unit        String\n  status      DonationStatus @default(AVAILABLE)\n  createdAt   DateTime       @default(now())\n  updatedAt   DateTime       @updatedAt\n\n  donorConfirmed       Boolean @default(false)\n  beneficiaryConfirmed Boolean @default(false)\n\n  donorId Int\n  donor   Donor @relation(fields: [donorId], references: [id])\n\n  locationId Int\n  location   Location @relation(fields: [locationId], references: [id])\n\n  beneficiaryId String?\n  beneficiary   User?   @relation(\"BeneficiaryDonations\", fields: [beneficiaryId], references: [id])\n\n  notifications Notification[]\n}\n\nmodel Notification {\n  id        Int      @id @default(autoincrement())\n  message   String\n  type      String\n  isRead    Boolean  @default(false)\n  createdAt DateTime @default(now())\n\n  userId String\n  user   User   @relation(fields: [userId], references: [id])\n\n  donationId String?\n  donation   Donation? @relation(fields: [donationId], references: [id])\n}\n",
-  "inlineSchemaHash": "758c847227bfe13039119522950d484032b50b3fd1e4c65f2f348791c746a164",
+  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel City {\n  code      String     @id(map: \"PK_City\")\n  name      String\n  locations Location[]\n}\n\nmodel User {\n  id               String         @id(map: \"PK_User\") @default(uuid())\n  email            String         @unique\n  password         String\n  firstName        String\n  lastName         String\n  userType         String // Cambiado a String para máxima compatibilidad\n  createdAt        DateTime       @db.Timestamptz(6)\n  updatedAt        DateTime       @updatedAt @db.Timestamptz(6)\n  beneficiary      Beneficiary?\n  donor            Donor?\n  notifications    Notification[]\n  claimedDonations Donation[]     @relation(\"BeneficiaryDonations\")\n}\n\nmodel Donor {\n  id        Int        @id(map: \"PK_Donor\") @default(autoincrement())\n  userId    String     @unique(map: \"IX_Donor_userId\")\n  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: \"FK_Donor_User_userId\")\n  locations Location[]\n  donations Donation[]\n}\n\nmodel Location {\n  id              Int    @id(map: \"PK_Location\") @default(autoincrement())\n  name            String\n  mainStreet      String\n  secondaryStreet String\n  reference       String\n  donorId         Int\n  cityCode        String\n  city            City   @relation(fields: [cityCode], references: [code], onDelete: Cascade, onUpdate: NoAction, map: \"FK_Location_City_cityCode\")\n  donor           Donor  @relation(fields: [donorId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: \"FK_Location_Donor_donorId\")\n\n  donations Donation[]\n\n  @@index([cityCode], map: \"IX_Location_cityCode\")\n  @@index([donorId], map: \"IX_Location_donorId\")\n}\n\nmodel Beneficiary {\n  id     Int    @id(map: \"PK_Beneficiary\") @default(autoincrement())\n  userId String @unique(map: \"IX_Beneficiary_userId\")\n  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: \"FK_Beneficiary_User_userId\")\n}\n\nmodel Donation {\n  id                   Int            @id @default(autoincrement())\n  productName          String\n  quantity             Float\n  unit                 String\n  status               DonationStatus @default(AVAILABLE)\n  donorId              Int\n  locationId           Int\n  beneficiaryId        String?\n  donorConfirmed       Boolean        @default(false)\n  beneficiaryConfirmed Boolean        @default(false)\n  createdAt            DateTime       @default(now()) @db.Timestamptz(6)\n  updatedAt            DateTime       @updatedAt @db.Timestamptz(6)\n\n  donor         Donor          @relation(fields: [donorId], references: [id], onDelete: Cascade)\n  location      Location       @relation(fields: [locationId], references: [id], onDelete: Cascade)\n  beneficiary   User?          @relation(\"BeneficiaryDonations\", fields: [beneficiaryId], references: [id])\n  notifications Notification[]\n}\n\nmodel Notification {\n  id         Int      @id @default(autoincrement())\n  message    String\n  type       String\n  isRead     Boolean  @default(false)\n  userId     String\n  donationId Int?\n  createdAt  DateTime @default(now()) @db.Timestamptz(6)\n\n  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)\n  donation Donation? @relation(fields: [donationId], references: [id], onDelete: Cascade)\n}\n\nmodel EFMigrationsHistory {\n  MigrationId    String @id(map: \"PK___EFMigrationsHistory\") @db.VarChar(150)\n  ProductVersion String @db.VarChar(32)\n\n  @@map(\"__EFMigrationsHistory\")\n}\n\nenum Days {\n  MONDAY\n  TUESDAY\n  WEDNESDAY\n  THURSDAY\n  FRIDAY\n  SATURDAY\n  SUNDAY\n}\n\nenum DonationStatus {\n  AVAILABLE\n  ASSIGNED\n  DELIVERED\n}\n",
+  "inlineSchemaHash": "36fcbb93bc5e43a392ecffbfa6635f17168f88a697ee4a83b12a3354d7a30958",
   "copyEngine": true
 }
 config.dirname = '/'
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"City\":{\"fields\":[{\"name\":\"code\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"locations\",\"kind\":\"object\",\"type\":\"Location\",\"relationName\":\"CityToLocation\"},{\"name\":\"foundations\",\"kind\":\"object\",\"type\":\"Foundation\",\"relationName\":\"CityToFoundation\"}],\"dbName\":null},\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"firstName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"lastName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userType\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"donor\",\"kind\":\"object\",\"type\":\"Donor\",\"relationName\":\"DonorToUser\"},{\"name\":\"beneficiary\",\"kind\":\"object\",\"type\":\"Beneficiary\",\"relationName\":\"BeneficiaryToUser\"},{\"name\":\"notifications\",\"kind\":\"object\",\"type\":\"Notification\",\"relationName\":\"NotificationToUser\"},{\"name\":\"beneficiaryDonations\",\"kind\":\"object\",\"type\":\"Donation\",\"relationName\":\"BeneficiaryDonations\"}],\"dbName\":null},\"Donor\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"DonorToUser\"},{\"name\":\"locations\",\"kind\":\"object\",\"type\":\"Location\",\"relationName\":\"DonorToLocation\"},{\"name\":\"donations\",\"kind\":\"object\",\"type\":\"Donation\",\"relationName\":\"DonationToDonor\"}],\"dbName\":null},\"Location\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"mainStreet\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"secondaryStreet\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"reference\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"donorId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"donor\",\"kind\":\"object\",\"type\":\"Donor\",\"relationName\":\"DonorToLocation\"},{\"name\":\"cityCode\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"city\",\"kind\":\"object\",\"type\":\"City\",\"relationName\":\"CityToLocation\"},{\"name\":\"peakHours\",\"kind\":\"object\",\"type\":\"PeakHour\",\"relationName\":\"LocationToPeakHour\"},{\"name\":\"donations\",\"kind\":\"object\",\"type\":\"Donation\",\"relationName\":\"DonationToLocation\"}],\"dbName\":null},\"PeakHour\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"day\",\"kind\":\"enum\",\"type\":\"Days\"},{\"name\":\"startTime\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"endTime\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"note\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"locationId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"location\",\"kind\":\"object\",\"type\":\"Location\",\"relationName\":\"LocationToPeakHour\"}],\"dbName\":null},\"Beneficiary\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"BeneficiaryToUser\"},{\"name\":\"foundationId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"foundation\",\"kind\":\"object\",\"type\":\"Foundation\",\"relationName\":\"BeneficiaryToFoundation\"}],\"dbName\":null},\"Foundation\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"mainStreet\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"secondaryStreet\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"reference\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"cityCode\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"city\",\"kind\":\"object\",\"type\":\"City\",\"relationName\":\"CityToFoundation\"},{\"name\":\"beneficiary\",\"kind\":\"object\",\"type\":\"Beneficiary\",\"relationName\":\"BeneficiaryToFoundation\"}],\"dbName\":null},\"Donation\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"productName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"quantity\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"unit\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"DonationStatus\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"donorConfirmed\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"beneficiaryConfirmed\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"donorId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"donor\",\"kind\":\"object\",\"type\":\"Donor\",\"relationName\":\"DonationToDonor\"},{\"name\":\"locationId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"location\",\"kind\":\"object\",\"type\":\"Location\",\"relationName\":\"DonationToLocation\"},{\"name\":\"beneficiaryId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"beneficiary\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"BeneficiaryDonations\"},{\"name\":\"notifications\",\"kind\":\"object\",\"type\":\"Notification\",\"relationName\":\"DonationToNotification\"}],\"dbName\":null},\"Notification\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"message\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"type\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"isRead\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"NotificationToUser\"},{\"name\":\"donationId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"donation\",\"kind\":\"object\",\"type\":\"Donation\",\"relationName\":\"DonationToNotification\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"City\":{\"fields\":[{\"name\":\"code\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"locations\",\"kind\":\"object\",\"type\":\"Location\",\"relationName\":\"CityToLocation\"}],\"dbName\":null},\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"firstName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"lastName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userType\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"beneficiary\",\"kind\":\"object\",\"type\":\"Beneficiary\",\"relationName\":\"BeneficiaryToUser\"},{\"name\":\"donor\",\"kind\":\"object\",\"type\":\"Donor\",\"relationName\":\"DonorToUser\"},{\"name\":\"notifications\",\"kind\":\"object\",\"type\":\"Notification\",\"relationName\":\"NotificationToUser\"},{\"name\":\"claimedDonations\",\"kind\":\"object\",\"type\":\"Donation\",\"relationName\":\"BeneficiaryDonations\"}],\"dbName\":null},\"Donor\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"DonorToUser\"},{\"name\":\"locations\",\"kind\":\"object\",\"type\":\"Location\",\"relationName\":\"DonorToLocation\"},{\"name\":\"donations\",\"kind\":\"object\",\"type\":\"Donation\",\"relationName\":\"DonationToDonor\"}],\"dbName\":null},\"Location\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"mainStreet\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"secondaryStreet\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"reference\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"donorId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"cityCode\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"city\",\"kind\":\"object\",\"type\":\"City\",\"relationName\":\"CityToLocation\"},{\"name\":\"donor\",\"kind\":\"object\",\"type\":\"Donor\",\"relationName\":\"DonorToLocation\"},{\"name\":\"donations\",\"kind\":\"object\",\"type\":\"Donation\",\"relationName\":\"DonationToLocation\"}],\"dbName\":null},\"Beneficiary\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"BeneficiaryToUser\"}],\"dbName\":null},\"Donation\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"productName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"quantity\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"unit\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"DonationStatus\"},{\"name\":\"donorId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"locationId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"beneficiaryId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"donorConfirmed\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"beneficiaryConfirmed\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"donor\",\"kind\":\"object\",\"type\":\"Donor\",\"relationName\":\"DonationToDonor\"},{\"name\":\"location\",\"kind\":\"object\",\"type\":\"Location\",\"relationName\":\"DonationToLocation\"},{\"name\":\"beneficiary\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"BeneficiaryDonations\"},{\"name\":\"notifications\",\"kind\":\"object\",\"type\":\"Notification\",\"relationName\":\"DonationToNotification\"}],\"dbName\":null},\"Notification\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"message\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"type\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"isRead\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"donationId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"NotificationToUser\"},{\"name\":\"donation\",\"kind\":\"object\",\"type\":\"Donation\",\"relationName\":\"DonationToNotification\"}],\"dbName\":null},\"EFMigrationsHistory\":{\"fields\":[{\"name\":\"MigrationId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"ProductVersion\",\"kind\":\"scalar\",\"type\":\"String\"}],\"dbName\":\"__EFMigrationsHistory\"}},\"enums\":{},\"types\":{}}")
 defineDmmfProperty(exports.Prisma, config.runtimeDataModel)
 config.engineWasm = {
   getRuntime: async () => require('./query_engine_bg.js'),

@@ -16,8 +16,10 @@ namespace backend_dotnet.Services
             _context = context;
         }
 
-        public string RegistrarUsuario(RegistroUsuarioRequest request)
+        public async Task<string> RegistrarUsuario(RegistroUsuarioRequest request)
         {
+            // Usamos una transacción para asegurar que se guarde TODO (Usuario + Rol + Ubicación) o NADA.
+            using var transaction = await _context.Database.BeginTransactionAsync();
             try
             {
                 // Validar datos de entrada
@@ -27,7 +29,7 @@ namespace backend_dotnet.Services
                     return errorMessage ?? "Error: Validación fallida.";
                 }
 
-                var existe = _context.Users.Any(u => u.Email == request.Email);
+                var existe = await _context.Users.AnyAsync(u => u.Email == request.Email);
                 if (existe)
                 {
                     return "Error: El correo electrónico ya está registrado.";
@@ -40,19 +42,20 @@ namespace backend_dotnet.Services
                     Password = BCrypt.Net.BCrypt.HashPassword(request.Password, 10),
                     FirstName = request.FirstName.Trim(),
                     LastName = request.LastName.Trim(),
-                    UserType = request.UserType.Trim().ToUpper(),
+                    // Convertimos el string que llega (ej. "DONOR") al Enum UserType
+                    UserType = Enum.Parse<UserType>(request.UserType.Trim().ToUpper()),
                     CreatedAt = DateTime.UtcNow,
                     UpdatedAt = DateTime.UtcNow
                 };
 
-                _context.Users.Add(usuario);
-                _context.SaveChanges();
+                await _context.Users.AddAsync(usuario);
+                await _context.SaveChangesAsync();
 
-                if (usuario.UserType == "DONOR")
+                if (usuario.UserType == UserType.DONOR)
                 {
                     var donor = new Donor { UserId = usuario.Id };
-                    _context.Donors.Add(donor);
-                    _context.SaveChanges();
+                    await _context.Donors.AddAsync(donor);
+                    await _context.SaveChangesAsync();
 
                     var location = new Location
                     {
@@ -63,22 +66,26 @@ namespace backend_dotnet.Services
                         CityCode = request.LocationCityCode.Trim().ToUpper(),
                         DonorId = donor.Id
                     };
-                    _context.Locations.Add(location);
+                    await _context.Locations.AddAsync(location);
                 }
-                else if (usuario.UserType == "BENEFICIARY")
+                else if (usuario.UserType == UserType.BENEFICIARY)
                 {
-                    _context.Beneficiaries.Add(new Beneficiary { UserId = usuario.Id });
+                    await _context.Beneficiaries.AddAsync(new Beneficiary { UserId = usuario.Id });
                 }
 
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
+                await transaction.CommitAsync(); // Confirmamos que todo salió bien
+
                 return $"Éxito: Usuario {request.Email} registrado correctamente.";
             }
             catch (DbUpdateException ex)
             {
+                await transaction.RollbackAsync();
                 return $"Error de base de datos: {ex.InnerException?.Message ?? ex.Message}";
             }
             catch (Exception ex)
             {
+                await transaction.RollbackAsync();
                 return $"Error interno: {ex.Message}";
             }
         }

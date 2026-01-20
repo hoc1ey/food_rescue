@@ -1,9 +1,15 @@
 import { Router } from 'express';
 import { createPeakHours, getPeakHours } from '../controllers/peakHour.controller.js';
 import { protectRoute, restrictTo } from '../middlewares/auth.middleware.js';
-import { UserType } from '../generated/prisma/index.js';
+
+const UserType = {
+    DONOR: 'DONOR',
+    BENEFICIARY: 'BENEFICIARY'
+} as const;
 
 const peakHourRouter = Router();
+
+
 
 peakHourRouter.use(protectRoute);
 peakHourRouter.use(restrictTo(UserType.DONOR));
