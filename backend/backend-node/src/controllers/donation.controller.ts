@@ -4,6 +4,7 @@ import { sendSuccess, sendError } from '../utils/response.js';
 import { DonationStatus, UserType } from '../generated/prisma/index.js';
 import { getIO } from '../sockets/socket.js';
 import logger from '../utils/logger.js';
+import { sendDonationClaimedEmail } from '../services/mailer.service.js';
 
 export const createDonation = async (req: Request, res: Response) => {
   try {
@@ -208,6 +209,9 @@ export const claimDonation = async (req: Request, res: Response) => {
       include: {
         donor: {
           include: { user: true }
+        },
+        location: {
+          include: { city: true }
         }
       }
     });
@@ -223,6 +227,16 @@ export const claimDonation = async (req: Request, res: Response) => {
         status: donation.status
       });
       return sendError(res, 'Donation is not available', null, 400);
+    }
+
+    // Obtener información del beneficiario
+    const beneficiaryUser = await prisma.user.findUnique({
+      where: { id: userId }
+    });
+
+    if (!beneficiaryUser) {
+      logger.warn('Beneficiary user not found', { userId });
+      return sendError(res, 'Beneficiary user not found', null, 404);
     }
 
     logger.database('UPDATE', 'Donation', {
@@ -274,6 +288,36 @@ export const claimDonation = async (req: Request, res: Response) => {
         userId: donation.donor.userId,
         donationId: donation.id
       }
+    });
+
+    // Enviar correo electrónico al donante
+    const donorFullName = `${donation.donor.user.firstName} ${donation.donor.user.lastName}`;
+    const beneficiaryFullName = `${beneficiaryUser.firstName} ${beneficiaryUser.lastName}`;
+
+    sendDonationClaimedEmail(
+      donation.donor.user.email,
+      {
+        donorName: donorFullName,
+        beneficiaryName: beneficiaryFullName,
+        productName: donation.productName,
+        quantity: donation.quantity,
+        unit: donation.unit,
+        location: {
+          name: donation.location.name,
+          mainStreet: donation.location.mainStreet,
+          secondaryStreet: donation.location.secondaryStreet,
+          city: {
+            name: donation.location.city.name
+          }
+        }
+      }
+    ).catch(error => {
+      logger.error('Failed to send donation claimed email', {
+        donationId: id,
+        donorEmail: donation.donor.user.email,
+        error
+      });
+      // No lanzamos el error para que no falle la reclamación
     });
 
     // Emit WebSocket events
