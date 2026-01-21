@@ -16,7 +16,7 @@ namespace backend_dotnet.Services
             _context = context;
         }
 
-        public string RegistrarUsuario(RegistroUsuarioRequest request)
+        public async Task<string> RegistrarUsuario(RegistroUsuarioRequest request)
         {
             try
             {
@@ -27,7 +27,7 @@ namespace backend_dotnet.Services
                     return errorMessage ?? "Error: Validación fallida.";
                 }
 
-                var existe = _context.Users.Any(u => u.Email == request.Email);
+                var existe = await _context.Users.AnyAsync(u => u.Email == request.Email);
                 if (existe)
                 {
                     return "Error: El correo electrónico ya está registrado.";
@@ -45,14 +45,14 @@ namespace backend_dotnet.Services
                     UpdatedAt = DateTime.UtcNow
                 };
 
-                _context.Users.Add(usuario);
-                _context.SaveChanges();
+                await _context.Users.AddAsync(usuario);
+                await _context.SaveChangesAsync();
 
                 if (usuario.UserType == "DONOR")
                 {
                     var donor = new Donor { UserId = usuario.Id };
-                    _context.Donors.Add(donor);
-                    _context.SaveChanges();
+                    await _context.Donors.AddAsync(donor);
+                    await _context.SaveChangesAsync();
 
                     var location = new Location
                     {
@@ -63,14 +63,14 @@ namespace backend_dotnet.Services
                         CityCode = request.LocationCityCode.Trim().ToUpper(),
                         DonorId = donor.Id
                     };
-                    _context.Locations.Add(location);
+                    await _context.Locations.AddAsync(location);
                 }
                 else if (usuario.UserType == "BENEFICIARY")
                 {
-                    _context.Beneficiaries.Add(new Beneficiary { UserId = usuario.Id });
+                    await _context.Beneficiaries.AddAsync(new Beneficiary { UserId = usuario.Id });
                 }
 
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 return $"Éxito: Usuario {request.Email} registrado correctamente.";
             }
             catch (DbUpdateException ex)

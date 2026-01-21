@@ -1,7 +1,7 @@
 <app-toast-container></app-toast-container>
 
-<app-header 
-  title="Dashboard de Beneficiario" 
+<app-header
+  title="Dashboard de Beneficiario"
   subtitle="Comedor La Esperanza"
   theme="beneficiary"
   (logoutClick)="handleLogout()">
@@ -9,7 +9,7 @@
 
 <main class="dashboard-content">
   <!-- Banner de Notificaciones -->
-  <app-notification-banner 
+  <app-notification-banner
     [notificationCount]="availableCount"
     theme="beneficiary">
   </app-notification-banner>
@@ -17,9 +17,9 @@
   <!-- Tarjeta de Donaciones -->
   <div class="card">
     <div class="card-header-with-count">
-      <app-card-header 
-        title="Mis Donaciones" 
-        icon="package" 
+      <app-card-header
+        title="Mis Donaciones"
+        icon="package"
         theme="beneficiary">
       </app-card-header>
       <span class="donation-count">Total: {{ allDonations.length }} donación{{ allDonations.length !== 1 ? 'es' : '' }}</span>
@@ -33,7 +33,7 @@
         (tabChange)="onDonationFilterChange($event)">
       </app-tab-group>
     </div>
-    
+
     <div class="card-body">
       <!-- Mensaje de error -->
       <div *ngIf="errorMessage" class="error-message">
@@ -55,21 +55,22 @@
       <!-- Lista de donaciones -->
       <div *ngIf="!isLoading && !errorMessage" class="donations-grid">
         <div *ngFor="let donation of filteredDonations" class="donation-wrapper">
-          <app-card-donation 
+          <app-card-donation
             [donation]="donation"
             [theme]="'beneficiary'">
           </app-card-donation>
           <div class="donation-actions">
-            <app-button 
+            <app-button
               *ngIf="donation.status === 'AVAILABLE'"
-              (click)="onClaimDonation(donation)" 
+              (click)="onClaimDonation(donation)"
               theme="beneficiary"
               class="claim-button">
               ¡Reclamar Donación!
             </app-button>
-            <app-button 
-              *ngIf="donation.status === 'ASSIGNED'"
-              (click)="onConfirmDonation(donation.id)" 
+
+            <app-button
+              *ngIf="donation.status === 'ASSIGNED' && !donation.beneficiaryConfirmed"
+              (click)="onConfirmDonation(donation.id)"
               theme="beneficiary"
               [disabled]="isLoading"
               class="confirm-button">

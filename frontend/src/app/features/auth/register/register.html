@@ -7,33 +7,59 @@
     </app-tab-group>
 
     <h2>Crear una cuenta</h2>
-    <p>Paso 1 de 2: Datos personales</p>
+    <p>Paso {{ currentStep }} de 2: {{ currentStep === 1 ? 'Datos personales' : 'Ubicación' }}</p>
 
     <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-      <div class="name-fields">
-        <app-form-field label="Nombre" [error]="getErrorMessage('firstName')">
-          <input type="text" formControlName="firstName" class="input-base">
+
+      <!-- PASO 1 -->
+      <div *ngIf="currentStep === 1">
+        <div class="name-fields">
+          <app-form-field label="Nombre" [icon]="icons.user" [error]="getErrorMessage('firstName')">
+            <input type="text" formControlName="firstName" class="input-base" placeholder="Ej. Belen">
+          </app-form-field>
+          <app-form-field label="Apellido" [icon]="icons.user" [error]="getErrorMessage('lastName')">
+            <input type="text" formControlName="lastName" class="input-base" placeholder="Ej. Narváez">
+          </app-form-field>
+        </div>
+
+        <app-form-field label="Correo Electrónico" [icon]="icons.mail" [error]="getErrorMessage('email')">
+          <input type="email" formControlName="email" class="input-base" placeholder="ejemplo@correo.com">
         </app-form-field>
-        <app-form-field label="Apellido" [error]="getErrorMessage('lastName')">
-          <input type="text" formControlName="lastName" class="input-base">
+
+        <app-form-field label="Contraseña" [icon]="icons.lock" [error]="getErrorMessage('password')">
+          <input type="password" formControlName="password" class="input-base" placeholder="********">
         </app-form-field>
+
+        <app-form-field label="Confirmar Contraseña" [icon]="icons.lock" [error]="getErrorMessage('confirmPassword')">
+          <input type="password" formControlName="confirmPassword" class="input-base" placeholder="********">
+        </app-form-field>
+
+        <!-- Botón Siguiente (type="button" para NO enviar todavía) -->
+        <app-button type="button" (click)="nextStep()" [theme]="activeRole">
+          Siguiente
+        </app-button>
       </div>
 
-      <app-form-field label="Correo Electrónico" [error]="getErrorMessage('email')">
-        <input type="email" formControlName="email" class="input-base">
-      </app-form-field>
+      <!-- PASO 2 -->
+      <div *ngIf="currentStep === 2">
+        <app-form-field label="Nombre del Lugar" [icon]="icons.home">
+          <input type="text" formControlName="locationName" class="input-base" placeholder="Ej. Casa, Oficina, Bodega">
+        </app-form-field>
+        <app-form-field label="Calle Principal" [icon]="icons.mapPin">
+          <input type="text" formControlName="locationMainStreet" class="input-base" placeholder="Ej. Av. Amazonas">
+        </app-form-field>
+        <app-form-field label="Calle Secundaria" [icon]="icons.mapPin">
+          <input type="text" formControlName="locationSecondaryStreet" class="input-base" placeholder="Ej. Calle Roca">
+        </app-form-field>
+        <app-form-field label="Referencia" [icon]="icons.navigation">
+          <input type="text" formControlName="locationReference" class="input-base" placeholder="Ej. Frente al parque">
+        </app-form-field>
 
-      <app-form-field label="Contraseña" [error]="getErrorMessage('password')">
-        <input type="password" formControlName="password" class="input-base">
-      </app-form-field>
-
-      <app-form-field label="Confirmar Contraseña" [error]="getErrorMessage('confirmPassword')">
-        <input type="password" formControlName="confirmPassword" class="input-base">
-      </app-form-field>
-
-      <app-button type="submit" [disabled]="registerForm.invalid" [theme]="activeRole">
-        Siguiente
-      </app-button>
+        <div style="display: flex; gap: 10px; margin-top: 1rem;">
+          <app-button type="button" (click)="prevStep()" [theme]="activeRole" style="flex: 1">Atrás</app-button>
+          <app-button type="submit" [theme]="activeRole" style="flex: 1">Registrarse</app-button>
+        </div>
+      </div>
     </form>
 
     <div class="login-link">

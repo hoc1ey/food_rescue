@@ -11,7 +11,17 @@ export const createDonation = async (req: Request, res: Response) => {
     const { productName, quantity, unit } = req.body;
     const userId = req.user!.userId;
 
-    logger.info('Creating donation', { userId, productName, quantity, unit });
+    // Validación de entrada
+    if (!productName || quantity === undefined || quantity === null || !unit) {
+      return sendError(res, 'Faltan campos requeridos: productName, quantity, unit', null, 400);
+    }
+
+    const quantityNum = parseFloat(quantity);
+    if (isNaN(quantityNum)) {
+      return sendError(res, 'La cantidad debe ser un número válido', null, 400);
+    }
+
+    logger.info('Creating donation', { userId, productName, quantity: quantityNum, unit });
 
     const donor = await prisma.donor.findUnique({
       where: { userId },
@@ -26,13 +36,13 @@ export const createDonation = async (req: Request, res: Response) => {
     logger.database('CREATE', 'Donation', {
       donorId: donor.id,
       productName,
-      quantity
+      quantity: quantityNum
     });
 
     const donation = await prisma.donation.create({
       data: {
         productName,
-        quantity: parseFloat(quantity),
+        quantity: quantityNum,
         unit,
         donorId: donor.id,
         locationId: donor.locations[0].id

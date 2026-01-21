@@ -17,6 +17,12 @@ import { ToastService } from '../../../core/services/toast.service';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
+// Extendemos el tipo Donation para manejar el estado visual de confirmación
+type DashboardDonation = Donation & {
+  beneficiaryConfirmed?: boolean;
+  donorConfirmed?: boolean;
+};
+
 @Component({
   selector: 'app-beneficiary-dashboard',
   standalone: true,
@@ -58,14 +64,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
   isWebSocketConnected = false;
 
   // Todas las donaciones del beneficiario (disponibles y reclamadas)
-  allDonations: Donation[] = [];
+  allDonations: DashboardDonation[] = [];
 
   // Control de filtros
   donationFilterTab: 'available' | 'pending' | 'delivered' = 'available';
   donationFilterTabs = ['Disponibles', 'Pendientes', 'Entregadas'];
 
   // Donaciones filtradas según el tab activo
-  get filteredDonations(): Donation[] {
+  get filteredDonations(): DashboardDonation[] {
     switch (this.donationFilterTab) {
       case 'available':
         return this.allDonations.filter(d => d.status === 'AVAILABLE');
@@ -190,10 +196,22 @@ export class DashboardComponent implements OnInit, OnDestroy {
    * Actualizar una donación en la lista cuando se recibe un evento
    */
   private updateDonationInList(updatedDonation: DonationResponse): void {
+    console.log('🔄 Actualizando lista con:', updatedDonation);
     const index = this.allDonations.findIndex(d => d.id === updatedDonation.id);
     if (index !== -1) {
       // Actualizar la donación existente
-      this.allDonations[index] = this.mapDonationResponse(updatedDonation);
+      const currentDonation = this.allDonations[index];
+      const mappedDonation = this.mapDonationResponse(updatedDonation);
+
+      // Preservar datos del donante y dirección si vienen vacíos en la actualización del backend
+      if (mappedDonation.location.name === 'Donador no disponible' && currentDonation.location.name !== 'Donador no disponible') {
+        mappedDonation.location.name = currentDonation.location.name;
+      }
+      if (mappedDonation.location.address === 'Dirección no disponible' && currentDonation.location.address !== 'Dirección no disponible') {
+        mappedDonation.location.address = currentDonation.location.address;
+      }
+
+      this.allDonations[index] = mappedDonation;
     }
   }
 
@@ -237,10 +255,27 @@ export class DashboardComponent implements OnInit, OnDestroy {
     });
   }
 
-  private mapDonationResponse(donation: DonationResponse): Donation {
+  private mapDonationResponse(donation: DonationResponse): DashboardDonation {
     const donorName = donation.donor?.user
       ? `${donation.donor.user.firstName} ${donation.donor.user.lastName}`
       : 'Donador no disponible';
+
+    const loc = donation.location;
+    let address = 'Dirección no disponible';
+
+    if (loc) {
+      const parts = [];
+      if (loc.mainStreet) parts.push(loc.mainStreet);
+      if (loc.secondaryStreet) parts.push(loc.secondaryStreet);
+
+      if (parts.length > 0) {
+        address = parts.join(' y ');
+      }
+
+      if (loc.reference) {
+        address += `, ${loc.reference}`;
+      }
+    }
 
     return {
       id: donation.id,
@@ -250,8 +285,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
       status: donation.status,
       location: {
         name: donorName,
-        address: donation.location?.address || 'Dirección no disponible'
+        address: address
       },
+      beneficiaryConfirmed: donation.beneficiaryConfirmed ?? false, // Aseguramos false si es null
+      donorConfirmed: donation.donorConfirmed ?? false,             // Aseguramos false si es null
       pickupTime: new Date(donation.createdAt).toLocaleTimeString('es-ES', {
         hour: '2-digit',
         minute: '2-digit'
@@ -362,9 +399,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   // --- Métodos para Confirmación ---
-  onConfirmDonation(donationId: string): void {
+  onConfirmDonation(donationId: string | number): void {
     this.isLoading = true;
-    this.donationsService.confirmDonation(donationId).subscribe({
+    this.donationsService.confirmDonation(String(donationId)).subscribe({ // Convertimos a String por seguridad
       next: (response) => {
         console.log('\u2705 Donaci\u00f3n confirmada:', response);
         this.updateDonationInList(response.data);
