@@ -29,6 +29,7 @@ export class LoginComponent {
 
   // --- 1. Añade esta propiedad ---
   passwordVisible = false;
+  isLoading = false;
 
   loginForm = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
@@ -57,6 +58,9 @@ export class LoginComponent {
       return;
     }
 
+    // Mostrar leader
+    this.isLoading = true;
+
     // --- 3. Lógica de redirección ---
     // Solución: Aseguramos que los valores no son nulos con el operador '!'
     const credentials = {
@@ -73,6 +77,9 @@ export class LoginComponent {
           this.authService.saveToken(response.data.token);
         }
 
+        //Ocultar leader
+        this.isLoading = false;
+
         // Redirige según el rol activo
         if (this.activeRole === 'donor') {
           this.router.navigate(['/donor/dashboard']);
@@ -83,6 +90,9 @@ export class LoginComponent {
       error: (err) => {
         console.error('Error en el login:', err);
         // Aquí podrías mostrar un mensaje de error al usuario
+
+        //Ocultar leader
+        this.isLoading = false;
       }
     });
   }

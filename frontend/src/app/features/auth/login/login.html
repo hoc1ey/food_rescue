@@ -34,9 +34,17 @@
         </div>
       </app-form-field>
 
-      <!-- Átomo: Botón -->
-      <app-button type="submit" [disabled]="loginForm.invalid" [theme]="activeRole">
-        Iniciar Sesión
+      <!-- Átomo: Botón con loader -->
+      <app-button
+      type="submit"
+      [disabled]="loginForm.invalid || isLoading" 
+      [theme]="activeRole">
+        <ng-container *ngIf="!isLoading">
+          Iniciar Sesión
+        </ng-container>
+        <ng-container *ngIf="isLoading">
+          ⏳ Iniciando Sesión...
+        </ng-container>
       </app-button>
     </form>
 
