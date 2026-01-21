@@ -1,15 +1,10 @@
 import nodemailer from 'nodemailer';
-import { google } from 'googleapis';
 import logger from '../utils/logger.js';
-
-const OAuth2 = google.auth.OAuth2;
 
 // Validar variables de entorno
 const requiredEnvVars = [
-  'GOOGLE_CLIENT_ID',
-  'GOOGLE_CLIENT_SECRET',
-  'GOOGLE_REFRESH_TOKEN',
   'GOOGLE_EMAIL',
+  'GOOGLE_APP_PASSWORD',
   'MAIL_FROM'
 ];
 
@@ -20,30 +15,15 @@ for (const envVar of requiredEnvVars) {
 }
 
 /**
- * Crear transporter de nodemailer con OAuth2
+ * Crear transporter de nodemailer con Google App Password
+ * Usa autenticación básica en lugar de OAuth2 para mayor durabilidad
  */
 async function createTransporter() {
-  const oauth2Client = new OAuth2(
-    process.env.GOOGLE_CLIENT_ID,
-    process.env.GOOGLE_CLIENT_SECRET,
-    'https://developers.google.com/oauthplayground'
-  );
-
-  oauth2Client.setCredentials({
-    refresh_token: process.env.GOOGLE_REFRESH_TOKEN
-  });
-
-  const accessToken = await oauth2Client.getAccessToken();
-
   const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      type: 'OAuth2',
       user: process.env.GOOGLE_EMAIL,
-      clientId: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      refreshToken: process.env.GOOGLE_REFRESH_TOKEN,
-      accessToken: accessToken.token || ''
+      pass: process.env.GOOGLE_APP_PASSWORD
     }
   });
 

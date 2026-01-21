@@ -65,6 +65,7 @@ backend/src/generated/
 /frontend/out/
 
 # IDE y caché
+.vscode/
 /frontend/.vscode/
 /frontend/.idea/
 /frontend/.angular/cache
