@@ -50,6 +50,7 @@ export class RegisterComponent {
   userRoles = ['Donante', 'Beneficiario'];
   activeRole: 'donor' | 'beneficiary' = 'donor';
   currentStep = 1; // Controla en qué paso estamos
+  isLoading = false;
 
   // --- Formulario Reactivo ---
   registerForm: FormGroup = this.fb.group({
@@ -98,6 +99,9 @@ export class RegisterComponent {
       return;
     }
 
+    // Mostrar leader
+    this.isLoading = true;
+
     const datosRegistro = {
       ...this.registerForm.value,
       userType: this.activeRole.toUpperCase(), // DONOR o BENEFICIARY
@@ -110,9 +114,16 @@ export class RegisterComponent {
         console.log('Respuesta del servidor SOAP:', response);
         // Aquí podrías redirigir al login o mostrar un mensaje de éxito
         // this.router.navigate(['/login']);
+
+        //Ocultar leader
+        this.isLoading = false;
+        // Aquí podrías redirigir al login o mostrar un mensaje de éxito
+        this.router.navigate(['/login']);
       },
       error: (error) => {
         console.error('Error en la petición SOAP:', error);
+        //Ocultar leader
+        this.isLoading = false;
       }
     });
   }
